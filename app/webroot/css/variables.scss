@@ -1,0 +1,15 @@
+// colors
+$darkBlue: #1c2172;
+$greyBlue: #5a7f92;
+$editGreen: #090;
+$deleteRed: #900;
+
+// fonts
+$pragmatica: "pragmatica-web-condensed";
+
+// columns
+$columnPadding: 1%;
+
+@mixin column-width($span) {
+  width: percentage($span / 12) - ($columnPadding * 2);
+}

@@ -107,3 +107,13 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+CakePlugin::load('DebugKit');
+CakePlugin::load('Acl', array('bootstrap' => true));
+
+CakePlugin::load('Stripe');
+
+Configure::write('Stripe.TestSecret', 'sk_test_MXrEuW3erZGCDfumOpXHA9GQ');
+Configure::write('Stripe.LiveSecret', 'sk_live_tdNyI2IAsnAufg90OzJ5unpi');
+
+Configure::write('Stripe.mode', 'Test');
+Configure::write('Stripe.currency', 'usd');

@@ -32,4 +32,56 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	public $components = array(
+		'Acl',
+        'Auth' => array(
+/*            'authorize' => array(
+                'Actions' => array('actionPath' => 'controllers')
+            ), */
+		   'authenticate' => array(
+				'Form' => array(
+					'fields' => array('username' => 'email')
+				)
+			)
+        ),
+		'DebugKit.Toolbar',
+		'Paginator',
+		'Session',
+//		'Security',
+		'Stripe.Stripe'
+	);
+
+	public $helpers = array('Html', 'Form', 'Session');
+
+    public function beforeFilter() {
+        //Configure AuthComponent
+        $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
+        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+//        $this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
+		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','register','confirm','forgot_password','reset_password','menu');
+		
+		if ($this->Session->read('Membership.membership_level')) {
+			$userMembershipLevel = $this->Session->read('Membership.membership_level');
+		} else {
+			$userMembershipLevel = 0;
+		}
+
+		$this->set('userMembershipLevel',$userMembershipLevel);
+
+		$admin = $this->Auth->loggedIn() && ($this->Auth->user('group_id') > 1);
+		$this->set('admin',$admin);
+
+    }
+	
+	public function rand_string($length = "20") {
+		$pass = "";
+		for ($i = 0; $i < $length; $i++) {
+	    	$char = rand(48,122);
+			while ((($char > 90) && ($char < 97)) || (($char > 57) && ($char < 65))) {
+				$char = rand(48,122);
+			}
+			$pass .= chr($char);
+		}
+		return $pass;
+	}
 }

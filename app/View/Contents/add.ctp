@@ -1,0 +1,21 @@
+<?php echo $this->Form->create('Content'); ?>
+	<fieldset>
+		<legend><?php echo __('Add Content'); ?></legend>
+	<?php
+		echo $this->Form->input('title');
+		echo $this->Form->input(
+			'body',
+			array(
+//				'required' => false,
+				'class' => 'ckeditor'
+			)
+		);
+		echo $this->Form->input(
+			'in_menu',
+			array(
+				'label' => 'Include in Menu'
+			)
+		);
+	?>
+	</fieldset>
+<?php echo $this->Form->end(__('Submit')); ?>

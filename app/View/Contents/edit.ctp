@@ -1,0 +1,27 @@
+<?php echo $this->Form->create('Content'); ?>
+	<fieldset>
+		<legend><?php echo __('Edit Content'); ?></legend>
+	<?php
+		echo $this->Form->input('id');
+		echo $this->Form->hidden('permanent');
+		echo $this->Form->hidden('menu_rank');
+		echo $this->Form->hidden('menu_parent');
+		echo $this->Form->hidden('active');
+		echo $this->Form->input('title');
+		echo $this->Form->hidden('user_id');
+		echo $this->Form->input(
+			'body',
+			array(
+//				'required' => false,
+				'class' => 'ckeditor'
+			)
+		);
+		echo $this->Form->input(
+			'in_menu',
+			array(
+				'label' => 'Include in Menu'
+			)
+		);
+	?>
+	</fieldset>
+<?php echo $this->Form->end(__('Submit')); ?>

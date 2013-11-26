@@ -1,0 +1,100 @@
+<?php
+App::uses('AppController', 'Controller');
+/**
+ * BoardMembers Controller
+ *
+ * @property BoardMember $BoardMember
+ */
+class BoardMembersController extends AppController {
+
+/**
+ * index method
+ *
+ * @return void
+ */
+	public function index() {
+		$this->BoardMember->recursive = 0;
+		$this->set('boardMembers', $this->paginate());
+	}
+
+/**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function view($id = null) {
+		if (!$this->BoardMember->exists($id)) {
+			throw new NotFoundException(__('Invalid board member'));
+		}
+		$options = array('conditions' => array('BoardMember.' . $this->BoardMember->primaryKey => $id));
+		$this->set('boardMember', $this->BoardMember->find('first', $options));
+	}
+
+/**
+ * add method
+ *
+ * @return void
+ */
+	public function add() {
+		if ($this->request->is('post')) {
+			$this->BoardMember->create();
+			if ($this->BoardMember->save($this->request->data)) {
+				$this->Session->setFlash(__('The board member has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The board member could not be saved. Please, try again.'));
+			}
+		}
+		$users = $this->BoardMember->User->find('list');
+		$this->set(compact('users'));
+	}
+
+/**
+ * edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function edit($id = null) {
+		if (!$this->BoardMember->exists($id)) {
+			throw new NotFoundException(__('Invalid board member'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->BoardMember->save($this->request->data)) {
+				$this->Session->setFlash(__('The board member has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The board member could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('BoardMember.' . $this->BoardMember->primaryKey => $id));
+			$this->request->data = $this->BoardMember->find('first', $options);
+		}
+		$users = $this->BoardMember->User->find('list');
+		$this->set(compact('users'));
+	}
+
+/**
+ * delete method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function delete($id = null) {
+		$this->BoardMember->id = $id;
+		if (!$this->BoardMember->exists()) {
+			throw new NotFoundException(__('Invalid board member'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->BoardMember->delete()) {
+			$this->Session->setFlash(__('Board member deleted'));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->Session->setFlash(__('Board member was not deleted'));
+		$this->redirect(array('action' => 'index'));
+	}
+}

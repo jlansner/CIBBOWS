@@ -14,7 +14,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       app.View.Layouts
  * @since         CakePHP(tm) v 0.10.0.1076
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
@@ -24,39 +24,97 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
+		CIBBOWS:
 		<?php echo $title_for_layout; ?>
 	</title>
-	<?php
-		echo $this->Html->meta('icon');
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		echo $this->Html->css('cake.generic');
+	<?php
+//		echo $this->Html->meta('icon');
+//		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('cibbows');
+		echo $this->Html->css('font-awesome/css/font-awesome.min');
+		echo $this->Html->css('//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+
+		echo $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+		echo $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js');
+		echo $this->Html->script('cibbows');
+	?>
+		<script type="text/javascript" src="//use.typekit.net/qsk8gya.js"></script>
+<script type="text/javascript">
+ try {
+   Typekit.load({
+     loading: function() {
+       // Javascript to execute when fonts start loading
+     },
+     active: function() {
+       adjustWidth(); // Javascript to execute when fonts become active
+     },
+     inactive: function() {
+       // Javascript to execute when fonts become inactive
+     }
+   })
+ } catch(e) {}
+ </script>
+	<?php
+	if (($this->request->action == "add") || ($this->request->action == "edit")) {
+		echo $this->Html->script('ckeditor/ckeditor');
+	}
 	?>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-44059902-1', 'cibbows.org');
+  ga('send', 'pageview');
+
+</script>
+<div id="container" class="container">
+	<div class="header">
+		<a href="/" class="headerHome"></a>
+		<p class="headerLinks"><?php
+		if (AuthComponent::user('id')) {
+			echo "Welcome " . $this->Html->link(AuthComponent::user('first_name'), array('controller' => 'users', 'action' => 'my_profile')) . ' <i class="fa fa-star"></i> ';
+			if ($userMembershipLevel == 0) {
+				echo $this->html->Link('Join CIBBOWS', array('controller' => 'memberships', 'action' => 'join')) . ' <i class="fa fa-star"></i> ';
+			}
+			echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout')); 
+		} else {
+			echo $this->Html->link('Login', array('controller' => 'users', 'action' => 'login')) . ' <i class="fa fa-star"></i> ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'register')); 
+		}
+		echo ' <i class="fa fa-star"></i> ' . $this->Html->link('Donate', '#');
+?></p>
+	</div>
+	<div class="contentWrapper">
+		<div class="leftNav">
+			<?php echo $this->element('menu'); ?>
+		</div>
+		
+		<div class="content">
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-		</div>
+		<br class="clear" />
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<br class="clear" />
+	<div class="footer">
+		<div class="smIcons">
+			<a href="http://twitter.com/cibbows" target="_blank"><i class="fa fa-twitter-square"></i></a>
+			<a href="http://facebook.com/cibbows" target="_blank"><i class="fa fa-facebook-square"></i></a>
+			<a href="http://vimeo.com/channels/586906" target="_blank"><i class="fa fa-vimeo-square"></i></a>
+		</div>
+		
+		<p class="right">&copy; <?php echo date('Y'); ?> CIBBOWS</p>
+	</div>
+</div>
 </body>
 </html>
