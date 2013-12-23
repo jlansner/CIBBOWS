@@ -99,4 +99,35 @@ class RaceFeesController extends AppController {
 		$this->Session->setFlash(__('Race fee was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+	public function add_fee($race_id = null) {
+		if ($this->request->is('post')) {
+			$this->RaceFee->create();
+			if ($this->RaceFee->save($this->request->data)) {
+				$this->Session->setFlash(__('The race fee has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The race fee could not be saved. Please, try again.'));
+			}
+		}
+		
+		if ($race_id) {
+			$race = $this->RaceFee->Race->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Race.id' => $race_id
+					)
+				)
+			);
+		} else {
+			$races = $this->RaceFee->Race->find('list');
+			$this->set('races',$races);
+			$race = null;
+		}
+		$membershipLevels = $this->RaceFee->MembershipLevel->find('list');
+		$this->set('race',$race);
+
+		$this->set(compact('membershipLevels'));
+	}
 }

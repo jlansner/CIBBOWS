@@ -61,7 +61,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
  } catch(e) {}
  </script>
 	<?php
-	if (($this->request->action == "add") || ($this->request->action == "edit")) {
+	if ((substr($this->request->action,0,3) == "add") || ($this->request->action == "edit")) {
 		echo $this->Html->script('ckeditor/ckeditor');
 	}
 	?>
@@ -79,7 +79,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 </script>
 <div id="container" class="container">
 	<div class="header">
-		<a href="/" class="headerHome"></a>
 		<p class="headerLinks"><?php
 		if (AuthComponent::user('id')) {
 			echo "Welcome " . $this->Html->link(AuthComponent::user('first_name'), array('controller' => 'users', 'action' => 'my_profile')) . ' <i class="fa fa-star"></i> ';
@@ -92,6 +91,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		}
 		echo ' <i class="fa fa-star"></i> ' . $this->Html->link('Donate', '#');
 ?></p>
+	<a class="phoneMenuLink" href="#"><i class="fa fa-bars"></i></a>
+		<a href="/" class="headerHome"></a>
+
 	</div>
 	<div class="contentWrapper">
 		<div class="leftNav">

@@ -148,9 +148,10 @@ class UsersController extends AppController {
 	
 	private function send_confirmation($user) {
 		$encrypted = $user['activation_code'] . $user['id'];
-		$encrypted = urlencode(base64_encode(Security::cipher($encrypted, Configure::read('Security.cipherSeed'))));
+//		$encrypted = urlencode(base64_encode(Security::cipher($encrypted, Configure::read('Security.cipherSeed'))));
 		$Email = new CakeEmail('default');
 		$Email->to($user['email']);
+//		$Email->cc('jlansner@gmail.com');
 		$Email->subject('Confirmation Email');
 		$Email->viewVars(array('encrypted' => $encrypted));
 		$Email->template('confirmation', 'confirmation');
@@ -158,8 +159,21 @@ class UsersController extends AppController {
 		$Email->send();
 	}
 	
-	public function confirm($encrypted) {
-		$string = Security::cipher(base64_decode($encrypted), Configure::read('Security.cipherSeed'));
+	public function resend_confirmation($user_id) {
+		$user = $this->User->find(
+			'first',
+			array(
+				'conditions' => array(
+					'User.id' => $user_id,
+				)
+			)
+		);
+		$this->send_confirmation($user['User']);
+		$this->redirect('/');
+	}
+	
+	public function confirm($string) {
+//		$string = Security::cipher(base64_decode($encrypted), Configure::read('Security.cipherSeed'));
 		$activation_code = substr($string,0,30);
 		$id = substr($string,30);
 		
@@ -262,7 +276,41 @@ class UsersController extends AppController {
 				'conditions' => array(
 					'User.id' => $this->Auth->user('id')
 				),
-				'recursive' => 3
+				'contain' => array(
+					'QualifyingRace' => array(
+						'Distance',
+					),
+					'Result' => array(
+						'Race',
+						'AgeGroup',
+						'Distance'
+					),
+					'RaceRegistration' => array(
+						'Race' => array(
+							'fields' => array(
+								'Race.title',
+								'Race.date',
+								'Race.distance_number',
+							),
+							'Distance' => array(
+								'fields' => array(
+									'Distance.abbreviation'
+								),
+							)
+						),
+						'AgeGroup',
+					),
+					'Address',
+					'Gender',
+					'ShirtSize',
+					'Membership',
+					'EmergencyContact',
+//					'EventRegistration',
+					'ClinicRegistration' => array(
+						'Clinic'
+					),
+					'TestSwimRegistration',
+				)
 			)
 		);
 		

@@ -22,6 +22,13 @@
 				'label' => 'Include in Menu'
 			)
 		);
+		echo $this->Form->input(
+			'membership_level_id',
+			array(
+				'label' => 'Membership Requirement',
+				'empty' => 'No Requirement'
+			)
+		);
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

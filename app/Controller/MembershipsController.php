@@ -156,9 +156,7 @@ class MembershipsController extends AppController {
 				$this->Session->setFlash(__('The membership could not be saved. Please, try again.'));
 				$this->set('result',$result); //error message from Stripe
 			}
-
 		}
-
 
 		$this->set('membershipFee',$membershipFee);
 	}

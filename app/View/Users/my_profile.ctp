@@ -297,9 +297,27 @@
 		foreach ($user['RaceRegistration'] as $raceRegistration): ?>
 		<tr>
 			<td><?php echo $raceRegistration['Race']['title']; ?></td>
-			<td><?php echo $raceRegistration['Race']['date']; ?></td>
-			<td><?php echo $raceRegistration['Race']['distance']; ?></td>
-			<td><?php echo $raceRegistration['approved']; ?></td>
+			<td><?php echo $this->Time->format('n/j/y',$raceRegistration['Race']['date']); ?></td>
+			<td><?php echo ($raceRegistration['Race']['distance_number'] + 0) . $raceRegistration['Race']['Distance']['abbreviation']; ?></td>
+			<td>
+			<?php if ($raceRegistration['approved']) { ?>
+				<i class="fa fa-check edit" title="Approved"></i>
+			<?php } else { 
+				if (($raceRegistration['result_id'] == null) || ($raceRegistration['qualifying_race_id'] == null) || ($raceRegistration['qualifying_swim_id'] == null)) { ?>
+					<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>
+				<?php }
+				
+				if (!$raceRegistration['has_address']) { ?>
+					<i class="fa fa-home orange" title="Address Needed"></i>
+				<?php }
+				
+				if (!$raceRegistration['has_emergency_contact']) { ?>
+					<i class="fa fa-user-md orange" title="Emergency Contact Needed"></i>
+				<?php }  	
+				 } 
+			  ?>
+			
+			</td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
@@ -325,7 +343,9 @@
 		<tr>
 			<td><?php echo $this->Html->link($clinicRegistration['Clinic']['title'], array('controller' => 'clinics', 'action' => 'view', $clinicRegistration['Clinic']['id'])); ?></td>
 			<td><?php echo $this->Time->format('n/j/y',$clinicRegistration['Clinic']['date']); ?></td>
-			<td><?php echo $clinicRegistration['approved']; ?></td>
+			<td><?php if ($clinicRegistration['approved']) { ?>
+				<i class="fa fa-check edit" title="Approved"></i>
+			<?php } ?></td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>

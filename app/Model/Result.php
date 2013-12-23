@@ -156,6 +156,13 @@ class Result extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Distance' => array(
+			'className' => 'Distance',
+			'foreignKey' => 'distance_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 
@@ -231,6 +238,7 @@ class Result extends AppModel {
 	);
 
 	public function beforeSave($options = array()) {
+		parent::beforeSave();
 		$user = $this->User->find(
 			'first',
 			array(

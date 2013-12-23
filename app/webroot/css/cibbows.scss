@@ -6,6 +6,8 @@ body {
 	background-color: #fff;
 	font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -20,6 +22,7 @@ img {
 .right {
 	text-align: right;
 }
+
 .header {
     position: relative;
 }
@@ -27,18 +30,12 @@ img {
 .headerHome {
     display: block;
     width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1;
 }
 
 .headerLinks {
+  text-align: right;
 	padding: 10px;
 	margin: 0;
-	position: absolute;
-	top: 0;
-	right: 0;
-	z-index: 10;
 	font-family: $pragmatica;
   font-size: 1.25em;
 
@@ -135,15 +132,21 @@ h2 {
 	color: #333;
 }
 
+.phoneMenuLink {
+  display: none;
+}
 
 @media only screen and (min-width:980px) {
 	.header {
-		background: url("/img/header980.gif") no-repeat;
 		width: 980px;
-		height: 283px;
 		padding: 0;
 		margin: 0 auto 1% auto;
 	}
+
+.headerHome {
+    background: url("/img/header980.gif") no-repeat;
+    height: 283px;
+}
 
     .container {
         width: 980px;
@@ -152,11 +155,14 @@ h2 {
 
 @media only screen and (min-width:768px) and (max-width:979px) {
 	.header {
-		background: url("/img/header748.gif") no-repeat;
 		width: 748px;
-		height: 217px;
 		padding: 0;
 		margin: 0 auto 1% auto;
+	}
+	
+	.headerHome {
+    background: url("/img/header748.gif") no-repeat;
+    height: 217px;
 	}
 
     .container {
@@ -167,11 +173,14 @@ h2 {
 
 @media only screen and (min-width:600px) and (max-width:767px) {
 	.header {
-		background: url("/img/header600.gif") no-repeat;
 		width: 600px;
-		height: 174px;
 		padding: 0;
 		margin: 0 auto 1% auto;
+	}
+	
+	.headerHome {
+    background: url("/img/header600.gif") no-repeat;
+    height: 174px;	  
 	}
 
     .container {
@@ -181,20 +190,61 @@ h2 {
 }
 
 @media only screen and (max-width:599px) {
+  
+  #debug-kit-toolbar {
+    display: none;
+  }
+  .container {
+    width: 100%;
+  }
+
 	.header {
-		background: url("/img/header320.gif") no-repeat;
-		width: 320px;
-		height: 115px;
+		width: 100%;
 		padding: 0;
-		margin: 0 0 1% 0;
+		margin: 0;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100;
+	}
+	
+	.headerHome {
+    background: url("/img/phone_logo_left_5.gif") no-repeat;
+    height: 50px;
+	}
+	
+	.headerLinks {
+	  display: none;
+	}
+	
+	.phoneMenuLink {
+	  display: block;
+	  position: absolute;
+	  right: 0;
+	  top: 0;
+	  width: 50px;
+	  height: 35px;
+	  padding-top: 15px;
+	  font-size: 30px;
+	  text-align: center;
+	  border-left: 1px solid #fff;
+	  color: #fff;
+	}
+	
+	.contentWrapper {
+	  margin-top: 55px;
 	}
 }
 
 @media only screen and (max-width:599px) and (min--moz-device-pixel-ratio: 2), only screen and (max-device-width:599px) and (-o-min-device-pixel-ratio: 2/1), only screen and (max-device-width:599px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-device-width:599px) and (min-device-pixel-ratio: 2) {
 	.header {
-		background: url("/img/header640.gif") no-repeat;
-		background-size: 100%;
 	}
+
+  .headerHome {
+      background: url("/img/phone_logo_left_5_2X.gif") no-repeat;
+     background-size: auto 100%;
+  
+  }
 }
 
 
@@ -212,7 +262,10 @@ h2 {
 		width: 100%;
 	}
 	
-	.content, .leftNav {
+	.leftNav {
+	  display: none;
+	}
+	.content {
 		float: none;
 		width: 100%;
 		padding: 0;
@@ -456,6 +509,10 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
 
 .delete {
   color: $deleteRed;
+}
+
+.orange {
+  color: $orange;
 }
 
 .zebraTable {

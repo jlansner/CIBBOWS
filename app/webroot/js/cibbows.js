@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     $('#raceTabs').tabs();
     $('#profileTabs').tabs();
-    adjustWidth();
+//    adjustWidth();
 });
 
 function adjustWidth() {

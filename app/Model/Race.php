@@ -17,6 +17,7 @@ App::uses('AppModel', 'Model');
  * @property VolunteerRegistration $VolunteerRegistration
  */
 class Race extends AppModel {
+    public $actsAs = array('Containable','Tree');
 
 /**
  * Validation rules
@@ -158,7 +159,7 @@ class Race extends AppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -189,7 +190,6 @@ class Race extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 
-	public $actsAs = array('Tree');
 /**
  * belongsTo associations
  *
@@ -207,7 +207,7 @@ class Race extends AppModel {
 			'className' => 'User',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
-			'fields' => array('name','id'),
+			'fields' => array('User.name','User.id'),
 			'order' => ''
 		),
 		'Series' => array(
@@ -301,7 +301,7 @@ class Race extends AppModel {
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'last_name ASC',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',

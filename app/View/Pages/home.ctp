@@ -1,8 +1,7 @@
-<div class="row">
+<div class="row homepageSlideshowRow">
 	<div class="column column12 homepageSlideshow">
 		<img src="/img/homepageSlideshow/1.jpg" />
 	</div>
-	<br class="clear" />
 </div>
 
 <div class="row homepage">

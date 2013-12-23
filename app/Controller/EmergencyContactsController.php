@@ -102,6 +102,7 @@ class EmergencyContactsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->EmergencyContact->create();
 			if ($this->EmergencyContact->save($this->request->data)) {
+				$this->update_registrations('has_emergency_contact');
 				$this->Session->setFlash(__('Your emergency contact has been added'));
 				$this->redirect(array('controller' => 'users', 'action' => 'my_profile'));
 			} else {
@@ -154,6 +155,44 @@ class EmergencyContactsController extends AppController {
 		}
 		$this->Session->setFlash(__('Emergency contact was not deleted'));
 		$this->redirect(array('controller' => 'users', 'action' => 'my_profile'));
+	}
+	
+	public function update_registrations($updated_field) {
+		$this->loadModel('RaceRegistration');
+		$registrations = $this->RaceRegistration->find(
+			'all',
+			array(
+				'conditions' => array(
+					'RaceRegistration.user_id' => $this->Auth->user('id'),
+	        		array(
+		        		'OR' => array(
+			        		array('RaceRegistration.has_emergency_contact' => 0),
+			        		array('RaceRegistration.has_emergency_contact' => null),
+						),
+					),
+				),
+				'fields' => array('id','qualifying_swim_id','qualifying_race_id','result_id','has_address','has_emergency_contact'),
+				'recursive' => -1
+			)
+		);
+		
+		foreach ($registrations as $registration) {
+			$registration['RaceRegistration'][$updated_field] = 1;
+			if ( 
+				(
+					($registration['RaceRegistration']['qualifying_swim_id']) ||
+					($registration['RaceRegistration']['qualifying_race_id']) ||
+					($registration['RaceRegistration']['result_id'])
+				) &&
+				($registration['RaceRegistration']['has_address']) &&
+				($registration['RaceRegistration']['has_emergency_contact'])
+			) {
+				$registration['RaceRegistration']['approved'] = 1;
+			}
+
+			$this->RaceRegistration->save($registration);		
+
+		}
 	}
 
 }

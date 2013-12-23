@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
+
 /**
  * RaceRegistrations Controller
  *
@@ -24,14 +26,16 @@ class RaceRegistrationsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+/*
+ * Replace by funciton at end of file 
+  	public function view($id = null) {
 		if (!$this->RaceRegistration->exists($id)) {
 			throw new NotFoundException(__('Invalid race registration'));
 		}
 		$options = array('conditions' => array('RaceRegistration.' . $this->RaceRegistration->primaryKey => $id));
 		$this->set('raceRegistration', $this->RaceRegistration->find('first', $options));
 	}
-
+*/
 /**
  * add method
  *
@@ -110,5 +114,317 @@ class RaceRegistrationsController extends AppController {
 		}
 		$this->Session->setFlash(__('Race registration was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+	public function register($race_id) {
+		$race = $this->RaceRegistration->Race->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Race.id' => $race_id
+				),
+//				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
+			)
+		);
+
+		$reg = $this->RaceRegistration->find(
+			'count',
+			array(
+				'conditions' => array(
+					'RaceRegistration.race_id' => $race_id,
+					'RaceRegistration.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1
+			)
+		);
+		
+		if ($reg) {
+
+			$this->Session->setFlash('You are already registered for this race.');
+			$this->redirect(
+			array(
+				'controller' => 'race_registrations',
+				'action' => 'view',
+				substr($race['Race']['date'],0,4),
+				$race['Race']['url_title'])
+			);
+		}
+		
+		if ($this->request->is('post')) {
+			if (isset($this->request->data['RaceRegistration']['dob'])) {
+				$dob = $this->request->data['RaceRegistration']['dob']['year'] . '-' . $this->request->data['RaceRegistration']['dob']['month'] . '-' . $this->request->data['RaceRegistration']['dob']['day'];
+				$this->RaceRegistration->User->id = $this->Auth->user('id');
+				$this->RaceRegistration->User->saveField('dob',$dob);
+				$this->Session->write('Auth.User.dob', $dob);
+				
+				$birthDate = new DateTime($dob);
+				$raceDate = new DateTime($race['Race']['date']);
+				$interval = $birthDate->diff($raceDate);		
+				$this->request->data['RaceRegistration']['age'] = $interval->y;						
+			}
+
+			if (!$this->Auth->user('gender_id')) {
+				$this->RaceRegistration->User->id = $this->Auth->user('id');
+				$this->RaceRegistration->User->saveField('gender_id',$this->request->data['RaceRegistration']['gender_id']);
+				$this->Session->write('Auth.User.gender_id', $this->request->data['RaceRegistration']['gender_id']);
+			}
+			
+			if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
+				$this->request->data['RaceRegistration']['race_id'] = $this->request->data['RaceRegistration']['child_race_id'];
+			}
+
+			$qualified = false;
+//			$this->loadModel('Result');
+			$conditions = array(
+				'user_id' => $this->request->data['RaceRegistration']['user_id'],
+				'meters >=' => $race['Experience']['meters']
+			);
+
+			if (($race['Experience']['time']) && ($race['Experience']['time'] > 0)) {
+				$conditions['time <='] = $race['Experience']['time'];
+			} 
+
+			$result = $this->RaceRegistration->Result->find(
+				'first',
+				array(
+					'conditions' => $conditions, 
+					'fields' => array('Result.id'),
+					'recursive' => -1
+				)
+			);
+			
+			if ($result) {
+				$this->request->data['RaceRegistration']['result_id'] = $result['Result']['id'];
+				$qualified = true;
+			} else {
+//				$this->loadModel('QualifyingRace');
+				$qrace = $this->RaceRegistration->QualifyingRace->find(
+					'first',
+					array(
+						'conditions' => $conditions,
+						'fields' => array('QualifyingRace.id'),
+						'recursive' => -1
+					)
+				);
+				
+				if ($qrace) {
+					$this->request->data['RaceRegistration']['qualifying_race_id'] = $qrace['QualifyingRace']['id'];
+					$qualified = true;
+				} 
+/*				else {
+//					$this->loadModel('QualifyingSwim');
+					$qswim = $this->RaceRegistration->QualifyingSwim->find(
+						'first',
+						array(
+							'conditions' => array(
+								'QualifyingSwim.user_id' => $this->request->data['RaceRegistration']['user_id'],
+								'meters >=' => $race['Experience']['meters']
+							)
+						)
+					);
+					$this->request->data['RaceRegistration']['qualifying_swim_id'] = $qrace['QualifyingRace']['id'];
+					$qualified = true;
+				} */
+			}
+			
+			$hasEmergencyContact = $this->RaceRegistration->User->EmergencyContact->find(
+				'count',
+				array(
+					'conditions' => array(
+						'EmergencyContact.user_id' => $this->Auth->user('id')
+					)
+				)
+			);
+			
+			if ($hasEmergencyContact) {
+				$this->request->data['RaceRegistration']['has_emergency_contact'] = 1;
+			}
+			
+			$hasAddress = $this->RaceRegistration->User->Address->find(
+				'count',
+				array(
+					'conditions' => array(
+						'Address.user_id' => $this->Auth->user('id')
+					)
+				)
+			);
+
+			if ($hasAddress) {
+				$this->request->data['RaceRegistration']['has_address'] = 1;
+			}
+			
+			if (($qualified) && ($hasEmergencyContact) && ($hasAddress)) {
+				$this->request->data['RaceRegistration']['approved'] = 1;
+			}
+
+			$customerData = array(
+				'stripeToken'  => $this->request->data['stripeToken'],
+				'email' => $this->Auth->user('email')
+			);
+
+			$customer = $this->Stripe->customerCreate($customerData);
+
+			$stripeData = array(
+			    'amount' => $this->request->data['RaceRegistration']['payment'],
+			    'stripeCustomer' => $customer['stripe_id'],
+				'description' => $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('name')
+			);
+
+			$emailvars['User']['name'] = $this->Auth->user('name');
+			$emailvars['User']['email'] = $this->Auth->user('email');
+			$emailvars['Race']['title'] = $race['Race']['title'];
+			$emailvars['Race']['date'] = $race['Race']['date'];
+			$emailvars['Registration']['payment'] = $this->request->data['RaceRegistration']['payment'];
+
+			$result = $this->Stripe->charge($stripeData);
+			if (is_array($result)) {
+				$this->RaceRegistration->create();
+				if ($this->RaceRegistration->save($this->request->data)) {
+					if (($qualified) && ($hasEmergencyContact)) {
+						$this->Session->setFlash('Your registration has been approved.');
+						$this->send_registration_approved_email($emailvars);
+					} else {
+						$this->Session->setFlash(__('Your registration has been submitted, but is not yet complete.'));
+						$this->send_registration_received_email($emailvars,$qualified,$hasEmergencyContact,$hasAddress);
+					}
+					$this->redirect(
+						array(
+							'controller' => 'race_registrations',
+							'action' => 'view',
+							substr($race['Race']['date'],0,4),
+							$race['Race']['url_title']
+						)
+					);
+				} else {
+					$this->Session->setFlash(__('Your registration could not be saved. Please, try again.'));
+				}
+			} else {
+				$this->Session->setFlash(__('Your registration could not be saved. Please, try again.'));
+				$this->set('result',$result); //error message from Stripe
+			}
+		}
+
+		$currentFee = false;
+		if (count($race['NonMemberRaceFee']) > 0) {
+			foreach ($race['NonMemberRaceFee'] as $racefee) {
+				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
+					$currentFee = $racefee;
+					break;
+				}
+			}
+		}	
+			
+		$currentMemFee = false;
+		if (count($race['MemberRaceFee']) > 0) {
+			foreach ($race['MemberRaceFee'] as $racefee) {
+				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
+					$currentMemFee = $racefee;
+					break;
+				}
+			}
+	 	}
+
+		$childRaces = $this->RaceRegistration->Race->find(
+			'list',
+			array(
+				'conditions' => array(
+					'parent_id' => $race_id
+				)
+			)
+		);
+		
+		$genders = $this->RaceRegistration->Gender->find('list');
+//		$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
+//		$qualifyingSwims = $this->RaceRegistration->QualifyingSwim->find('list');
+//		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
+//		$results = $this->RaceRegistration->Result->find('list');
+		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
+		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces'));
+	}
+
+	private function send_registration_approved_email($emailvars) {
+		$Email = new CakeEmail('default');
+		$Email->to($emailvars['User']['email']);
+		$Email->subject('Thank you for registering for ' . $emailvars['Race']['title']);
+		$Email->viewVars(
+			array(
+				'email' => $emailvars
+//				'name' => $email['User']['name'],
+//				'race_title' => $email['Race']['title'],
+//				'price' => $email['Registration']['payment']
+			)
+		);
+		$Email->template('race_registration_approved', 'race_registration_approved');
+		$Email->emailFormat('both');
+		$Email->send();		
+	}
+	
+	private function send_registration_received_email($emailvars,$qualified,$hasEmergencyContact,$hasAddress) {
+		$Email = new CakeEmail('default');
+		$Email->to($emailvars['User']['email']);
+		$Email->subject('Thank you for registering for ' . $emailvars['Race']['title']);
+		$Email->viewVars(
+			array(
+				'email' => $emailvars,
+//				'name' => $email['User']['name'],
+//				'race_title' => $email['Race']['title'],
+//				'price' => $email['Registration']['payment'],
+				'qualified' => $qualified,
+				'hasEmergencyContact' => $hasEmergencyContact,
+				'hasAddress' => $hasAddress
+			)
+		);
+		$Email->template('race_registration_received', 'race_registration_received');
+		$Email->emailFormat('both');
+		$Email->send();				
+	}
+
+
+	public function view($year = null, $url_title = null) {
+        if (!$url_title) {
+            throw new NotFoundException(__('Invalid race'));
+        }
+
+		$race = $this->RaceRegistration->Race->find(
+			'first',
+			array(
+//				'fields' => array('Race.id','Race.title','Race.date'),
+	        	'conditions' => array(
+    	    		'Race.url_title' => $url_title,
+    	    		'Race.date LIKE' => $year . '%'
+	    	    ),
+	    	    'contain' => array(
+	    	    	'RaceRegistration' => array(
+			    	    'Gender',
+						'AgeGroup'
+					),
+	    	    	'ChildRace' => array(
+		    	    	'RaceRegistration' => array(
+							'User'
+						)
+		    	    ),
+		    	    'User',
+				)
+			)
+		);
+
+		if (!$race) {
+//			throw new NotFoundException(__('Invalid race'));
+			$this->redirect('/races/');
+		}
+
+/*		$raceRegistrations = $this->RaceRegistration->find(
+			'all',
+			array(
+				'conditions' => array(
+					'RaceRegistration.race_id' => $race['Race']['id']
+				),
+	    	    'order' => array(
+					'User.last_name ASC'
+				)
+			)
+		);
+*/
+        $this->set(compact('race'));
 	}
 }

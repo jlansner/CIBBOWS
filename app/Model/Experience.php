@@ -86,8 +86,13 @@ class Experience extends AppModel {
 	);
 
 	public function beforeSave($options = array()) {
+		parent::beforeSave();
+
+		if ((isset($this->data['Experience']['time'])) && (substr_count($this->data['Experience']['time'],":") == 1)) {
+			$this->data['Experience']['time'] = "00:" . $this->data['Experience']['time'];
+		}		
 	
-		$number = trim($this->data['Experience']['distance_number'],".0");
+		$number = ($this->data['Experience']['distance_number'] + 0);
 
 		$distance_unit = $this->Distance->find(
 			'first',
@@ -97,13 +102,16 @@ class Experience extends AppModel {
 				)
 			)
 		);
-
-		$unit = ucfirst($distance_unit['Distance']['name']);
-		if ($number !== "1") {
-			$unit .= "s";
+		
+		$time = "";
+		
+		if ($this->data['Experience']['time'] != null) {
+			$time = " under " . ltrim($this->data['Experience']['time'],"0:");
 		}
 		
-		
-		$this->data['Experience']['name'] = $number . ' ' . $unit;
+		$this->data['Experience']['name'] = $number . $distance_unit['Distance']['abbreviation'] . $time;
+
+		return true;
 	}
+
 }

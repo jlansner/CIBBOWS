@@ -17,7 +17,7 @@ class ContentsController extends AppController {
 	        		'OR' => array(
 	        			array('Content.archived' => 0),
 	        			array('Content.archived' => null)
-					)
+					),
 	    	    )
 			)
 		);
@@ -36,7 +36,7 @@ class ContentsController extends AppController {
 		$content = $this->Content->find(
 			'first',
 			array(
-				'fields' => array('Content.title', 'Content.body','Content.controller'),
+				'fields' => array('Content.title', 'Content.body','Content.controller','Content.membership_level_id'),
 	        	'conditions' => array(
     	    		'Content.url_title' => $url_title,
     	    		'Content.active' => 1,
@@ -74,7 +74,8 @@ class ContentsController extends AppController {
 			}
 		}
 		$users = $this->Content->User->find('list');
-		$this->set(compact('users'));
+		$membershipLevels = $this->Content->MembershipLevel->find('list');
+		$this->set(compact('users','membershipLevels'));
 	}
 
 /**
@@ -105,7 +106,8 @@ class ContentsController extends AppController {
 			$this->request->data = $this->Content->find('first', $options);
 		}
 		$users = $this->Content->User->find('list');
-		$this->set(compact('users'));
+		$membershipLevels = $this->Content->MembershipLevel->find('list');
+		$this->set(compact('users','membershipLevels'));
 	}
 
 /**
@@ -135,13 +137,21 @@ class ContentsController extends AppController {
 			array(
 				'fields' => array('Content.permanent','Content.title', 'Content.url_title','Content.menu_rank','Content.controller'),
 	        	'conditions' => array(
-	        		'OR' => array(
-		        		array('Content.menu_parent' => 0),
-		        		array('Content.menu_parent' => null)
+	        		array(
+		        		'OR' => array(
+			        		array('Content.menu_parent' => 0),
+			        		array('Content.menu_parent' => null)
+						),
+					),
+					array(
+	    	    		'OR' => array(
+	    	    			array('Content.membership_level_id' => null),
+		    	    		array('Content.membership_level_id <=' => $this->userMembershipLevel)
+		    	    	)					
 					),
     	    		'Content.active' => 1,
     	    		'Content.in_menu' => 1,
-    	    		'Content.archived'=> 0
+    	    		'Content.archived'=> 0,
 	    	    ),
 	    	    'order' => array('Content.menu_rank'),
 	    	    'recursive' => -1
@@ -164,7 +174,13 @@ class ContentsController extends AppController {
 		        			'Content.menu_parent' => $menuItem['Content']['permanent'],
 	    	    			'Content.active' => 1,
 	    	    			'Content.in_menu' => 1,
-	    	    			'Content.archived'=> 0
+	    	    			'Content.archived'=> 0,
+							array(
+			    	    		'OR' => array(
+			    	    			array('Content.membership_level_id' => null),
+				    	    		array('Content.membership_level_id <=' => $this->userMembershipLevel)
+				    	    	)					
+							),
 						),
 			    	    'order' => array('Content.menu_rank')
 					)

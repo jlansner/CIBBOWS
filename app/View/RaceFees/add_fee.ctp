@@ -1,10 +1,22 @@
-<div class="raceFees form">
 <?php echo $this->Form->create('RaceFee'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Race Fee'); ?></legend>
+		<legend>Add Race Fee
+			<?php if ($race) {
+				 echo ' - ' . $race['Race']['title'];
+			}
+			 ?></legend>
 	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('race_id');
+		if ($race) {
+			echo $this->Form->hidden(
+				'race_id',
+				array(
+					'value' => $race['Race']['id']
+				)
+			);
+		} else {
+			echo $this->Form->input('race_id');
+		}
+
 		echo $this->Form->input(
 			'start_date',
 			array(
@@ -31,4 +43,3 @@
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
-</div>

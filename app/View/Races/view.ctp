@@ -1,5 +1,5 @@
 <h1><?php echo h($race['Race']['title']); ?></h1>
-
+<h2>Overview</h2>
 <?php echo h($race['Race']['logo']); ?>
 
 <p>
@@ -11,8 +11,68 @@
 	?>
 </p>
 
+<?php
 
-<?php if ($userMembershipLevel >= $race['Race']['membership_level_id']) { ?>
+if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
+
+	$regOpen = false;
+	$memRegOpen = false;
+	if (count($race['NonMemberRaceFee']) > 0) {
+		foreach ($race['NonMemberRaceFee'] as $racefee) {
+			if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
+				$regOpen = true;
+				break;
+			}
+		}
+	} 
+	
+	if (count($race['MemberRaceFee']) > 0) {
+		foreach ($race['MemberRaceFee'] as $racefee) {
+			if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
+				$memRegOpen = true;
+				break;
+			}
+		}
+ 	}
+ ?>
+ <ul class="raceNav">
+ 	<li>Overview</li>
+ 	<li>
+ 		<?php echo $this->Html->link(
+			'Registered Swimmers',
+			array(
+				'controller' => 'race_registrations',
+				'action' => 'view',
+				substr($race['Race']['date'],0,4),
+				$race['Race']['url_title']
+			)
+		); ?>
+ 	</li>
+ 	
+ </ul>
+<p>
+<?php
+
+if ($reg) {
+	echo 'You are already registered';
+} else {
+	if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
+		echo $this->Html->link(
+			'Register',
+			array(
+				'controller' => 'race_registrations',
+				'action' => 'register',
+				$race['Race']['id']
+			)
+		);
+	} else if ($memRegOpen) {
+		echo 'Registration is currently open only for members.';
+	} else {
+		echo 'Registraton for this race is not available at this time.';
+	}
+}
+?>
+</p>
 
 	<?php echo $race['Race']['body']; ?>
 	
@@ -87,7 +147,7 @@
 		<td>
 
 			<?php if (!empty($race['NonMemberRaceFee'])) { ?>
-		<em>Non-Members</em><br />		
+		<em>All Swimmers</em><br />		
 	<?php foreach ($race['NonMemberRaceFee'] as $raceFee) { ?>
 			<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
 			<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
@@ -297,7 +357,7 @@
  ?>
 </td>
 				</tr>
-			<?php if ($childRace['experience_id'] != $race['Race']['experience_id']) { ?>
+			<?php if (($childRace['experience_id'] != null) && ($childRace['experience_id'] != $race['Race']['experience_id'])) { ?>
 				<tr>
 					<td>Experience Requirement:</td>
 					<td><?php echo $childRace['Experience']['name']; ?></td>

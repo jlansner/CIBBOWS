@@ -58,7 +58,7 @@ class Distance extends AppModel {
  * @var array
  */
  
- /*
+ 
 	public $hasMany = array(
 		'Experience' => array(
 			'className' => 'Experience',
@@ -139,5 +139,5 @@ class Distance extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-*/
+
 }

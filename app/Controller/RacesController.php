@@ -45,8 +45,26 @@ class RacesController extends AppController {
 			$this->redirect('/races/');
 		}
 
-		$this->set('race', $this->paginate());
-        $this->set('race', $race);
+		$regIDs[] = $race['Race']['id'];
+		if (count($race['ChildRace'])) {
+			foreach ($race['ChildRace'] as $childRace) {
+				$regIDs[] = $childRace['id'];
+			}
+		}
+			
+		$reg = $this->Race->RaceRegistration->find(
+			'count',
+			array(
+				'conditions' => array(
+					'RaceRegistration.race_id' => $regIDs,
+					'RaceRegistration.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1
+			)
+		);
+
+//		$this->set('race', $this->paginate());
+        $this->set(compact('race','reg'));
 
 	}
 

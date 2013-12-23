@@ -9,3 +9,17 @@ array('controller' => 'posts', 'action' => 'view', substr($post['Post']['posted'
     <hr>
     <?php endforeach; ?>
     <?php unset($post); ?>
+    
+<?php 
+ if ($this->Paginator->hasPrev()){
+       echo $this->Paginator->prev(
+	  ' << Newer Posts'
+	);
+}
+
+ if ($this->Paginator->hasNext()){
+	echo $this->Paginator->next(
+	  'Older Posts >> '
+	);
+ }
+ ?>

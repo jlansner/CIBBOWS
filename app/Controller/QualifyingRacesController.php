@@ -181,11 +181,67 @@ class QualifyingRacesController extends AppController {
 
 		if ($this->QualifyingRace->saveField('approved',1)) {
 			// add link to approve races here
+			$this->update_registrations($id);
 			$this->Session->setFlash(__('Qualifying race approved'));
 			$this->redirect(array('action' => 'view_pending'));
 		}
 		$this->Session->setFlash(__('Qualifying race was not approved'));
 		$this->redirect(array('action' => 'view_pending'));
 	}
+	
+	public function update_registrations($id) {
+		$qualifyingRace = $this->QualifyingRace->find(
+			'first',
+			array(
+				'conditions' => array(
+					'QualifyingRace.id' => $id 
+				),
+				'recursive' => -1
+			) 
+		);
+		
+		$this->loadModel('RaceRegistration');
+		$registrations = $this->RaceRegistration->find(
+			'all',
+			array(
+				'conditions' => array(
+					'RaceRegistration.user_id' => $this->Auth->user('id'),
+					'RaceRegistration.result_id' => null,
+					'RaceRegistration.qualifying_race_id' => null,
+					'RaceRegistration.qualifying_swim_id' => null
+				),
+				'fields' => array('id','qualifying_swim_id','qualifying_race_id','result_id','has_address','has_emergency_contact'),
+				'contain' => array(
+					'Race' => array(
+						'Experience'
+					)
+				)
+			)
+		);
+		
+		foreach ($registrations as $registration) {
+			if (
+				($qualifyingRace['QualifyingRace']['meters'] >= $registration['Race']['Experience']['meters']) &&
+				(
+					($registration['Race']['Experience']['time'] == null) ||
+					($registration['Race']['Experience']['time'] == 0) ||
+					($qualifyingRace['QualifyingRace']['time'] <= $registration['Race']['Experience']['time'])
+				)
+			) {
+				$registration['RaceRegistration']['qualifying_race_id'] = $id;			
+			}
+
+			if ( 
+				($registration['RaceRegistration']['has_address']) &&
+				($registration['RaceRegistration']['has_emergency_contact'])
+			) {
+				$registration['RaceRegistration']['approved'] = 1;
+			}
+
+			$this->RaceRegistration->save($registration);		
+
+		}
+	}
+
 
 }

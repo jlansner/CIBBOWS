@@ -119,6 +119,13 @@ class Post extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+		'MembershipLevel' => array(
+			'className' => 'MembershipLevel',
+			'foreignKey' => 'membership_level_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 	);
 }

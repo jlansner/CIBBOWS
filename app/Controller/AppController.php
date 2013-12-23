@@ -61,12 +61,12 @@ class AppController extends Controller {
 		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','register','confirm','forgot_password','reset_password','menu');
 		
 		if ($this->Session->read('Membership.membership_level')) {
-			$userMembershipLevel = $this->Session->read('Membership.membership_level');
+			$this->userMembershipLevel = $this->Session->read('Membership.membership_level');
 		} else {
-			$userMembershipLevel = 0;
+			$this->userMembershipLevel = 0;
 		}
 
-		$this->set('userMembershipLevel',$userMembershipLevel);
+		$this->set('userMembershipLevel',$this->userMembershipLevel);
 
 		$admin = $this->Auth->loggedIn() && ($this->Auth->user('group_id') > 1);
 		$this->set('admin',$admin);
