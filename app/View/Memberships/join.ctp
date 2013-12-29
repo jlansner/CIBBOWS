@@ -28,6 +28,7 @@ if (count($membershipFee)) {
     data-name="CIBBOWS"
     data-description="Membership"
     data-label="Join"
+    data-email="<?php echo AuthComponent::user('email'); ?>"
     data-image="/128x128.png">
   </script>
 

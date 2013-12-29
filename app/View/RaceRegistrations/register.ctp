@@ -20,6 +20,12 @@
 			if ($race['Race']['exclusive']) {
 				// allow multiple section sign up
 			} else {
+				echo $this->Form->hidden(
+					'parent_race_id',
+					array(
+						'value' => $race['Race']['id']
+					)
+				);
 				echo $this->Form->input(
 					'child_race_id',
 					array(
@@ -109,6 +115,7 @@
     data-name="CIBBOWS"
     data-description="Race Registration"
     data-label="Register"
+    data-email="<?php echo AuthComponent::user('email'); ?>"
     data-image="/128x128.png">
   </script>
 

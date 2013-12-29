@@ -101,7 +101,7 @@ class AddressesController extends AppController {
 	public function edit_address() {
 
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if (!$this->request->data['User']['id']) {
+			if (!$this->request->data['Address']['user_id']) {
 				$this->Address->create();
 			}
 
@@ -144,12 +144,14 @@ class AddressesController extends AppController {
 				(
 					($registration['RaceRegistration']['qualifying_swim_id']) ||
 					($registration['RaceRegistration']['qualifying_race_id']) ||
-					($registration['RaceRegistration']['result_id'])
+					($registration['RaceRegistration']['result_id']) ||
+					($registration['RaceRegistration']['no_qualifier'])
 				) &&
 				($registration['RaceRegistration']['has_address']) &&
 				($registration['RaceRegistration']['has_emergency_contact'])
 			) {
 				$registration['RaceRegistration']['approved'] = 1;
+				$this->sendApprovedEmail($registration['RaceRegistration']['id']);				
 			}
 
 			$this->RaceRegistration->save($registration);		

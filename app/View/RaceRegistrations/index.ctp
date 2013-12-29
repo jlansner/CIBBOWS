@@ -28,7 +28,7 @@
 		<td>
 			<?php echo $this->Html->link($raceRegistration['Race']['title'], array('controller' => 'races', 'action' => 'view', $raceRegistration['Race']['id'])); ?>
 		</td>
-		<td><?php echo h($raceRegistration['RaceRegistration']['name']); ?>&nbsp;</td>
+		<td><?php echo h($raceRegistration['RaceRegistration']['first_name']); ?> <?php echo h($raceRegistration['RaceRegistration']['last_name']); ?></td>
 		<td><?php echo h($raceRegistration['RaceRegistration']['age']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($raceRegistration['Gender']['title'], array('controller' => 'genders', 'action' => 'view', $raceRegistration['Gender']['id'])); ?>

@@ -21,6 +21,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 App::uses('Controller', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 
 /**
  * Application Controller
@@ -83,5 +84,44 @@ class AppController extends Controller {
 			$pass .= chr($char);
 		}
 		return $pass;
+	}
+	
+	public function sendApprovedEmail($registration_id) {
+		$emailvars = $this->RaceRegistration->find(
+			'first',
+			array(
+				'conditions' => array(
+					'RaceRegistration.id' => $registration_id
+				),
+				'contain' => array(
+					'Race' => array(
+						'fields' => array('Race.title','Race.date',),
+						'ParentRace' => array(
+							'fields' => array('ParentRace.id','ParentRace.title')
+						)
+					),
+					'User' => array(
+						'fields' => array('User.email','User.name')
+					),
+				)
+			)
+		);
+		$Email = new CakeEmail('default');
+		$Email->to($emailvars['User']['email']);
+		if ($emailvars['Race']['parent_id']) {
+			$Email->subject('Your registration for ' . $emailvars['Race']['ParentRace']['title'] . ' - ' . $emailvars['Race']['title'] . ' has been approved');
+			
+		} else {
+			$Email->subject('Your registration for ' . $emailvars['Race']['title'] . ' has been approved');
+		}
+		$Email->viewVars(
+			array(
+				'email' => $emailvars
+			)
+		);
+		$Email->template('race_registration_updated_approved', 'race_registration_updated_approved');
+		$Email->emailFormat('both');
+		$Email->send();		
+		
 	}
 }

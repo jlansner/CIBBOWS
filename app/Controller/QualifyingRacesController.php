@@ -175,6 +175,7 @@ class QualifyingRacesController extends AppController {
 
 	public function approve($id = null) {
 		$this->QualifyingRace->id = $id;
+
 		if (!$this->QualifyingRace->exists()) {
 			throw new NotFoundException(__('Invalid qualifying race'));
 		}
@@ -185,6 +186,7 @@ class QualifyingRacesController extends AppController {
 			$this->Session->setFlash(__('Qualifying race approved'));
 			$this->redirect(array('action' => 'view_pending'));
 		}
+
 		$this->Session->setFlash(__('Qualifying race was not approved'));
 		$this->redirect(array('action' => 'view_pending'));
 	}
@@ -205,17 +207,21 @@ class QualifyingRacesController extends AppController {
 			'all',
 			array(
 				'conditions' => array(
-					'RaceRegistration.user_id' => $this->Auth->user('id'),
+					'RaceRegistration.user_id' => $qualifyingRace['QualifyingRace']['user_id'],
 					'RaceRegistration.result_id' => null,
 					'RaceRegistration.qualifying_race_id' => null,
-					'RaceRegistration.qualifying_swim_id' => null
+					'RaceRegistration.qualifying_swim_id' => null,
+					'RaceRegistration.no_qualifier' => 0
 				),
-				'fields' => array('id','qualifying_swim_id','qualifying_race_id','result_id','has_address','has_emergency_contact'),
-				'contain' => array(
+				'fields' => array('id','user_id','race_id','qualifying_swim_id','qualifying_race_id','result_id','has_address','has_emergency_contact'),
+/*				'contain' => array(
 					'Race' => array(
-						'Experience'
+						'Experience' => array(
+							'fields' => array('Experience.meters','Experience.time')
+						)
 					)
-				)
+				) */
+				'recursive' => 3
 			)
 		);
 		
@@ -231,14 +237,16 @@ class QualifyingRacesController extends AppController {
 				$registration['RaceRegistration']['qualifying_race_id'] = $id;			
 			}
 
-			if ( 
+			if (
+				($registration['RaceRegistration']['qualifying_race_id']) &&
 				($registration['RaceRegistration']['has_address']) &&
 				($registration['RaceRegistration']['has_emergency_contact'])
 			) {
 				$registration['RaceRegistration']['approved'] = 1;
+				$this->sendApprovedEmail($registration['RaceRegistration']['id']);				
 			}
 
-			$this->RaceRegistration->save($registration);		
+			$this->RaceRegistration->save($registration);				
 
 		}
 	}

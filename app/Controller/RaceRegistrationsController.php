@@ -349,9 +349,6 @@ class RaceRegistrationsController extends AppController {
 		$Email->viewVars(
 			array(
 				'email' => $emailvars
-//				'name' => $email['User']['name'],
-//				'race_title' => $email['Race']['title'],
-//				'price' => $email['Registration']['payment']
 			)
 		);
 		$Email->template('race_registration_approved', 'race_registration_approved');
@@ -366,9 +363,6 @@ class RaceRegistrationsController extends AppController {
 		$Email->viewVars(
 			array(
 				'email' => $emailvars,
-//				'name' => $email['User']['name'],
-//				'race_title' => $email['Race']['title'],
-//				'price' => $email['Registration']['payment'],
 				'qualified' => $qualified,
 				'hasEmergencyContact' => $hasEmergencyContact,
 				'hasAddress' => $hasAddress

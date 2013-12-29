@@ -11,6 +11,8 @@ App::uses('AppModel', 'Model');
  */
 class QualifyingRace extends AppModel {
 
+	public $actsAs = array('Containable');
+	
 /**
  * Validation rules
  *
@@ -137,6 +139,8 @@ class QualifyingRace extends AppModel {
 	);
 
 	public function beforeSave($options = array()) {
+		parent::beforeSave();
+
 		if ((isset($this->data['QualifyingRace']['time'])) && (substr_count($this->data['QualifyingRace']['time'],":") == 1)) {
 			$this->data['QualifyingRace']['time'] = "00:" . $this->data['QualifyingRace']['time'];
 		}		

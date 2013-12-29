@@ -33,6 +33,8 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
 
+	public $actsAs = array('Containable');
+
 	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['title'])) {
 			$this->data[$this->alias]['url_title'] = $this->createURLTitle($this->data[$this->alias]['title']);
