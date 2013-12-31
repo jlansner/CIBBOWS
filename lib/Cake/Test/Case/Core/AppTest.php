@@ -2,8 +2,6 @@
 /**
  * AppTest file.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -813,7 +811,7 @@ class AppTest extends CakeTestCase {
 	}
 
 /**
- * Tests that  App::location() returns the defined path for a class
+ * Tests that App::location() returns the defined path for a class
  *
  * @return void
  */
