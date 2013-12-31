@@ -1,6 +1,8 @@
 # User specific & automatically generated files #
 #################################################
 /app/Config
+/app/Config/database.php
+/app/Config/core.php
 /app/tmp
 /app/Plugin
 /lib/Cake/Console/Templates/skel/tmp/
@@ -19,4 +21,4 @@
 .Trashes
 Icon?
 ehthumbs.db
-Thumbs.db
+Thumbs.dbapp/Config/core.php
