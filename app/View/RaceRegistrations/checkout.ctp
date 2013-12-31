@@ -1,14 +1,6 @@
-<?php
-
-echo $this->Form->create(
-	'RaceRegistration',
-	array(
-		'action' => 'checkout'
-	)
-);
-?>
+<?php echo $this->Form->create('Checkout'); ?>
 	<fieldset>
-		<legend>Race Registration - <?php echo $race['Race']['title'] ?></legend>
+		<legend>Checkout</legend>
 	<?php
 		echo $this->Form->hidden(
 			'user_id',
@@ -126,7 +118,7 @@ echo $this->Form->create(
 	</fieldset>
 <?php /*	  <script
     src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-    data-key="<?php echo $stripeKey; ?>"
+    data-key="pk_test_PS7P63ptiMndUVPTjAr2bwKY"
     data-name="CIBBOWS"
     data-description="Race Registration"
     data-label="Register"
@@ -137,7 +129,7 @@ echo $this->Form->create(
 
 <script>/*
   var handler = StripeCheckout.configure({
-    key: '<?php // echo $stripeKey; ?>',
+    key: 'pk_test_PS7P63ptiMndUVPTjAr2bwKY',
     image: '/square-image.png',
     email: '<?php echo AuthComponent::user('email'); ?>',
     token: function(token, args) {

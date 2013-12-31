@@ -52,6 +52,8 @@ class StripeComponent extends Component {
  * @access public
  */
 	public $key = null;
+	
+	public $dataKey = 'pk_test_PS7P63ptiMndUVPTjAr2bwKY';
 
 /**
  * Controller startup. Loads the Stripe API library and sets options from

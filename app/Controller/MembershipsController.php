@@ -158,7 +158,8 @@ class MembershipsController extends AppController {
 			}
 		}
 
-		$this->set('membershipFee',$membershipFee);
+		$stripeKey = $this->Stripe->dataKey;
+		$this->set(compact('membershipFee','stripeKey'));
 	}
 
 	private function send_membership_email($user,$membershipFee) {

@@ -256,7 +256,7 @@ class RaceRegistrationsController extends AppController {
 			if (($qualified) && ($hasEmergencyContact) && ($hasAddress)) {
 				$this->request->data['RaceRegistration']['approved'] = 1;
 			}
-
+/*
 			$customerData = array(
 				'stripeToken'  => $this->request->data['stripeToken'],
 				'email' => $this->Auth->user('email')
@@ -269,14 +269,14 @@ class RaceRegistrationsController extends AppController {
 			    'stripeCustomer' => $customer['stripe_id'],
 				'description' => $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('name')
 			);
-
+*/
 			$emailvars['User']['name'] = $this->Auth->user('name');
 			$emailvars['User']['email'] = $this->Auth->user('email');
 			$emailvars['Race']['title'] = $race['Race']['title'];
 			$emailvars['Race']['date'] = $race['Race']['date'];
 			$emailvars['Registration']['payment'] = $this->request->data['RaceRegistration']['payment'];
 
-			$result = $this->Stripe->charge($stripeData);
+//			$result = $this->Stripe->charge($stripeData);
 			if (is_array($result)) {
 				$this->RaceRegistration->create();
 				if ($this->RaceRegistration->save($this->request->data)) {
@@ -339,7 +339,17 @@ class RaceRegistrationsController extends AppController {
 //		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
 //		$results = $this->RaceRegistration->Result->find('list');
 		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
-		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces'));
+		$stripeKey = $this->Stripe->dataKey;
+		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces','stripeKey'));
+	}
+
+	public function checkout() {
+		if ($this->RaceRegistration->validates()) {
+			
+		} else {
+
+		}
+		
 	}
 
 	private function send_registration_approved_email($emailvars) {

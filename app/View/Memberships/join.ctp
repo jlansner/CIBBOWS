@@ -24,7 +24,7 @@ if (count($membershipFee)) {
 	</fieldset>
   <script
     src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-    data-key="pk_test_PS7P63ptiMndUVPTjAr2bwKY"
+    data-key="<?php echo $stripeKey; ?>"
     data-name="CIBBOWS"
     data-description="Membership"
     data-label="Join"
