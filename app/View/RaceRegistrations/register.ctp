@@ -1,11 +1,6 @@
 <?php
 
-echo $this->Form->create(
-	'RaceRegistration',
-	array(
-		'action' => 'checkout'
-	)
-);
+echo $this->Form->create('RaceRegistration');
 ?>
 	<fieldset>
 		<legend>Race Registration - <?php echo $race['Race']['title'] ?></legend>

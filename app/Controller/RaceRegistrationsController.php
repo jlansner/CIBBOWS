@@ -123,7 +123,7 @@ class RaceRegistrationsController extends AppController {
 				'conditions' => array(
 					'Race.id' => $race_id
 				),
-//				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
+				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
 			)
 		);
 
@@ -149,8 +149,73 @@ class RaceRegistrationsController extends AppController {
 				$race['Race']['url_title'])
 			);
 		}
-		
+
 		if ($this->request->is('post')) {
+			$this->RaceRegistration->set($this->request->data);
+			if ($this->RaceRegistration->validates(array('fieldList' => array('waiver')))) {
+
+				$race = $this->RaceRegistration->Race->find(
+					'first',
+					array(
+						'conditions' => array(
+							'Race.id' => $race_id
+						),
+						'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
+					)
+				);
+		
+				$genders = $this->RaceRegistration->Gender->find('list');
+				$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
+				$stripeKey = $this->Stripe->dataKey;
+		
+				$this->set(compact('race','genders','ageGroups','stripeKey'));		
+
+
+				$this->render('checkout');
+			}	
+		}
+		
+		$currentFee = false;
+		if (count($race['NonMemberRaceFee']) > 0) {
+			foreach ($race['NonMemberRaceFee'] as $racefee) {
+				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
+					$currentFee = $racefee;
+					break;
+				}
+			}
+		}	
+			
+		$currentMemFee = false;
+		if (count($race['MemberRaceFee']) > 0) {
+			foreach ($race['MemberRaceFee'] as $racefee) {
+				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
+					$currentMemFee = $racefee;
+					break;
+				}
+			}
+	 	}
+
+		$childRaces = $this->RaceRegistration->Race->find(
+			'list',
+			array(
+				'conditions' => array(
+					'parent_id' => $race_id
+				)
+			)
+		);
+		
+		$genders = $this->RaceRegistration->Gender->find('list');
+//		$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
+//		$qualifyingSwims = $this->RaceRegistration->QualifyingSwim->find('list');
+//		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
+//		$results = $this->RaceRegistration->Result->find('list');
+		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
+		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces'));
+	}
+
+	public function checkout() {
+
+		if ($this->request->is('post')) {		
 			if (isset($this->request->data['RaceRegistration']['dob'])) {
 				$dob = $this->request->data['RaceRegistration']['dob']['year'] . '-' . $this->request->data['RaceRegistration']['dob']['month'] . '-' . $this->request->data['RaceRegistration']['dob']['day'];
 				$this->RaceRegistration->User->id = $this->Auth->user('id');
@@ -256,7 +321,7 @@ class RaceRegistrationsController extends AppController {
 			if (($qualified) && ($hasEmergencyContact) && ($hasAddress)) {
 				$this->request->data['RaceRegistration']['approved'] = 1;
 			}
-/*
+
 			$customerData = array(
 				'stripeToken'  => $this->request->data['stripeToken'],
 				'email' => $this->Auth->user('email')
@@ -269,7 +334,7 @@ class RaceRegistrationsController extends AppController {
 			    'stripeCustomer' => $customer['stripe_id'],
 				'description' => $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('name')
 			);
-*/
+
 			$emailvars['User']['name'] = $this->Auth->user('name');
 			$emailvars['User']['email'] = $this->Auth->user('email');
 			$emailvars['Race']['title'] = $race['Race']['title'];
@@ -304,52 +369,6 @@ class RaceRegistrationsController extends AppController {
 			}
 		}
 
-		$currentFee = false;
-		if (count($race['NonMemberRaceFee']) > 0) {
-			foreach ($race['NonMemberRaceFee'] as $racefee) {
-				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
-					$currentFee = $racefee;
-					break;
-				}
-			}
-		}	
-			
-		$currentMemFee = false;
-		if (count($race['MemberRaceFee']) > 0) {
-			foreach ($race['MemberRaceFee'] as $racefee) {
-				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
-					$currentMemFee = $racefee;
-					break;
-				}
-			}
-	 	}
-
-		$childRaces = $this->RaceRegistration->Race->find(
-			'list',
-			array(
-				'conditions' => array(
-					'parent_id' => $race_id
-				)
-			)
-		);
-		
-		$genders = $this->RaceRegistration->Gender->find('list');
-//		$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
-//		$qualifyingSwims = $this->RaceRegistration->QualifyingSwim->find('list');
-//		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
-//		$results = $this->RaceRegistration->Result->find('list');
-		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
-		$stripeKey = $this->Stripe->dataKey;
-		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces','stripeKey'));
-	}
-
-	public function checkout() {
-		if ($this->RaceRegistration->validates()) {
-			
-		} else {
-
-		}
-		
 	}
 
 	private function send_registration_approved_email($emailvars) {
