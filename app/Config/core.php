@@ -222,7 +222,7 @@
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'Wrol4pKTWtH5sKarbtvYfjRVBV39JoOdgZ5VPF7G');
+	Configure::write('Security.salt', 'Wrol4pKTWtH5sKarbtvYfjRVBV39JoOdgZ5VPF7G'); // does gitignore hide this?
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
