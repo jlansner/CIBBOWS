@@ -212,6 +212,20 @@ class RaceRegistrationsController extends AppController {
 	}
 
 	public function checkout() {
+		$race = $this->RaceRegistration->Race->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Race.id' => $this->request->data['RaceRegistration']['race_id']
+				),
+				'fields' => array('Race.id','Race.url_title','Race.title','Race.experience_id','Race.date'),
+				'contain' => array(
+					'Experience' => array(
+						'fields' => array('Experience.meters','Experience.time')
+					)
+				)
+			)
+		);
 
 		if ($this->request->is('post')) {		
 			if (isset($this->request->data['RaceRegistration']['dob'])) {
