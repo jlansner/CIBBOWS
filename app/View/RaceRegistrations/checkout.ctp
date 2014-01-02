@@ -50,7 +50,7 @@
 	</fieldset>
 <?php /*	  <script
     src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-    data-key="pk_test_PS7P63ptiMndUVPTjAr2bwKY"
+    data-key="<?php echo Configure::read('Stripe.DataKey'); ?>"
     data-name="CIBBOWS"
     data-description="Race Registration"
     data-label="Register"
@@ -61,7 +61,7 @@
 
 <script>/*
   var handler = StripeCheckout.configure({
-    key: 'pk_test_PS7P63ptiMndUVPTjAr2bwKY',
+    key: '<?php echo Configure::read('Stripe.DataKey'); ?>',
     image: '/square-image.png',
     email: '<?php echo AuthComponent::user('email'); ?>',
     token: function(token, args) {

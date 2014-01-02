@@ -119,37 +119,7 @@ echo $this->Form->create('RaceRegistration');
 //		echo $this->Form->input('shirt_size_id');
 	?>
 	</fieldset>
-<?php /*	  <script
-    src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-    data-key="<?php echo $stripeKey; ?>"
-    data-name="CIBBOWS"
-    data-description="Race Registration"
-    data-label="Register"
-    data-email="<?php echo AuthComponent::user('email'); ?>"
-    data-image="/128x128.png">
-  </script>
-*/ ?>
 
-<script>/*
-  var handler = StripeCheckout.configure({
-    key: '<?php // echo $stripeKey; ?>',
-    image: '/square-image.png',
-    email: '<?php echo AuthComponent::user('email'); ?>',
-    token: function(token, args) {
-      // Use the token to create the charge with a server-side script.
-    }
-  });
-
-  document.getElementById('customButton').addEventListener('click', function(e) {
-    // Open Checkout with further options
-    handler.open({
-      name: 'CIBBOWS',
-      description: 'Race Registration',
-      amount: 2000
-    });
-    e.preventDefault();
-  }); */
-</script>
 <?php
 		echo $this->Form->end(
 			array(

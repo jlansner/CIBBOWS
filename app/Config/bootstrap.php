@@ -95,7 +95,7 @@ Configure::write('Dispatcher.filters', array(
  * Configures default file logging options
  */
 App::uses('CakeLog', 'Log');
-CakeLog::config('debug', array(
+/* CakeLog::config('debug', array(
 	'engine' => 'File',
 	'types' => array('notice', 'info', 'debug'),
 	'file' => 'debug',
@@ -104,12 +104,13 @@ CakeLog::config('error', array(
 	'engine' => 'File',
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
-));
+)); */
 CakePlugin::load('DebugKit');
 CakePlugin::load('Acl', array('bootstrap' => true));
 
 CakePlugin::load('Stripe');
 
+Configure::write('Stripe.DataKey', 'pk_test_PS7P63ptiMndUVPTjAr2bwKY');
 Configure::write('Stripe.TestSecret', 'sk_test_MXrEuW3erZGCDfumOpXHA9GQ');
 Configure::write('Stripe.LiveSecret', 'sk_live_tdNyI2IAsnAufg90OzJ5unpi');
 

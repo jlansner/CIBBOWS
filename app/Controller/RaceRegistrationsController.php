@@ -166,9 +166,7 @@ class RaceRegistrationsController extends AppController {
 		
 				$genders = $this->RaceRegistration->Gender->find('list');
 				$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
-				$stripeKey = $this->Stripe->dataKey;
-		
-				$this->set(compact('race','genders','ageGroups','stripeKey'));		
+				$this->set(compact('race','genders','ageGroups'));
 
 
 				$this->render('checkout');
