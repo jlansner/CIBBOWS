@@ -48,7 +48,7 @@
 		);
 	?>
 	</fieldset>
-<?php /*	  <script
+<script
     src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
     data-key="<?php echo Configure::read('Stripe.DataKey'); ?>"
     data-name="CIBBOWS"
@@ -57,7 +57,6 @@
     data-email="<?php echo AuthComponent::user('email'); ?>"
     data-image="/128x128.png">
   </script>
-*/ ?>
 
 <script>/*
   var handler = StripeCheckout.configure({
@@ -80,10 +79,12 @@
   }); */
 </script>
 <?php
-		echo $this->Form->end(
+/*		echo $this->Form->end(
 			array(
 				'label' => 'Register',
 				'id' => 'registerButton'
 			)
 		);
+ */
+ 
 ?>
