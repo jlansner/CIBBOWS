@@ -164,7 +164,7 @@ class RaceRegistrationsController extends AppController {
 					)
 				);
 				
-				if ($this->request->data['RaceRegistration']['child_race_id']) {
+				if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
 					$childRace = $this->RaceRegistration->Race->find(
 						'first',
 						array(
@@ -259,64 +259,64 @@ class RaceRegistrationsController extends AppController {
 				$this->Session->write('Auth.User.gender_id', $this->request->data['RaceRegistration']['gender_id']);
 			}
 			
-			if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
-				$this->request->data['RaceRegistration']['race_id'] = $this->request->data['RaceRegistration']['child_race_id'];
-			}
-
-			$qualified = false;
-//			$this->loadModel('Result');
-			$conditions = array(
-				'user_id' => $this->request->data['RaceRegistration']['user_id'],
-				'meters >=' => $race['Experience']['meters']
-			);
-
-			if (($race['Experience']['time']) && ($race['Experience']['time'] > 0)) {
-				$conditions['time <='] = $race['Experience']['time'];
-			} 
-
-			$result = $this->RaceRegistration->Result->find(
-				'first',
-				array(
-					'conditions' => $conditions, 
-					'fields' => array('Result.id'),
-					'recursive' => -1
-				)
-			);
-			
-			if ($result) {
-				$this->request->data['RaceRegistration']['result_id'] = $result['Result']['id'];
-				$qualified = true;
-			} else {
-//				$this->loadModel('QualifyingRace');
-				$qrace = $this->RaceRegistration->QualifyingRace->find(
+			if ($race['Race']['experience_id']) {
+				$qualified = false;
+	
+				$conditions = array(
+					'user_id' => $this->request->data['RaceRegistration']['user_id'],
+					'meters >=' => $race['Experience']['meters']
+				);
+	
+				if (($race['Experience']['time']) && ($race['Experience']['time'] > 0)) {
+					$conditions['time <='] = $race['Experience']['time'];
+				} 
+	
+				$result = $this->RaceRegistration->Result->find(
 					'first',
 					array(
-						'conditions' => $conditions,
-						'fields' => array('QualifyingRace.id'),
+						'conditions' => $conditions, 
+						'fields' => array('Result.id'),
 						'recursive' => -1
 					)
 				);
 				
-				if ($qrace) {
-					$this->request->data['RaceRegistration']['qualifying_race_id'] = $qrace['QualifyingRace']['id'];
+				if ($result) {
+					$this->request->data['RaceRegistration']['result_id'] = $result['Result']['id'];
 					$qualified = true;
-				} 
-/*				else {
-//					$this->loadModel('QualifyingSwim');
-					$qswim = $this->RaceRegistration->QualifyingSwim->find(
+				} else {
+					$qrace = $this->RaceRegistration->QualifyingRace->find(
 						'first',
 						array(
-							'conditions' => array(
-								'QualifyingSwim.user_id' => $this->request->data['RaceRegistration']['user_id'],
-								'meters >=' => $race['Experience']['meters']
-							)
+							'conditions' => $conditions,
+							'fields' => array('QualifyingRace.id'),
+							'recursive' => -1
 						)
 					);
-					$this->request->data['RaceRegistration']['qualifying_swim_id'] = $qrace['QualifyingRace']['id'];
-					$qualified = true;
-				} */
+					
+					if ($qrace) {
+						$this->request->data['RaceRegistration']['qualifying_race_id'] = $qrace['QualifyingRace']['id'];
+						$qualified = true;
+					} 
+	/* Restore this section when Qualifing Swim section added
+	  				else {
+						$qswim = $this->RaceRegistration->QualifyingSwim->find(
+							'first',
+							array(
+								'conditions' => array(
+									'QualifyingSwim.user_id' => $this->request->data['RaceRegistration']['user_id'],
+									'meters >=' => $race['Experience']['meters']
+								)
+							)
+						);
+						$this->request->data['RaceRegistration']['qualifying_swim_id'] = $qrace['QualifyingRace']['id'];
+						$qualified = true;
+					} */
+				}
+			} else {
+				$qualified = true;
+				$this->request->data['RaceRegistration']['no_qualifier'] = 1;
 			}
-			
+
 			$hasEmergencyContact = $this->RaceRegistration->User->EmergencyContact->find(
 				'count',
 				array(
@@ -366,13 +366,13 @@ class RaceRegistrationsController extends AppController {
 			$emailvars['Race']['date'] = $race['Race']['date'];
 			$emailvars['Registration']['payment'] = $this->request->data['RaceRegistration']['payment'];
 
-//			$result = $this->Stripe->charge($stripeData);
+			$result = $this->Stripe->charge($stripeData);
 			if (is_array($result)) {
 				$this->RaceRegistration->create();
 				if ($this->RaceRegistration->save($this->request->data)) {
 					$this->updateRaceTotal($this->request->data['RaceRegistration']['race_id']);
 					
-					if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
+					if (isset($this->request->data['RaceRegistration']['parent_race_id'])) {
 						$this->updateRaceTotal($this->request->data['RaceRegistration']['parent_race_id']);
 					}
 					

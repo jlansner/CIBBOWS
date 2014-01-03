@@ -17,7 +17,7 @@
 			Race:
 			<?php echo $race['Race']['title'];
 			
-			if ($childRace) {
+			if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
 				echo ' &ndash; ' . $childRace['Race']['title'];
 			} ?>
 		</p>
@@ -39,10 +39,16 @@
 		
 	<?php
 		echo $this->Form->hidden('user_id');
-		echo $this->Form->hidden('race_id');
-		echo $this->Form->hidden('parent_race_id');
-		if ($childRace) {
-			echo $this->Form->hidden('child_race_id');
+		if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
+			echo $this->Form->hidden('parent_race_id');
+			echo $this->Form->hidden(
+				'race_id',
+				array(
+					'value' => $this->request->data['RaceRegistration']['child_race_id']
+				)
+			);
+		} else {
+			echo $this->Form->hidden('race_id');
 		}
 		echo $this->Form->hidden('first_name');
 		echo $this->Form->hidden('last_name');
