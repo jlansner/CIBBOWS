@@ -41,7 +41,7 @@
 					<?php if ($raceRegistration['approved'] == 1) { ?>
 						<i class="fa fa-check edit" title="Approved"></i>
 					<?php } else {
-						if (($raceRegistration['result_id'] == null) || ($raceRegistration['qualifying_race_id'] == null) || ($raceRegistration['qualifying_swim_id'] == null)) { ?>
+						if (($raceRegistration['no_qualifier']) || (($raceRegistration['result_id'] == null) && ($raceRegistration['qualifying_race_id'] == null) && ($raceRegistration['qualifying_swim_id'] == null))) { ?>
 							<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>
 						<?php }
 						
@@ -89,7 +89,7 @@
 					<?php if ($raceRegistration['approved'] == 1) { ?>
 						<i class="fa fa-check edit" title="Approved"></i>
 					<?php } else {
-						if (($raceRegistration['result_id'] == null) || ($raceRegistration['qualifying_race_id'] == null) || ($raceRegistration['qualifying_swim_id'] == null)) { ?>
+						if (($raceRegistration['no_qualifier']) || (($raceRegistration['result_id'] == null) && ($raceRegistration['qualifying_race_id'] == null) && ($raceRegistration['qualifying_swim_id'] == null))) { ?>
 							<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>
 						<?php }
 						

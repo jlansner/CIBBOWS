@@ -303,18 +303,42 @@
 			<?php if ($raceRegistration['approved']) { ?>
 				<i class="fa fa-check edit" title="Approved"></i>
 			<?php } else { 
-				if (($raceRegistration['result_id'] == null) || ($raceRegistration['qualifying_race_id'] == null) || ($raceRegistration['qualifying_swim_id'] == null)) { ?>
-					<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>
-				<?php }
+				if (($raceRegistration['no_qualifier']) || (($raceRegistration['result_id'] == null) && ($raceRegistration['qualifying_race_id'] == null) && ($raceRegistration['qualifying_swim_id'] == null))) { 
+					echo $this->html->Link(
+						'<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>',
+						array(
+							'controller' => 'qualifying_races',
+							'action' => 'add_race'
+						),
+						array('escape' => FALSE)
+					);
+				 }
+			
+				if (!$raceRegistration['has_address']) {
+					echo $this->Html->Link(
+						'<i class="fa fa-home orange" title="Address Needed"></i>',
+						array(
+							'controller' => 'addresses',
+							'action' => 'edit_address'
+						),
+						array(
+							'escape' => FALSE)
+						);
+				}
 				
-				if (!$raceRegistration['has_address']) { ?>
-					<i class="fa fa-home orange" title="Address Needed"></i>
-				<?php }
-				
-				if (!$raceRegistration['has_emergency_contact']) { ?>
-					<i class="fa fa-user-md orange" title="Emergency Contact Needed"></i>
-				<?php }  	
-				 } 
+				if (!$raceRegistration['has_emergency_contact']) {
+					echo $this->html->Link(
+						'<i class="fa fa-user-md orange" title="Emergency Contact Needed"></i>',
+						array(
+							'controller' => 'emergency_contacts',
+							'action' => 'add_contact'
+						),
+						array(
+							'escape' => FALSE)
+						);
+					
+				}  	
+			} 
 			  ?>
 			
 			</td>

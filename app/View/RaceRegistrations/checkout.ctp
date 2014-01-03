@@ -12,6 +12,15 @@
 			<?php echo $this->request->data['RaceRegistration']['first_name']; ?>
 			<?php echo $this->request->data['RaceRegistration']['last_name']; ?>
 		</p>
+
+		<p>
+			Race:
+			<?php echo $race['Race']['title'];
+			
+			if ($childRace) {
+				echo ' &ndash; ' . $childRace['Race']['title'];
+			} ?>
+		</p>
 		
 		<p>
 			Gender:
@@ -24,13 +33,17 @@
 		</p>
 		
 		<p>
-			Race:
-			<?php echo $race['Race']['title']; ?>
+			Fee:
+			<?php echo $this->request->data['RaceRegistration']['payment']; ?>
 		</p>
+		
 	<?php
 		echo $this->Form->hidden('user_id');
 		echo $this->Form->hidden('race_id');
 		echo $this->Form->hidden('parent_race_id');
+		if ($childRace) {
+			echo $this->Form->hidden('child_race_id');
+		}
 		echo $this->Form->hidden('first_name');
 		echo $this->Form->hidden('last_name');
 		echo $this->Form->hidden('age');

@@ -123,7 +123,7 @@ class RaceRegistrationsController extends AppController {
 				'conditions' => array(
 					'Race.id' => $race_id
 				),
-				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
+				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date','Race.exclusive') 
 			)
 		);
 
@@ -163,6 +163,19 @@ class RaceRegistrationsController extends AppController {
 						'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
 					)
 				);
+				
+				if ($this->request->data['RaceRegistration']['child_race_id']) {
+					$childRace = $this->RaceRegistration->Race->find(
+						'first',
+						array(
+							'conditions' => array(
+								'Race.id' => $this->request->data['RaceRegistration']['child_race_id']
+							),
+							'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
+						)
+					);
+					$this->set('childRace',$childRace);
+				}
 		
 				$genders = $this->RaceRegistration->Gender->find('list');
 				$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
@@ -357,6 +370,12 @@ class RaceRegistrationsController extends AppController {
 			if (is_array($result)) {
 				$this->RaceRegistration->create();
 				if ($this->RaceRegistration->save($this->request->data)) {
+					$this->updateRaceTotal($this->request->data['RaceRegistration']['race_id']);
+					
+					if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
+						$this->updateRaceTotal($this->request->data['RaceRegistration']['parent_race_id']);
+					}
+					
 					if (($qualified) && ($hasEmergencyContact)) {
 						$this->Session->setFlash('Your registration has been approved.');
 						$this->send_registration_approved_email($emailvars);
@@ -461,5 +480,21 @@ class RaceRegistrationsController extends AppController {
 		);
 */
         $this->set(compact('race'));
+	}
+
+	private function updateRaceTotal($race_id) {
+		$race = $this->RaceRegistration->Race->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Race.id' => $race_id
+				),
+				'fields' => array('Race.id','Race.registered_swimmers'),
+				'recursive' => -1
+			)
+		);
+		
+		$race['Race']['registered_swimmers']++;
+		$this->RaceRegistration->Race->save($race);
 	}
 }
