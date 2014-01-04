@@ -7,6 +7,17 @@ $(document).ready(function () {
     $('#raceTabs').tabs();
     $('#profileTabs').tabs();
 //    adjustWidth();
+
+	$('body').on('click', '.liabilityLink', function(event) {
+		event.preventDefault();
+		$('.liabilityWaiver').show();
+	});
+
+	$('body').on('click', '.liabilityClose', function(event) {
+		event.preventDefault();
+		$('.liabilityWaiver').hide();
+	});
+
 });
 
 function adjustWidth() {

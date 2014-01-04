@@ -91,21 +91,41 @@ echo $this->Form->create('RaceRegistration');
 			echo $this->Form->input('gender_id');
 		}		
 
-		if (($userMembershipLevel) && (is_array($currentMemFee))) {
-			echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
-			echo $this->Form->hidden(
-				'payment',
-				array(
-					'value' => $currentMemFee['price']
-				)
-			);
-
+		if ($userMembershipLevel) {
+			if (is_array($currentMemFee)) {
+				echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
+				echo $this->Form->hidden(
+					'payment',
+					array(
+						'value' => $currentMemFee['price']
+					)
+				);
+	
+			} else {
+				echo '<p>Price: $' . $currentFee['price'] . '</p>';
+				echo $this->Form->hidden(
+					'payment',
+					array(
+						'value' => $currentFee['price']
+					)
+				);
+			}			
 		} else {
-			echo '<p>Price: $' . $currentFee['price'] . '</p>';
+			if (is_array($currentMemFee)) {
+				echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
+			}
+			echo '<p>Non-Member Price: $' . $currentFee['price'] . '</p>';
 			echo $this->Form->hidden(
 				'payment',
 				array(
 					'value' => $currentFee['price']
+				)
+			);
+			echo $this->Html->link(
+				'Become a member now and save!',
+				array(
+					'controller' => 'memberships',
+					'action' => 'join'
 				)
 			);
 		}
@@ -113,7 +133,10 @@ echo $this->Form->create('RaceRegistration');
 		echo $this->Form->input(
 			'waiver',
 			array(
-				'label' => 'I agree to the terms of the waiver'
+				'label' => 'I agree to the terms of the <a href="#" class="liabilityLink">liability release</a>',
+				array(
+					'escape' => FALSE
+				)
 			)
 		);
 //		echo $this->Form->input('shirt_size_id');
@@ -128,3 +151,16 @@ echo $this->Form->create('RaceRegistration');
 			)
 		);
 ?>
+
+<div class="liabilityWaiver">
+	<span class="liabilityClose"><i class="fa fa-times-circle"></i></span>
+	<h3>Liability Release</h3>
+	<p>As a condition of being accepted to <?php echo $race['Race']['title']; ?>, I agree to make timely payment of the registration fee. I will attend the mandatory briefing the morning before the start of each stage for which I am registered, and will abide by the event rules and regulations including water safety determinations.</p>
+	
+	<p>By acknowledging and assuming the risks involved in an endurance activity of this nature, and on behalf of myself and my heirs, I agree to</p>
+	<ol>
+	<li>hold harmless any individual, group, association, agency or government body involved with this activity’s organization, conduct, and/or support, and</li>
+	<li>waive all claims for damages or injury arising during the event against any individual, group, association, agency or government body involved with this activity’s organization, conduct, and/or support.</li>
+	</ol>
+	<p>I, the undersigned participant, intending to be legally bound, hereby certify that I have adequately trained for this activity, and that I am physically fit and have not been otherwise informed by a physician. I acknowledge that I am aware of the risks inherent in open water swimming (resulting from training and/or competition, and including, without limitation, permanent disability or death), and agree to assume all of those risks. I HEREBY WAIVE ANY AND ALL RIGHTS TO CLAIMS FOR LOSS OR DAMAGES CAUSED BY NEGLIGENCE, ACTIVE OR PASSIVE, OF THE FOLLOWING: HOST FACILITIES, CIBBOWS (CONEY ISLAND BRIGHTON BEACH OPEN WATER SWIMMERS), EVENT SPONSORS, EVENT COMMITTEES, VOLUNTEERS, AND ANY INDIVIDUALS OFFICIATING OR SUPERVISING THIS EVENT.</p> 
+</div>

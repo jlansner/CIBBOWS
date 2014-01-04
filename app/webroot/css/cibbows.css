@@ -576,3 +576,33 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
   width: 100%;
   height: 400px;
 }
+
+.liabilityWaiver {
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  margin-left: -421px;
+  width: 800px;
+  padding: 20px;
+  display: none;
+  background: #fff;
+  -webkit-box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
+  text-align: justify;
+}
+
+.liabilityClose {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+}

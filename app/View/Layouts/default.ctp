@@ -82,9 +82,9 @@
 		<p class="headerLinks"><?php
 		if (AuthComponent::user('id')) {
 			echo "Welcome " . $this->Html->link(AuthComponent::user('first_name'), array('controller' => 'users', 'action' => 'my_profile')) . ' <i class="fa fa-star"></i> ';
-/*			if ($userMembershipLevel == 0) {
+			if ($userMembershipLevel == 0) {
 				echo $this->html->Link('Join CIBBOWS', array('controller' => 'memberships', 'action' => 'join')) . ' <i class="fa fa-star"></i> ';
-			} */
+			}
 			echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout')); 
 		} else {
 			echo $this->Html->link('Login', array('controller' => 'users', 'action' => 'login')) . ' <i class="fa fa-star"></i> ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'register')); 

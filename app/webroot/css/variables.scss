@@ -14,3 +14,11 @@ $columnPadding: 1%;
 @mixin column-width($span) {
   width: percentage($span / 12) - ($columnPadding * 2);
 }
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+       -o-border-radius: $radius;
+          border-radius: $radius;
+}
