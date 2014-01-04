@@ -111,9 +111,6 @@ echo $this->Form->create('RaceRegistration');
 				);
 			}			
 		} else {
-			if (is_array($currentMemFee)) {
-				echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
-			}
 			echo '<p>Non-Member Price: $' . $currentFee['price'] . '</p>';
 			echo $this->Form->hidden(
 				'payment',
@@ -121,13 +118,20 @@ echo $this->Form->create('RaceRegistration');
 					'value' => $currentFee['price']
 				)
 			);
-			echo $this->Html->link(
-				'Become a member now and save!',
+			
+			if (is_array($currentMemFee)) {
+				$saveText = 'Become a member today and save $' . ($currentFee['price'] - $currentMemFee['price']) . ' on your registration!';
+			} else {
+				$saveText = 'Become a member today!';
+			}
+			
+			echo '<p>' . $this->Html->link(
+				$saveText,
 				array(
 					'controller' => 'memberships',
 					'action' => 'join'
 				)
-			);
+			) . '</p>';
 		}
 
 		echo $this->Form->input(
