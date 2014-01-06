@@ -18,6 +18,7 @@
 .content {
   float: left;
   width: 79%;
+  min-height: 400px;
 }
 
 .column {
@@ -605,4 +606,8 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
   font-size: 20px;
   color: #666;
   cursor: pointer;
+}
+
+.resultCode {
+  margin: 0 3px;
 }

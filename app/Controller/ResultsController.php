@@ -26,7 +26,7 @@ class ResultsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($race_id = null) {
+	public function view($race_id = null, $year = null) {
 /*		if (!$this->Result->exists($id)) {
 			throw new NotFoundException(__('Invalid result'));
 		} */
@@ -37,7 +37,13 @@ class ResultsController extends AppController {
 				'conditions' => array(
 					'Result.race_id' => $race_id
 				),
-				'order' => array('Result.time' => 'ASC')
+				'fields' => array(
+						
+				),
+				'order' => array(
+					'Result.place ASC',
+					'Result.last_name ASC'
+				)
 			)
 		);
 		
@@ -47,7 +53,7 @@ class ResultsController extends AppController {
 		}
 
 		$this->set('results', $results);
-		$this->set('results', $this->paginate());
+//		$this->set('results', $this->paginate());
 	}
 
 /**

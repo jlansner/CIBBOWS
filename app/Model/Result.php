@@ -156,13 +156,6 @@ class Result extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Distance' => array(
-			'className' => 'Distance',
-			'foreignKey' => 'distance_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 
