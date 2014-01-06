@@ -26,33 +26,125 @@ class ResultsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($race_id = null, $year = null) {
+	public function view($series_name = null, $year = null) {
 /*		if (!$this->Result->exists($id)) {
 			throw new NotFoundException(__('Invalid result'));
 		} */
-
-		$results = $this->Result->find(
+		
+		$series = $this->Result->Race->Series->find(
+			'first',
+			array(
+				'conditions' => array(
+					'url_title' => $series_name
+				),
+				'fields' => array(
+					'Series.id','Series.url_title'
+				),
+				'recursive' => -1
+			)
+		);
+		
+		$racesList = $this->Result->Race->find(
 			'all',
 			array(
 				'conditions' => array(
-					'Result.race_id' => $race_id
+					'series_id' => $series['Series']['id'],
+					'parent_id' => null
 				),
 				'fields' => array(
-						
+					'Race.id','Race.date','Race.url_title'
+				),
+				'order' => array(
+					'Race.date DESC'
+				),
+				'recursive' => -1
+			)
+		);
+		
+		if (!$year) {
+			$year = substr($racesList[0]['Race']['date'],0,4);
+		}
+
+		$races = $this->Result->Race->find(
+			'first',
+			array(
+				'conditions' => array(
+					'series_id' => $series['Series']['id'],
+					'date LIKE' => $year . '%',
+					'parent_id' => null,
+				),
+				'contain' => array(
+					'ChildRace' => array(
+						'fields' => array(
+							'ChildRace.id','ChildRace.title',
+						)
+					)
+				),
+				'fields' => array(
+					'Race.id','Race.title'
+				)
+			)
+		);
+
+		$results['Parent'] = $this->Result->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Result.race_id' => $races['Race']['id']
+				),
+				'fields' => array(
+					'Result.id','Result.first_name','Result.last_name','Result.user_id','Result.time','Result.age_group_id','Result.age','Result.gender_id','Result.place','Result.age_place'
 				),
 				'order' => array(
 					'Result.place ASC',
 					'Result.last_name ASC'
+				),
+				'contain' => array(
+					'Gender' => array(
+						'fields' => array('title')
+					),
+					'AgeGroup' => array(
+						'fields' => array('title')
+					),
+					'Code'
 				)
 			)
 		);
+
+		foreach ($races['ChildRace'] as $childRace) {
+			$results['Child'][] = $this->Result->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Result.race_id' => $childRace['id']
+					),
+					'fields' => array(
+						'Result.id','Result.first_name','Result.last_name','Result.user_id','Result.time','Result.age_group_id','Result.age','Result.gender_id','Result.place','Result.age_place'
+					),
+					'order' => array(
+						'Result.place ASC',
+						'Result.last_name ASC'
+					),
+					'contain' => array(
+						'Gender' => array(
+							'fields' => array('title')
+						),
+						'AgeGroup' => array(
+							'fields' => array('title')
+						),
+						'Code'
+					)
+				)
+			);
+			
+		}
 		
 		if (!$results) {
 			throw new NotFoundException(__('Invalid race'));
 			$this->redirect('/races/');
 		}
 
-		$this->set('results', $results);
+		$this->set(compact('results','racesList','races','year','series'));
 //		$this->set('results', $this->paginate());
 	}
 

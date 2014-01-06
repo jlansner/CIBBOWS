@@ -18,6 +18,9 @@ class Result extends AppModel {
  *
  * @var array
  */
+ 
+ 	public $actsAs = array('Containable');
+
 	public $validate = array(
 		'first_name' => array(
 			'notempty' => array(

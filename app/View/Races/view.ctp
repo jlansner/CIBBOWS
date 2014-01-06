@@ -48,6 +48,18 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 			)
 		); ?>
  	</li>
+ 	<li>
+ 		<?php echo $this->Html->link(
+			'Results',
+			array(
+				'controller' => 'results',
+				'action' => 'view',
+				$race['Series']['url_title']
+			)
+		); ?>
+ 		
+ 		
+ 	</li>
  	
  </ul>
 <p>

@@ -39,8 +39,8 @@ class SeriesController extends AppController {
 			)
 		);
 		
-		$this->loadModel('Race');
-		$race = $this->Race->find(
+//		$this->loadModel('Race');
+		$race = $this->Series->Race->find(
 			'first',
 			array(
 				'conditions' => array(
