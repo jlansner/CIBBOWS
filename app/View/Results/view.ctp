@@ -1,3 +1,11 @@
+<script>
+	$(document).ready(function() {
+		$('#year').change(function() {
+			window.location.replace('/results/view/<?php echo $series['Series']['url_title']; ?>/' + $('#year').val());
+		});
+	});
+	
+</script>
 	<h1><?php echo $races['Race']['title']; ?></h1>
 	
 	<h2>Results</h2>
@@ -24,8 +32,10 @@
 				$racesList[0]['Race']['url_title']
 			)
 		); ?>
- 	</li> 	<li>Results</li>	
+ 	</li>
+ 	 <li class="active">Results</li>	
  </ul>
+ <br class="clear" />
 <p>Select Year:
 
 <select name="year" id="year">
@@ -39,11 +49,13 @@
 </p>
 
 <?php
-if (is_array($races['ChildRace'])) {
+if (count($races['ChildRace'])) {
 	$i = 0;
 	foreach ($results['Child'] as $section): ?>
-	<h3><?php echo $races['ChildRace'][$i]['title'];
-		$i++; ?></h3>
+	<h3><?php echo $races['ChildRace'][$i]['title']; ?></h3>
+		<?php 
+		$i++;
+		if (count($section)) { ?>
 	<table class="zebraTable">
 	<tr>
 			<th>Place</th>
@@ -102,9 +114,15 @@ if (is_array($races['ChildRace'])) {
 	</tr>
 <?php endforeach; ?>
 	</table>
-<?php endforeach; ?>
+<?php 
+} else { ?>
+	<p>There are no results for this race.</p>
+<?php }
+endforeach; ?>
 
-<?php } else { ?>
+<?php } else { 
+	if (count($results['Parent'])) {
+	?>
 
 	<table class="zebraTable">
 	<tr>
@@ -165,4 +183,8 @@ if (is_array($races['ChildRace'])) {
 	</tr>
 <?php endforeach; ?>
 	</table>
-	<?php } ?>
+	<?php } else { ?>
+	<p>There are no results for this race.</p>
+<?php	} 
+	
+	} ?>

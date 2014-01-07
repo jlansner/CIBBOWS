@@ -35,9 +35,9 @@ class AppController extends Controller {
 	public $components = array(
 		'Acl',
         'Auth' => array(
-/*            'authorize' => array(
+            'authorize' => array(
                 'Actions' => array('actionPath' => 'controllers')
-            ), */
+            ),
 		   'authenticate' => array(
 				'Form' => array(
 					'fields' => array('username' => 'email')

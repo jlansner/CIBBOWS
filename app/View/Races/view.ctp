@@ -36,7 +36,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
  	}
  ?>
  <ul class="raceNav">
- 	<li>Overview</li>
+ 	<li class="active">Overview</li>
  	<li>
  		<?php echo $this->Html->link(
 			'Registered Swimmers',
@@ -57,11 +57,9 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 				$race['Series']['url_title']
 			)
 		); ?>
- 		
- 		
  	</li>
- 	
  </ul>
+ <br class="clear" />
 <p>
 <?php
 
@@ -90,7 +88,9 @@ if ($reg) {
 	
 	<table class="zebraTable">
 
-	<?php if (!(($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date']))) { ?>
+	<?php
+		if (substr($race['Race']['date'],0,4) < $this->Time->format('Y')) { 
+	 if (!(($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date']))) { ?>
 		<tr>
 			<td>Check-in Location:</td>
 			<td><?php echo $this -> Html -> link($race['CheckinLocation']['title'], array('controller' => 'locations', 'action' => 'view', $race['CheckinLocation']['url_title'])); ?></td>
@@ -116,7 +116,8 @@ if ($reg) {
 			<td><?php echo $this -> Time -> format('g:i a', $race['Race']['end_time']); ?></td>
 		</tr>
 
-	<?php } ?>
+	<?php } 
+	 } ?>
 
 	<tr>
 		<td>Start Location:</td>
@@ -135,6 +136,21 @@ if ($reg) {
 			<td><?php echo $this -> Html -> link($race['PostraceLocation']['title'], array('controller' => 'locations', 'action' => 'view', $race['PostraceLocation']['url_title'])); ?></td>
 		</tr>
 	<?php } ?>
+
+		<tr>
+			<td>Distance:</td>
+			<td><?php echo $race['Race']['distance_number'] + 0; ?>
+
+			<?php
+			if ($race['Race']['distance_number'] == 1) {
+				echo $race['Distance']['name'];
+			} else {
+				echo $race['Distance']['plural'];
+			}
+			?>
+			</td>
+		</tr>
+	<?php if (substr($race['Race']['date'],0,4) < $this->Time->format('Y')) { ?>
 
 	<tr>
 		<td>Minimum Age:</td>
@@ -184,24 +200,10 @@ if ($reg) {
 		</tr>
 
 		<tr>
-			<td>Distance:</td>
-			<td><?php echo $race['Race']['distance_number'] + 0; ?>
-
-			<?php
-			if ($race['Race']['distance_number'] == 1) {
-				echo $race['Distance']['name'];
-			} else {
-				echo $race['Distance']['plural'];
-			}
-			?>
-			</td>
-		</tr>
-
-		<tr>
 			<td>Experience Requirement:</td>
 			<td><?php echo $race['Experience']['name']; ?></td>
 		</tr>
-
+<?php } ?>
 	</table>
 
 	<?php if (!empty($race['ChildRace'])): ?>

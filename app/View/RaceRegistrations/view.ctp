@@ -13,8 +13,19 @@
 			)
 		); ?>
  	</li>
- 	<li>Registered Swimmers</li>	
+ 	<li class="active">Registered Swimmers</li>
+ 	 	<li>
+ 		<?php echo $this->Html->link(
+			'Results',
+			array(
+				'controller' => 'results',
+				'action' => 'view',
+				$race['Series']['url_title']
+			)
+		); ?>
+ 	</li>
  </ul>
+ <br class="clear" />
 
 <?php if (count($race['RaceRegistration']) > 0) { ?>
 	<table class="zebraTable">

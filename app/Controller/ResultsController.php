@@ -81,7 +81,7 @@ class ResultsController extends AppController {
 					)
 				),
 				'fields' => array(
-					'Race.id','Race.title'
+					'Race.id','Race.title','Race.url_title'
 				)
 			)
 		);

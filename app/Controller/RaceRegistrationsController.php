@@ -458,6 +458,7 @@ class RaceRegistrationsController extends AppController {
 						)
 		    	    ),
 		    	    'User',
+		    	    'Series'
 				)
 			)
 		);

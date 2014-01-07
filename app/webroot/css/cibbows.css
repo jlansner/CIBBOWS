@@ -97,6 +97,12 @@ img {
   max-width: 100%;
 }
 
+.clear {
+  width: 100%;
+  height: 0;
+  clear: both;
+}
+
 .right {
   text-align: right;
 }
@@ -392,12 +398,32 @@ h2 {
     font-family: "stud";
     font-size: 0.8em;
   }
-  .navMenu ul li:nth-child(odd) {
+  .navMenu > li:nth-child(1) {
+    font-size: 4.7em;
+  }
+  .navMenu > li:nth-child(2) {
+    font-size: 2.1em;
+  }
+  .navMenu > li:nth-child(3) {
+    font-size: .8em;
+  }
+  .navMenu > li:nth-child(4) {
+    font-size: 2.4em;
+  }
+  .navMenu > li:nth-child(5) {
+    font-size: 1.6em;
+  }
+  .navMenu > li:nth-child(6) {
+    font-size: 1.9em;
+  }
+  .navMenu ul li {
+    white-space: normal;
     font-family: "french-clarendon-ornamented", "cowboyslang";
     letter-spacing: 5px;
-  }
-  .navMenu ul li:nth-child(even) {
-    font-family: "fatboy";
+    font-size: 25px;
+    /*			&:nth-child(even) {
+    				font-family: "fatboy";
+    } */
   }
 }
 /** Notices and Errors **/
@@ -610,4 +636,26 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
 
 .resultCode {
   margin: 0 3px;
+}
+
+.raceNav {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  width: 100%;
+}
+.raceNav li {
+  float: left;
+  padding: 5px 20px;
+  border: 1px solid #ccc;
+  margin: 0 10px;
+  background-color: #5a7f92;
+  color: #fff;
+}
+.raceNav li a {
+  color: #fff;
+}
+.raceNav li.active {
+  background-color: #fff;
+  color: #5a7f92;
 }

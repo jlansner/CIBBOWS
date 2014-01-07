@@ -52,7 +52,7 @@
 	       // Javascript to execute when fonts start loading
 	     },
 	     active: function() {
-	       adjustWidth(); // Javascript to execute when fonts become active
+	     //  adjustWidth(); // Javascript to execute when fonts become active
 	     },
 	     inactive: function() {
 	       // Javascript to execute when fonts become inactive
