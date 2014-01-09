@@ -151,6 +151,16 @@ class RaceRegistrationsController extends AppController {
 		}
 
 		if ($this->request->is('post')) {
+
+			if (!isset($this->request->data['RaceRegistration']['age'])) {
+				$dob = $this->request->data['RaceRegistration']['dob']['year'] . '-' . $this->request->data['RaceRegistration']['dob']['month'] . '-' . $this->request->data['RaceRegistration']['dob']['day'];
+				$birthDate = new DateTime($dob);
+				$raceDate = new DateTime($race['Race']['date']);
+				$interval = $birthDate->diff($raceDate);
+				$this->request->data['RaceRegistration']['age'] = $interval->y;	
+			}
+
+
 			$this->RaceRegistration->set($this->request->data);
 			if ($this->RaceRegistration->validates(array('fieldList' => array('waiver')))) {
 

@@ -63,12 +63,14 @@ class UsersController extends AppController {
 			}
 			
 			if ($this->User->save($this->request->data)) {
+				$user['group_id'] = 1;
 				$user['email'] = $this->request->data['User']['email'];
 				$user['activation_code'] = $this->request->data['User']['activation_code'];
 				$user['id'] = $this->User->id;
 				$this->send_confirmation($user);
-				$this->Session->setFlash(__('The user has been saved'));
-//				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('Thank you for registering'));
+				$this->Auth->login($user);
+				$this->redirect(array('action' => 'my_profile'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
@@ -282,8 +284,7 @@ class UsersController extends AppController {
 					),
 					'Result' => array(
 						'Race',
-						'AgeGroup',
-						'Distance'
+						'AgeGroup'
 					),
 					'RaceRegistration' => array(
 						'Race' => array(
