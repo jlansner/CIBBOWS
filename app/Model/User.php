@@ -98,6 +98,12 @@ class User extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'medical'  => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				'message' => "Please list any medical conditions. If you do not have any, please write 'None'."
+			)
+		),
 		'password' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),

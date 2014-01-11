@@ -33,6 +33,17 @@
 		</p>
 		
 		<p>
+			Wetsuit:
+			<?php if ($this->request->data['RaceRegistration']['wetsuit']) {
+				echo 'Yes';
+			} else {
+				echo 'No';
+			}
+			echo $this->Form->hidden('wetsuit');
+			?>
+		</p>
+		
+		<p>
 			Fee:
 			<?php echo $this->request->data['RaceRegistration']['payment']; ?>
 		</p>

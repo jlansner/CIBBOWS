@@ -287,6 +287,10 @@ class UsersController extends AppController {
 						'AgeGroup'
 					),
 					'RaceRegistration' => array(
+						'conditions' => array(
+							'RaceRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'RaceRegistration.date ASC',
 						'Race' => array(
 							'fields' => array(
 								'Race.title',
@@ -308,9 +312,27 @@ class UsersController extends AppController {
 					'EmergencyContact',
 //					'EventRegistration',
 					'ClinicRegistration' => array(
+						'conditions' => array(
+							'ClinicRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'ClinicRegistration.date ASC',
 						'Clinic'
 					),
-					'TestSwimRegistration',
+					'TestSwimRegistration' => array(
+						'conditions' => array(
+							'TestSwimRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'TestSwimRegistration.date ASC',
+						'TestSwim'
+					
+					),
+					'VolunteerRegistration' => array(
+						'conditions' => array(
+							'VolunteerRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'VolunteerRegistration.date ASC',
+						'Race'
+					)
 				)
 			)
 		);

@@ -18,6 +18,12 @@
 		);
 		echo $this->Form->input('job_title');
 		echo $this->Form->input('shirt_size_id');
+		echo $this->Form->input(
+			'medical',
+			array(
+				'label' => 'Indicate important medical information and/or conditions (if none, please indicate none)'
+			)
+		);
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

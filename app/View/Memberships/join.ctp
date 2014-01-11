@@ -24,7 +24,7 @@ if (count($membershipFee)) {
 	</fieldset>
   <script
     src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-    data-key="<?php echo $stripeKey; ?>"
+    data-key="<?php echo Configure::read('Stripe.DataKey'); ?>"
     data-name="CIBBOWS"
     data-description="Membership"
     data-label="Join"

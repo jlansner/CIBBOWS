@@ -10,9 +10,10 @@ body {
   padding: 0;
 }
 
-a {
+a, .linkSpan {
 	color: $darkBlue;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 img {

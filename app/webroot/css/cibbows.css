@@ -88,9 +88,10 @@ body {
   padding: 0;
 }
 
-a {
+a, .linkSpan {
   color: #1c2172;
   text-decoration: none;
+  cursor: pointer;
 }
 
 img {

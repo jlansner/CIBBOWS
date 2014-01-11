@@ -23,6 +23,10 @@
 		T-Shirt Size: <?php echo h($user['ShirtSize']['title']); ?>
 	</p>
 	
+	<p><em>Medical Conditions</em><br />
+		<?php echo $user['User']['medical']; ?>
+	</p>
+	
 	<?php if (!empty($user['Membership'])) {
 		$i = 0;
 		foreach ($user['Membership'] as $membership) {

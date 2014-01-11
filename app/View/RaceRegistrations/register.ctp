@@ -133,11 +133,18 @@ echo $this->Form->create('RaceRegistration');
 				)
 			) . '</p>';
 		}
+		
+		echo $this->Form->input(
+			'wetsuit',
+			array(
+				'label' => 'I will be swimming in a wetsuit'
+			)
+		);
 
 		echo $this->Form->input(
 			'waiver',
 			array(
-				'label' => 'I agree to the terms of the <a href="#" class="liabilityLink">liability release</a>',
+				'label' => 'I agree to the terms of the <span class="linkSpan liabilityLink">liability release</span>',
 				array(
 					'escape' => FALSE
 				)
