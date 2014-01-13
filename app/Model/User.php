@@ -238,6 +238,10 @@ class User extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		'Donation' => array(
+			'className' => 'Donation',
+			'foreignKey' => 'user_id'
+		),
 		'EmergencyContact' => array(
 			'className' => 'EmergencyContact',
 			'foreignKey' => 'user_id',

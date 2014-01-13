@@ -3,7 +3,7 @@
 	array(
 		'action' => 'checkout'
 	)
-	); ?>
+); ?>
 	<fieldset>
 		<legend>Checkout</legend>
 		

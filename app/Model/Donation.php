@@ -7,9 +7,35 @@ App::uses('AppModel', 'Model');
  */
 class Donation extends AppModel {
 
+    public $actsAs = array('Containable');
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+	public $validate = array(
+		'first_name' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+			)
+		),
+		'last_name' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+			)
+		),
+		'email' => array(
+			'email' => array(
+				'rule' => 'email',
+				'message' => 'Please enter a valid email address'
+			),
+		),
+		'amount' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+			),
+			'notempty' => array(
+				'rule' => array('notempty'),
+			)
+		)		
+	);
 /**
  * belongsTo associations
  *

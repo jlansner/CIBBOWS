@@ -89,7 +89,7 @@
 		} else {
 			echo $this->Html->link('Login', array('controller' => 'users', 'action' => 'login')) . ' <i class="fa fa-star"></i> ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'register')); 
 		}
-		echo ' <i class="fa fa-star"></i> ' . $this->Html->link('Donate', '#');
+		echo ' <i class="fa fa-star"></i> ' . $this->Html->link('Donate', array('controller' => 'donations', 'action' => 'donate'));
 ?></p>
 	<a class="phoneMenuLink" href="#"><i class="fa fa-bars"></i></a>
 		<a href="/" class="headerHome"></a>

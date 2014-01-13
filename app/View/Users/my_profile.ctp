@@ -6,6 +6,7 @@
 		<li><a href="#qualifying">Qualifying Swims</a></li>
 		<li><a href="#results">Results</a></li>
 		<li><a href="#registrations">Registrations</a></li>
+		<li><a href="#donations">Donations</a></li>
 	</ul>
 	
 	<div id="general">
@@ -438,5 +439,31 @@
 <?php } else { ?>
 	<p>You are not registered for any volunteer assignments.</p>
 <?php } ?>
+</div>
+
+<div id="donations">
+	<h3>Donations</h3>
+
+	<?php if (!empty($user['Donation'])) { ?>
+	
+		<table class="zebraTable">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($user['Donation'] as $donation) { ?>
+					<tr>
+						<td><?php echo $this->Time->format('n/d/y',$donation['date']); ?></td>
+						<td>$<?php echo $donation['amount']; ?></td>
+					</tr>
+				<?php } ?>
+				
+			</tbody>
+		</table>	
+	<?php } ?>
+
 </div>
 </div>

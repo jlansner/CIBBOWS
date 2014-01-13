@@ -306,6 +306,9 @@ class UsersController extends AppController {
 						'AgeGroup',
 					),
 					'Address',
+					'Donation' => array(
+						'order' => 'Donation.date ASC'
+					),
 					'Gender',
 					'ShirtSize',
 					'Membership',
