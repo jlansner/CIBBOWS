@@ -1,7 +1,15 @@
-<div class="users form">
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>
 		<legend>Register</legend>
+		<p>Already have an account?
+		<?php echo $this->Html->link(
+			'Login now.',
+			array(
+				'controller' => 'users',
+				'action' => 'login'
+			)
+		); ?>	
+		</p>
 	<?php
 		echo $this->Form->input('email');
 		echo $this->Form->input('first_name');
@@ -27,4 +35,3 @@
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
-</div>

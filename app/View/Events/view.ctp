@@ -9,9 +9,21 @@
 		<p>End: <?php echo $this->Time->format('g:i a',$event['Event']['end_time']); ?></p>
 
 	<?php } ?>
-	<p>Location: <?php echo h($event['Event']['location']); ?>
+	<p>Location: <?php
+	if ($event['Event']['location_id']) {
+		echo $this->Html->link(
+			$event['Location']['title'],
+			array(
+				'controller' => 'locations',
+				'action' => 'view',
+				$event['Location']['url_title']
+			)
+		);
+	} else {
+	 echo $event['Event']['place'];
+	} ?></p>
 
-	<p><?php echo h($event['Event']['body']); ?></p>
+	<p><?php echo $event['Event']['body']; ?></p>
 
 <?php } else { ?>
 

@@ -9,6 +9,17 @@ echo $this->Form->inputs(array(
 ?>
 <label></label>
 <?php
-echo $this->Html->link('Forgot your password?', array('controller' => 'users', 'action' => 'forgot_password'));
-echo $this->Form->end('Login');
-?>
+echo $this->Html->link('Forgot your password?', array('controller' => 'users', 'action' => 'forgot_password')); ?>
+
+<p>
+	
+<?php echo $this->Html->link(
+	'Create an account',
+	array(
+		'controller' => 'users',
+		'action' => 'register'
+	)
+); ?>
+</p>
+
+<?php echo $this->Form->end('Login'); ?>

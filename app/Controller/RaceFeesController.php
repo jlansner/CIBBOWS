@@ -121,7 +121,14 @@ class RaceFeesController extends AppController {
 				)
 			);
 		} else {
-			$races = $this->RaceFee->Race->find('list');
+			$races = $this->RaceFee->Race->find(
+				'list',
+				array(
+					'conditions' => array(
+						'Race.date >=' => date('Y-m-d')
+					)
+				)
+			);
 			$this->set('races',$races);
 			$race = null;
 		}

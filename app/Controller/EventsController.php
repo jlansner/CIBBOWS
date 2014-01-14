@@ -57,7 +57,8 @@ class EventsController extends AppController {
 			}
 		}
 		$membershipLevels = $this->Event->MembershipLevel->find('list');
-		$this->set(compact('membershipLevels'));
+		$locations = $this->Event->Location->find('list');
+		$this->set(compact('membershipLevels','locations'));
 	}
 
 	public function edit($id = null) {
@@ -76,7 +77,8 @@ class EventsController extends AppController {
 			$this->request->data = $this->Event->find('first', $options);
 		}
 		$membershipLevels = $this->Event->MembershipLevel->find('list');
-		$this->set(compact('membershipLevels'));
+		$locations = $this->Event->Location->find('list');
+		$this->set(compact('membershipLevels','locations'));
 	}
 
 /**

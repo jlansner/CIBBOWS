@@ -44,8 +44,8 @@ class Event extends AppModel {
 			),
 		),
 		'date' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+			'date' => array(
+				'rule' => array('date'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -107,6 +107,13 @@ class Event extends AppModel {
 		'MembershipLevel' => array(
 			'className' => 'MembershipLevel',
 			'foreignKey' => 'membership_level_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Location' => array(
+			'className' => 'Location',
+			'foreignKey' => 'location_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

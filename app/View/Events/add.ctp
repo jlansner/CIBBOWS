@@ -5,6 +5,14 @@
 	<?php
 		echo $this->Form->input('title');
 		echo $this->Form->input('date');
+		echo $this->Form->input('start_time');
+		echo $this->Form->input('end_time');
+		echo $this->Form->input(
+			'membership_level_id',
+			array(
+				'empty' => 'Public'
+			)
+		);
 		echo $this->Form->input(
 			'teaser',
 			array(
@@ -19,13 +27,13 @@
 				'class' => 'ckeditor'
 			)
 		);
-		echo $this->Form->input('location');
 		echo $this->Form->input(
-			'membership_level_id',
+			'location_id',
 			array(
-				'empty' => 'Non-Member'
+				'empty' => 'Other Location'
 			)
 		);
+		echo $this->Form->input('place');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
