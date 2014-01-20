@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <h1>Races</h1>
 
 <?php foreach ($races as $race): ?>
@@ -12,3 +14,5 @@
 	</p>
 	<hr>
 <?php endforeach; ?>
+</div>
+</div>

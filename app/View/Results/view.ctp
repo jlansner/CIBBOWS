@@ -6,6 +6,10 @@
 	});
 	
 </script>
+
+<div class="row>">
+	<div class="column column12">
+
 	<h1><?php echo $races['Race']['title']; ?></h1>
 	
 	<h2>Results</h2>
@@ -40,11 +44,9 @@
 
 <select name="year" id="year">
 <?php foreach ($racesList as $raceYear) {
-	if (strtotime($raceYear['Race']['date']) < time()) {
-		$lineYear = substr($raceYear['Race']['date'],0,4); ?>
-		<option value="<?php echo $lineYear; ?>"<?php if ($lineYear == $year) { echo ' selected';} ?>><?php echo $lineYear; ?></option>	
-<?php } 
-	} ?>	
+	$lineYear = substr($raceYear['Race']['date'],0,4); ?>
+	<option value="<?php echo $lineYear; ?>"<?php if ($lineYear == $year) { echo ' selected';} ?>><?php echo $lineYear; ?></option>	
+<?php } ?>	
 </select>
 </p>
 
@@ -188,3 +190,5 @@ endforeach; ?>
 <?php	} 
 	
 	} ?>
+	</div>
+	</div>

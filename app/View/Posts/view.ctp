@@ -1,3 +1,7 @@
+<div class="row">
+	<div class="column column12">
+		
+
 <h1><?php echo h($post['Post']['title']); ?></h1>
 
 <p>Posted <?php echo $this->Time->nice($post['Post']['posted']); ?>
@@ -11,3 +15,5 @@ if ($post['Post']['anonymous'] == 0) {
 </p>
 
 <p><?php echo $post['Post']['body']; ?></p>
+	</div>
+</div>

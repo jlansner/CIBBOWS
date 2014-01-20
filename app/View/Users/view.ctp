@@ -1,3 +1,6 @@
+<div class="row">
+	<div class="column column12">
+
 <h1>		<?php echo h($user['User']['first_name']); ?>
 		<?php echo h($user['User']['middle_name']); ?>
 		<?php echo h($user['User']['last_name']); ?></h1>
@@ -114,3 +117,5 @@
 <?php endif; ?>
 </div>
 <?php } ?>
+</div>
+</div>

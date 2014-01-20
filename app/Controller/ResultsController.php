@@ -49,7 +49,8 @@ class ResultsController extends AppController {
 			array(
 				'conditions' => array(
 					'series_id' => $series['Series']['id'],
-					'parent_id' => null
+					'parent_id' => null,
+					'date <=' => date('Y-m-d')
 				),
 				'fields' => array(
 					'Race.id','Race.date','Race.url_title'

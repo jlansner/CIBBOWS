@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <?php
 echo $this->Form->create(
 	'Donation',
@@ -31,3 +33,5 @@ echo $this->Form->create(
     data-image="/128x128.png">
   </script>
 <?php // echo $this->Form->end(__('Submit')); ?>
+</div>
+</div>

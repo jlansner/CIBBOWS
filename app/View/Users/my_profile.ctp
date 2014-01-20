@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <h1>My Profile</h1>
 
 <div id="profileTabs">
@@ -465,5 +467,7 @@
 		</table>	
 	<?php } ?>
 
+</div>
+</div>
 </div>
 </div>

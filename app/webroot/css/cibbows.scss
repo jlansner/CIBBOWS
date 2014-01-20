@@ -92,11 +92,12 @@ h2 {
 
 .homepage {
   h2 {
-	text-transform: uppercase;
+    text-transform: uppercase;
     text-align: center;
     font-family: "fatboy";
-    font-size: 1.25em;
+    font-size: 1.5em;
     color: $greyBlue;
+    margin: 0 0 1em 0;
 
     &::before, &::after {
       content: '\f005';
@@ -106,26 +107,30 @@ h2 {
       padding: 0 .35em;
     }
 
-	a {
-		color: $greyBlue;
-	}
+  	a {
+  		color: $greyBlue;
+  	}	
+  }
+
+  .column:first-child {
+    border-right: 5px solid $greyBlue;
   }
   
   ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
+    font-size: 1.25em;
   }
 
   li {
     margin: 0 0 1em 0;
     padding: 0;
-    font-size: 1.25em;
-	line-height: 1em;
+    line-height: 1em;
 
-	a {
-		font-family: $pragmatica;
-	}
+  	a {
+  		font-family: $pragmatica;
+  	}
   }
   
   a {
@@ -610,27 +615,31 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
 }
 
 .raceNav {
-padding: 0;
-margin: 0;
-list-style-type: none;
-width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  width: 100%;
 
-li {
-  float: left;
-  padding: 5px 20px;
-  border: 1px solid #ccc;
-  margin: 0 10px;
-  background-color: $greyBlue;
-  color: #fff;
-  
-  a {
+  li {
+    display: inline-block;
+    padding: 5px 20px;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+    background-color: $greyBlue;
     color: #fff;
+    
+    a {
+      color: #fff;
+    }
+    
+    &.active {
+      background-color: #fff;
+      color: $greyBlue;
+    }
   }
-  
-  &.active {
-    background-color: #fff;
-    color: $greyBlue;
-  }
+
 }
 
+.homepageSlideshow {
+  margin-bottom: 1em;
 }

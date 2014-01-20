@@ -12,67 +12,68 @@
   float: left;
   width: 20%;
   padding: 0;
-  margin: 0 1% 0 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .content {
   float: left;
-  width: 79%;
+  width: 80%;
   min-height: 400px;
 }
 
 .column {
   float: left;
-  margin: 0 1%;
+  padding: 0 1em;
   box-sizing: border-box;
 }
 
 .column1 {
-  width: 6.33333%;
+  width: 8.33333%;
 }
 
 .column2 {
-  width: 14.66667%;
+  width: 16.66667%;
 }
 
 .column3 {
-  width: 23%;
+  width: 25%;
 }
 
 .column4 {
-  width: 31.33333%;
+  width: 33.33333%;
 }
 
 .column5 {
-  width: 39.66667%;
+  width: 41.66667%;
 }
 
 .column6 {
-  width: 48%;
+  width: 50%;
 }
 
 .column7 {
-  width: 56.33333%;
+  width: 58.33333%;
 }
 
 .column8 {
-  width: 64.66667%;
+  width: 66.66667%;
 }
 
 .column9 {
-  width: 73%;
+  width: 75%;
 }
 
 .column10 {
-  width: 81.33333%;
+  width: 83.33333%;
 }
 
 .column11 {
-  width: 89.66667%;
+  width: 91.66667%;
 }
 
 .column12 {
-  width: 98%;
+  width: 100%;
 }
 
 .container {
@@ -166,8 +167,9 @@ h2 {
   text-transform: uppercase;
   text-align: center;
   font-family: "fatboy";
-  font-size: 1.25em;
+  font-size: 1.5em;
   color: #5a7f92;
+  margin: 0 0 1em 0;
 }
 .homepage h2::before, .homepage h2::after {
   content: '\f005';
@@ -179,15 +181,18 @@ h2 {
 .homepage h2 a {
   color: #5a7f92;
 }
+.homepage .column:first-child {
+  border-right: 5px solid #5a7f92;
+}
 .homepage ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
+  font-size: 1.25em;
 }
 .homepage li {
   margin: 0 0 1em 0;
   padding: 0;
-  font-size: 1.25em;
   line-height: 1em;
 }
 .homepage li a {
@@ -646,7 +651,7 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
   width: 100%;
 }
 .raceNav li {
-  float: left;
+  display: inline-block;
   padding: 5px 20px;
   border: 1px solid #ccc;
   margin: 0 10px;
@@ -659,4 +664,8 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
 .raceNav li.active {
   background-color: #fff;
   color: #5a7f92;
+}
+
+.homepageSlideshow {
+  margin-bottom: 1em;
 }

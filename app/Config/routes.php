@@ -29,7 +29,7 @@
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
+	
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
@@ -41,3 +41,14 @@
  * the built-in default routes.
  */
 	require CAKE . 'Config' . DS . 'routes.php';
+
+	Router::connect(
+		'/races/:year/:url_title',
+		array(
+			'action' => 'view'
+		),
+		array(
+			'year' => '[0-9]{4}',
+			'url_title' => '[a-z]*'
+		)
+	);

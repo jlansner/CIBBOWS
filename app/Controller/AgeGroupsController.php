@@ -25,6 +25,10 @@ class AgeGroupsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		if (!$id) {
+			$id = $this->request->params['id'];
+		}
+
 		if (!$this->AgeGroup->exists($id)) {
 			throw new NotFoundException(__('Invalid age group'));
 		}

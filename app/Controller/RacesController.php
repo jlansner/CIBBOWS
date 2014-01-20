@@ -8,6 +8,36 @@ App::uses('AppController', 'Controller');
 class RacesController extends AppController {
 
 	public function index() {
+		$series = $this->Race->Series->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Series.active'
+				),
+				'order' => array('Series.menu_rank'),
+				'recursive' => -1
+			)
+		);
+		
+		foreach ($series as $s) {
+			$race = $this->Race->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Race.series_id' => $s['Series']['id'],
+						'Race.parent_id' => null
+					),
+					'order' => array('Race.date DESC'),
+					'fields' => array('Race.date', 'Race.end_date', 'Race.url_title', 'Race.title')
+				)
+			);	
+			
+			if ($race) {
+				$races[] = $race;
+			}		
+		}
+
+/*
 		$race = $this->Race->find(
 			'all',
 			array(
@@ -18,12 +48,20 @@ class RacesController extends AppController {
 				'recursive' => 0
 			)
 		);
-
-		$this->set('races', $this->paginate());
-		$this->set('races', $race);
+*/
+//		$this->set('races', $this->paginate());
+		$this->set(compact('races', 'series'));
 	}
 
 	public function view($year = null, $url_title = null) {
+		if (!$year) {
+			$year = $this->request->params['year'];
+		}
+
+		if (!$url_title) {
+			$year = $this->request->params['url_title'];
+		}	
+			
         if (!$url_title) {
             throw new NotFoundException(__('Invalid race'));
         }

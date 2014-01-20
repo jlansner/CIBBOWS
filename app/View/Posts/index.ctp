@@ -1,4 +1,6 @@
-<h1>Blog posts</h1>
+<div class="row">
+	<div class="column column12">
+<h1>NEWS</h1>
 
     <?php foreach ($posts as $post): ?>
     <h2><?php echo $this->Html->link($post['Post']['title'],
@@ -23,3 +25,5 @@ array('controller' => 'posts', 'action' => 'view', substr($post['Post']['posted'
 	);
  }
  ?>
+	</div>
+</div>

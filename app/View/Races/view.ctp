@@ -1,6 +1,9 @@
+<div class="row>">
+	<div class="column column12">
+
 <h1><?php echo h($race['Race']['title']); ?></h1>
 <h2>Overview</h2>
-<?php echo h($race['Race']['logo']); ?>
+<?php // echo h($race['Race']['logo']); ?>
 
 <p>
 	<?php
@@ -392,3 +395,5 @@ if ($reg) {
 		<?php echo $this -> element('roadblock'); ?>
 	
 <?php } ?>
+</div>
+</div>

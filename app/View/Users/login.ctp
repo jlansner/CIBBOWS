@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <?php
 
 echo $this->Form->create('User', array('action' => 'login'));
@@ -23,3 +25,4 @@ echo $this->Html->link('Forgot your password?', array('controller' => 'users', '
 </p>
 
 <?php echo $this->Form->end('Login'); ?>
+</div></div>

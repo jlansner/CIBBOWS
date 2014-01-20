@@ -9,10 +9,10 @@ $orange: #ee971a;
 $pragmatica: "pragmatica-web-condensed";
 
 // columns
-$columnPadding: 1%;
+$columnPadding: 5%;
 
 @mixin column-width($span) {
-  width: percentage($span / 12) - ($columnPadding * 2);
+  width: percentage($span / 12); // - ($columnPadding * 2);
 }
 
 @mixin border-radius($radius) {
