@@ -25,4 +25,5 @@ echo $this->Html->link('Forgot your password?', array('controller' => 'users', '
 </p>
 
 <?php echo $this->Form->end('Login'); ?>
-</div></div>
+</div>
+</div>
