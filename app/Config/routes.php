@@ -29,6 +29,30 @@
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+
+	Router::redirect(
+		'/membership.html',
+		array(
+			'controller' => 'contents',
+			'action' => 'view',
+			'membership'
+		),
+		array(
+			'status' => 302
+		)
+	);	
+
+	Router::connect(
+		'/:controller/:year/:url_title',
+		array(
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('year','url_title'),
+			'year' => '[0-9]{4}',
+			'url_title' => '[a-z_\-]*'
+		)
+	);
 	
 /**
  * Load all plugin routes. See the CakePlugin documentation on
@@ -42,13 +66,3 @@
  */
 	require CAKE . 'Config' . DS . 'routes.php';
 
-	Router::connect(
-		'/races/:year/:url_title',
-		array(
-			'action' => 'view'
-		),
-		array(
-			'year' => '[0-9]{4}',
-			'url_title' => '[a-z]*'
-		)
-	);

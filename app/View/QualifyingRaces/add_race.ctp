@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <?php echo $this->Form->create('QualifyingRace'); ?>
 	<fieldset>
 		<legend><?php echo __('Add Qualifying Race'); ?></legend>
@@ -56,3 +58,5 @@
 	</div>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
+</div>
+</div>

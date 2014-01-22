@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <?php echo $this->Form->create(
 	'RaceRegistration',
 	array(
@@ -118,3 +120,5 @@
  */
  
 ?>
+</div>
+</div>

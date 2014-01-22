@@ -53,15 +53,7 @@ class RacesController extends AppController {
 		$this->set(compact('races', 'series'));
 	}
 
-	public function view($year = null, $url_title = null) {
-		if (!$year) {
-			$year = $this->request->params['year'];
-		}
-
-		if (!$url_title) {
-			$year = $this->request->params['url_title'];
-		}	
-			
+	public function view($year = null, $url_title = null) {			
         if (!$url_title) {
             throw new NotFoundException(__('Invalid race'));
         }

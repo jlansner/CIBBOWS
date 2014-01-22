@@ -46,8 +46,8 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 			array(
 				'controller' => 'race_registrations',
 				'action' => 'view',
-				substr($race['Race']['date'],0,4),
-				$race['Race']['url_title']
+				'year' => substr($race['Race']['date'],0,4),
+				'url_title' => $race['Race']['url_title']
 			)
 		); ?>
  	</li>

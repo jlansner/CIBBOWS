@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <h1>Qualifying Races</h2>
 
 	<table class="zebraTable">
@@ -58,4 +60,5 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
+</div>
 </div>
