@@ -44,10 +44,14 @@ class ContentsController extends AppController {
 	    	    )
 			)
 		);
-		
+
+		if (!$content) {
+			$this->redirect('/');
+		}		
 		if (!(($content['Content']['controller'] == "contents") || ($content['Content']['controller'] == null))) {
 			$this->redirect('/' . $content['Content']['controller'] . '/');
 		}
+		
 
 //		$options = array('conditions' => array('Content.' . $this->Content->url_title => $u));
 //		$this->set('content', $this->Content->find('first', $options));

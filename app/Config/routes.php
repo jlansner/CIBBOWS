@@ -40,8 +40,31 @@
 		array(
 			'status' => 302
 		)
-	);	
+	);
+	
+	$indexControllers = array('posts','races','users','events','test_swims','clinics');
 
+	foreach ($indexControllers as $controller) {
+		Router::connect(
+			'/' . $controller,
+			array(
+				'controller' => $controller,
+				'action' => 'index'
+			)
+		);
+	}
+	Router::connect(
+		'/:url_title',
+		array(
+			'controller' => 'contents',
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('url_title'),
+			'url_title' => '[a-z0-9_\-]*'
+		)
+	);
+	
 	Router::connect(
 		'/:controller/:year/:url_title',
 		array(
