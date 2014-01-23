@@ -53,6 +53,19 @@
 			)
 		);
 	}
+	
+	$userActions = array('login', 'logout', 'register', 'forgot_password', 'my_profile', 'edit_profile', 'reset_password');
+	
+	foreach ($userActions as $action) {
+		Router::connect(
+			'/' . $action,
+			array(
+				'controller' => 'users',
+				'action' => $action
+			)
+		);
+	}
+		
 	Router::connect(
 		'/:url_title',
 		array(
@@ -77,6 +90,20 @@
 		)
 	);
 	
+	Router::connect(
+		'/:controller/:year/:month/:day/:url_title',
+		array(
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('year','month','day','url_title'),
+			'year' => '[0-9]{4}',
+			'month' => '[0-9]{2}',
+			'day' => '[0-9]{2}',
+			'url_title' => '[a-z_\-]*'			
+		)
+	);
+	
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
@@ -88,4 +115,4 @@
  * the built-in default routes.
  */
 	require CAKE . 'Config' . DS . 'routes.php';
-
+	

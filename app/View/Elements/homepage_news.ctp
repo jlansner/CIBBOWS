@@ -5,8 +5,18 @@
 $posts = $this->requestAction('posts/homepage_news/');
 
 foreach ($posts as $post): ?>
-    <li><?php echo $this->Html->link($post['Post']['title'],
-array('controller' => 'posts', 'action' => 'view', substr($post['Post']['posted'],0,4), substr($post['Post']['posted'],5,2), substr($post['Post']['posted'],8,2), $post['Post']['url_title'])); ?><br />
+    <li><?php
+echo $this->Html->link(
+	$post['Post']['title'],
+	array(
+		'controller' => 'posts',
+		'action' => 'view',
+		'year' => substr($post['Post']['posted'],0,4),
+		'month' => substr($post['Post']['posted'],5,2),
+		'day' => substr($post['Post']['posted'],8,2),
+		'url_title' => $post['Post']['url_title']
+	)
+); ?><br />
 
 	<span class="dateLine">Posted <?php echo $this->Time->timeAgoInWords(
 		$post['Post']['posted'],

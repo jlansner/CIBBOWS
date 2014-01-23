@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <h2><?php echo h($event['Event']['title']); ?></h2>
 <p>Date: <?php echo $this->Time->format('F j, Y',$event['Event']['date']); ?></p>
 
@@ -31,5 +33,5 @@
 
 	<?php echo $this->element('roadblock'); ?>
 <?php } ?>
+	</div>
 </div>
-
