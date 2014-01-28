@@ -28,6 +28,25 @@ class ContentsController extends AppController {
 
 	}
 
+	public function admin_index() {
+
+		$contents = $this->Content->find(
+			'all',
+			array(
+	        	'conditions' => array(
+	        		'OR' => array(
+	        			array('Content.archived' => 0),
+	        			array('Content.archived' => null)
+					),
+	    	    )
+			)
+		);
+
+		$this->set('contents', $this->paginate());
+		$this->set('contents', $contents);
+
+	}
+
 	public function view($url_title = null) {
 		if (!$this->Content->exists($url_title)) {
 		//	throw new NotFoundException(__('Invalid content'));
@@ -72,7 +91,12 @@ class ContentsController extends AppController {
 			if ($this->Content->save($this->request->data)) {
 				$this->Content->saveField('permanent',$this->Content->id);
 				$this->Session->setFlash(__('The content has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(	
+						'admin' => true,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The content could not be saved. Please, try again.'));
 			}

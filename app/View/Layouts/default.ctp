@@ -81,15 +81,60 @@
 	<div class="header">
 		<p class="headerLinks"><?php
 		if (AuthComponent::user('id')) {
-			echo "Welcome " . $this->Html->link(AuthComponent::user('first_name'), array('controller' => 'users', 'action' => 'my_profile')) . ' <i class="fa fa-star"></i> ';
+			echo "Welcome " . $this->Html->link(
+				AuthComponent::user('first_name'),
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'my_profile'
+				)
+			) . ' <i class="fa fa-star"></i> ';
+
 			if ($userMembershipLevel == 0) {
-				echo $this->html->Link('Join CIBBOWS', array('controller' => 'memberships', 'action' => 'join')) . ' <i class="fa fa-star"></i> ';
+				echo $this->html->Link(
+					'Join CIBBOWS',
+					array(
+						'admin' => false,
+						'controller' => 'memberships',
+						'action' => 'join'
+					)
+				) . ' <i class="fa fa-star"></i> ';
 			}
-			echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout')); 
+
+			echo $this->Html->link(
+				'Logout',
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'logout'
+				)
+			); 
 		} else {
-			echo $this->Html->link('Login', array('controller' => 'users', 'action' => 'login')) . ' <i class="fa fa-star"></i> ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'register')); 
+			echo $this->Html->link(
+				'Login',
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'login'
+				)
+			) . ' <i class="fa fa-star"></i> ' . $this->Html->link(
+				'Register',
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'register'
+				)
+			); 
 		}
-		echo ' <i class="fa fa-star"></i> ' . $this->Html->link('Donate', array('controller' => 'donations', 'action' => 'donate'));
+
+		echo ' <i class="fa fa-star"></i> ' . $this->Html->link(
+			'Donate',
+			array(
+				'admin' => false,
+				'controller' => 'donations',
+				'action' => 'donate'
+			)
+		);
 ?></p>
 	<a class="phoneMenuLink" href="#"><i class="fa fa-bars"></i></a>
 		<a href="/" class="headerHome"></a>
@@ -113,6 +158,7 @@
 			<a href="http://twitter.com/cibbows" target="_blank"><i class="fa fa-twitter-square"></i></a>
 			<a href="http://facebook.com/cibbows" target="_blank"><i class="fa fa-facebook-square"></i></a>
 			<a href="http://vimeo.com/channels/586906" target="_blank"><i class="fa fa-vimeo-square"></i></a>
+			<a href="http://www.flickr.com/photos/cibbows/" target="_blank"><i class="fa fa-flickr"></i></a>
 		</div>
 		
 		<p class="right">&copy; <?php echo date('Y'); ?> CIBBOWS</p>

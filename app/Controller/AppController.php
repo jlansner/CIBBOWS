@@ -55,9 +55,19 @@ class AppController extends Controller {
 
     public function beforeFilter() {
         //Configure AuthComponent
-        $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
-        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+        $this->Auth->loginAction = array(
+        	'admin' => false,
+			'controller' => 'users',
+        	'action' => 'login'
+		);
+
+        $this->Auth->logoutRedirect = array(
+        	'admin' => false,
+	        'controller' => 'users',
+	        'action' => 'login'
+		);
 //        $this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
+
 		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','register','confirm','forgot_password','reset_password','menu','donate','confirm','thankyou');
 		
 		if ($this->Session->read('Membership.membership_level')) {

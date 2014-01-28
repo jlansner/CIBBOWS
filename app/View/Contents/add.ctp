@@ -1,6 +1,8 @@
+<div class="row">
+	<div class="column column12">	
 <?php echo $this->Form->create('Content'); ?>
 	<fieldset>
-		<legend><?php echo __('Add Content'); ?></legend>
+		<legend>Add New Page</legend>
 	<?php
 		echo $this->Form->input('title');
 		echo $this->Form->input(
@@ -26,3 +28,5 @@
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
+</div>
+</div>
