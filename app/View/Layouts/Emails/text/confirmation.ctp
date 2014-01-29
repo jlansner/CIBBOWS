@@ -1,3 +1,10 @@
 Please click on the link below to confirm your account:
 
-http://<?php echo env('HTTP_HOST'); ?>/users/confirm/<?php echo $encrypted; ?>
+<?php echo $this->Html->url(
+	array(
+		'controller' => 'users',
+		'action' => 'confirm',
+		'string' => $encrypted,
+		'full_base' => true
+	)
+); ?>

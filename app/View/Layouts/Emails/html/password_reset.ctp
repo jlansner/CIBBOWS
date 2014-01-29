@@ -2,6 +2,23 @@
 
 <p>Please click on the link below to reset your password:</p>
 
-<blockquote style="background-color: #cfc; padding: 10px; text-align: center;"><a href="http://<?php echo env('HTTP_HOST'); ?>/users/reset_password/<?php echo $encrypted; ?>">Click here</a></blockquote>
+<blockquote style="background-color: #cfc; padding: 10px; text-align: center;"><?php
 
-<p>Or copy and paste the following link into your browser: http://<?php echo env('HTTP_HOST'); ?>/users/reset_password/<?php echo $encrypted; ?></p>
+echo $this->Html->link(
+	'Click here',
+	array(
+		'controller' => 'users',
+		'action' => 'reset_password',
+		$encrypted,
+		'full_base' => true
+	)
+); ?></blockquote>
+
+<p>Or copy and paste the following link into your browser: <?php echo $this->Html->url(
+	array(
+		'controller' => 'users',
+		'action' => 'reset_password',
+		$encrypted,
+		'full_base' => true
+	)
+); ?></p>

@@ -136,9 +136,72 @@
 			)
 		);
 ?></p>
-	<a class="phoneMenuLink" href="#"><i class="fa fa-bars"></i></a>
+	<span class="phoneMenuLink" href="#"><i class="fa fa-bars"></i></span>
 		<a href="/" class="headerHome"></a>
+<div class="phoneMenu">
+	<ul>
+		<?php
+		if (AuthComponent::user('id')) {
+			echo "<li>" . $this->Html->link(
+				'My Profile',
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'my_profile'
+				)
+			) . '</li>';
 
+			if ($userMembershipLevel == 0) {
+				echo '<li>' . $this->html->Link(
+					'Join CIBBOWS',
+					array(
+						'admin' => false,
+						'controller' => 'memberships',
+						'action' => 'join'
+					)
+				) . ' </li>';
+			}
+
+			echo '<li>' . $this->Html->link(
+				'Logout',
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'logout'
+				)
+			) . '</li>'; 
+		} else {
+			echo '<li>' . $this->Html->link(
+				'Login',
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'login'
+				)
+			) . '</li>
+			<li>' . $this->Html->link(
+				'Register',
+				array(
+					'admin' => false,
+					'controller' => 'users',
+					'action' => 'register'
+				)
+			) . '</li>'; 
+		}
+
+		echo '<li>' . $this->Html->link(
+			'Donate',
+			array(
+				'admin' => false,
+				'controller' => 'donations',
+				'action' => 'donate'
+			)
+		) . '</li>';
+?>
+</ul>
+			<?php echo $this->element('menu'); ?>
+
+</div>
 	</div>
 	<div class="contentWrapper">
 		<div class="leftNav">

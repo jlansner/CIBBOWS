@@ -14,4 +14,11 @@ $this->Html->link(
 );
 ?></blockquote>
 
-<p>Or copy and paste the following link into your browser: http://<?php echo env('HTTP_HOST'); ?>/users/confirm/<?php echo $encrypted; ?></p>
+<p>Or copy and paste the following link into your browser: <?php echo $this->Html->url(
+	array(
+		'controller' => 'users',
+		'action' => 'confirm',
+		'string' => $encrypted,
+		'full_base' => true
+	)
+); ?></p>

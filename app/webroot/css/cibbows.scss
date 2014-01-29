@@ -241,6 +241,7 @@ h2 {
 	  text-align: center;
 	  border-left: 1px solid #fff;
 	  color: #fff;
+	  cursor: pointer;
 	}
 	
 	.contentWrapper {
@@ -287,6 +288,12 @@ h2 {
 		display: inline-block;
 		margin: 0 5px;
 	}
+	
+	.homepage {
+	  .column:first-child {
+    border: 0;
+   }
+  }
 }
 
 .navMenu {
@@ -336,6 +343,8 @@ h2 {
     line-height: 1em;
     white-space: nowrap;
 	}
+	
+	
 }
 
 @media only screen and (min-width:600px) {
@@ -642,4 +651,37 @@ input[type=text], input[type=password], input[type=email], input[type=tel] {
 
 .homepageSlideshow {
   margin-bottom: 1em;
+}
+
+.phoneMenu {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: fixed;
+  font-size: 20px;
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    margin: 0;
+    padding: 5px;
+  }
+  
+  .navMenu {
+    text-align: left;
+    
+    ul {
+      text-align: left;
+      font-size: 80%;
+      
+      li {
+        text-align: left;
+      }
+    }
+  }
 }

@@ -7,13 +7,34 @@ Thank you for registering for <?php echo $email['Race']['title'] ?> on <?php ech
 Your registration is not yet complete. Please submit the following information:
 
 <?php if (!$qualified) { ?>
-	- Qualifying Race http://<?php echo env('HTTP_HOST'); ?>/qualifying_races/add_race
-<?php }
+	- Qualifying Race <?php
+	echo $this->Html->url(
+		array(
+			'controller' => 'qualifying_races',
+			'action' => 'add_race',
+			'full_base' => true
+		)
+	);
+}
 	
 if (!$hasEmergencyContact) { ?>
-	- Emergency Contact http://<?php echo env('HTTP_HOST'); ?>/emergency_contacts/add_contact	
-<?php }
+	- Emergency Contact <?php
+	echo $this->Html->url(
+		array(
+			'controller' => 'emergency_contact',
+			'action' => 'add_contact',
+			'full_base' => true
+		)
+	);
+}
 
 if (!$hasAddress) { ?>
-	- Address http://<?php echo env('HTTP_HOST'); ?>/addresses/edit_address
-<?php } ?>
+	- Address <?php
+	echo $this->Html->url(
+		array(
+			'controller' => 'addresses',
+			'action' => 'edit_address',
+			'full_base' => true
+		)
+	);
+} ?>

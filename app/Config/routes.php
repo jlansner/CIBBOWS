@@ -54,7 +54,7 @@
 		);
 	}
 	
-	$userActions = array('login', 'logout', 'register', 'forgot_password', 'my_profile', 'edit_profile', 'reset_password');
+	$userActions = array('login', 'logout', 'register', 'forgot_password', 'my_profile', 'edit_profile');
 	
 	foreach ($userActions as $action) {
 		Router::connect(
@@ -65,6 +65,18 @@
 			)
 		);
 	}
+	
+	Router::connect(
+		'/reset_password/:encrypted',
+		array(
+			'controller' => 'users',
+			'action' => 'reset_password'
+		),
+		array(
+			'pass' => array('encrypted'),
+			'encrypted' => '[a-zA-Z0-9]'
+		)
+	);
 		
 	Router::connect(
 		'/:url_title',

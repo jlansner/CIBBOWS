@@ -1,4 +1,11 @@
-<h2>News</h2>
+<h2><?php echo $this->Html->link(
+	'News',
+	array(
+		'controller' => 'posts',
+		'action' => 'index'
+	)
+);
+?></h2>
 <ul>
 <?php
 

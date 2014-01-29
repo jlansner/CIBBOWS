@@ -18,9 +18,6 @@
 				)
 			);
 		?></li>
-			
-<?php /* <a href="http://<?php echo env('HTTP_HOST'); ?>/qualifying_races/add_race">Qualifying Race</a> */ ?>
-	<?php }
 	
 	if (!$hasEmergencyContact) { ?>
 		<li><?php
@@ -33,8 +30,6 @@
 				)
 			);
 		?></li>
-
-<?php /* <a href="http://<?php echo env('HTTP_HOST'); ?>/emergency_contacts/add_contact">Emergency Contact</a> */ ?>
 	
 	<?php }
 	if (!$hasAddress) { ?>
@@ -48,6 +43,5 @@
 				)
 			);
 		?></li>
-<?php /*<a href="http://<?php echo env('HTTP_HOST'); ?>/addresses/edit_address">Address</a> */ ?>
 	<?php } ?>
 </ul>

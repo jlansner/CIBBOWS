@@ -17,6 +17,14 @@ $(document).ready(function () {
 		event.preventDefault();
 		$('.liabilityWaiver').hide();
 	});
+	
+	$('body').on('click', '.phoneMenuLink', function(event) {
+		$('.phoneMenu').toggle();
+	});
+
+	$('body').on('tap', '.phoneMenuLink', function(event) {
+		$('.phoneMenu').toggle();
+	});
 
 });
 
