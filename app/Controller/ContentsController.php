@@ -42,6 +42,15 @@ class ContentsController extends AppController {
 			)
 		);
 
+	$this->paginate = array(
+    	'conditions' => array(
+    		'OR' => array(
+    			array('Content.archived' => 0),
+    			array('Content.archived' => null)
+			),
+		)	
+	);
+
 		$this->set('contents', $this->paginate());
 		$this->set('contents', $contents);
 
@@ -101,9 +110,22 @@ class ContentsController extends AppController {
 				$this->Session->setFlash(__('The content could not be saved. Please, try again.'));
 			}
 		}
+		
+		$menuParents = $this->Content->find(
+			'list',
+			array(
+				'conditions' => array(
+					'active' => 1,
+					'archived' => 0,
+					'in_menu' => 1,
+					'menu_parent' => null
+				),
+				'fields' => array('permanent','title')
+			)
+		);
 		$users = $this->Content->User->find('list');
 		$membershipLevels = $this->Content->MembershipLevel->find('list');
-		$this->set(compact('users','membershipLevels'));
+		$this->set(compact('users','membershipLevels','menuParents'));
 	}
 
 /**
@@ -125,7 +147,12 @@ class ContentsController extends AppController {
 				$this->Content->id = $id;
 				$this->Content->saveField('archived',1);
 				$this->Session->setFlash(__('The content has been updated'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(	
+						'admin' => true,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The content could not be saved. Please, try again.'));
 			}
@@ -133,9 +160,22 @@ class ContentsController extends AppController {
 			$options = array('conditions' => array('Content.' . $this->Content->primaryKey => $id));
 			$this->request->data = $this->Content->find('first', $options);
 		}
+		$menuParents = $this->Content->find(
+			'list',
+			array(
+				'conditions' => array(
+					'active' => 1,
+					'archived' => 0,
+					'in_menu' => 1,
+					'menu_parent' => null
+				),
+				'fields' => array('permanent','title')
+			)
+		);
+
 		$users = $this->Content->User->find('list');
 		$membershipLevels = $this->Content->MembershipLevel->find('list');
-		$this->set(compact('users','membershipLevels'));
+		$this->set(compact('users','membershipLevels','menuParents'));
 	}
 
 /**

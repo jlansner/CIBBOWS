@@ -12,10 +12,17 @@
 				'class' => 'ckeditor'
 			)
 		);
-		echo $this->Form->input(
+		echo $this->Form->hidden(
 			'in_menu',
 			array(
-				'label' => 'Include in Menu'
+				'value' => 1
+			)
+		);
+		echo $this->Form->input(
+			'menu_parent',
+			array(
+				'label' => 'Menu Section',
+				'empty' => '-----'
 			)
 		);
 		echo $this->Form->input(

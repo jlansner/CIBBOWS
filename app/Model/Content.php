@@ -107,5 +107,9 @@ class Content extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'MenuParent' => array(
+			'className' => 'Content',
+			'foreignKey' => 'menu_parent'
+		)
 	);
 }
