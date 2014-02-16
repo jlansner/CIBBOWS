@@ -11,9 +11,9 @@
 .leftNav {
   float: left;
   width: 20%;
-  padding: 0;
+  padding: 0 10px;
   margin: 0;
-  box-sizing: border-box;
+  @include border-box();
 }
 
 .content {
@@ -24,22 +24,16 @@
 
 .column {
   float: left;
-  padding: 0 1em;
-  box-sizing: border-box;
+  padding: 0 10px;
+  @include border-box();
 }
 
-.column1 { @include column-width(1); }
-.column2 { @include column-width(2); }
-.column3 { @include column-width(3); }
-.column4 { @include column-width(4); }
-.column5 { @include column-width(5); }
-.column6 { @include column-width(6); }
-.column7 { @include column-width(7); }
-.column8 { @include column-width(8); }
-.column9 { @include column-width(9); }
-.column10 { @include column-width(10); }
-.column11 { @include column-width(11); }
-.column12 { @include column-width(12); }
+//generate 12-column grid
+@for $i from 1 through 12 {
+  .column#{$i} {
+    @include column-width($i);
+  }
+}
 
 .container {
   margin: 0 auto;

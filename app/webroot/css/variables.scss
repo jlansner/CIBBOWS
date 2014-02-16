@@ -8,11 +8,8 @@ $orange: #ee971a;
 // fonts
 $pragmatica: "pragmatica-web-condensed";
 
-// columns
-$columnPadding: 5%;
-
 @mixin column-width($span) {
-  width: percentage($span / 12); // - ($columnPadding * 2);
+  width: percentage($span / 12);
 }
 
 @mixin border-radius($radius) {
@@ -21,4 +18,9 @@ $columnPadding: 5%;
       -ms-border-radius: $radius;
        -o-border-radius: $radius;
           border-radius: $radius;
+}
+
+@mixin border-box() {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }

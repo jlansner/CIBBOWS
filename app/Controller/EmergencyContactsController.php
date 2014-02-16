@@ -47,8 +47,8 @@ class EmergencyContactsController extends AppController {
 				$this->Session->setFlash(__('The emergency contact could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->EmergencyContact->User->find('list');
-		$this->set(compact('users'));
+//		$users = $this->EmergencyContact->User->find('list');
+//		$this->set(compact('users'));
 	}
 
 /**
