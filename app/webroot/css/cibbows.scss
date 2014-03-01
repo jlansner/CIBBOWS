@@ -529,11 +529,13 @@ label {
 }
 
 input[type=text], input[type=password], input[type=email], input[type=tel] {
-  width: 50%;
+//  @include border-box();
+  @include box-sizing(border-box);
+  width: 75%;
   padding: 1%;
 }
 
-input[type=submit] {
+input[type=submit], .linkButton {
   background-color: $greyBlue;
   color: #fff;
   border: 0 none;

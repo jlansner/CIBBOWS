@@ -1,18 +1,13 @@
 <div class="row">
 	<div class="column column12">
-		
+		<h1>Register</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="column column8">
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>
-		<legend>Register</legend>
-		<p>Already have an account?
-		<?php echo $this->Html->link(
-			'Login now.',
-			array(
-				'controller' => 'users',
-				'action' => 'login'
-			)
-		); ?>	
-		</p>
 	<?php
 		echo $this->Form->input('email');
 		echo $this->Form->input('first_name');
@@ -27,7 +22,12 @@
 				'selected' => '1950-01-01'
 			)
 		); */
-		echo $this->Form->input('password');
+		echo $this->Form->input(
+			'password',
+			array(
+				'placeholder' => 'Minimum 6 characters'
+			)
+		);
 		echo $this->Form->input(
 			'password2',
 			array(
@@ -38,5 +38,21 @@
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
+	</div>
+	<div class="column column1">
+		OR
+	</div>
+	<div class="column column3">
+		<?php echo $this->Html->link(
+			'Login now.',
+			array(
+				'controller' => 'users',
+				'action' => 'login'
+			),
+			array(
+				'class' => 'linkButton'
+			)
+		); ?>	
+
 	</div>
 </div>
