@@ -44,7 +44,7 @@
 	</div>
 	<div class="column column3">
 		<?php echo $this->Html->link(
-			'Login now.',
+			'Login',
 			array(
 				'controller' => 'users',
 				'action' => 'login'

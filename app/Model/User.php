@@ -113,6 +113,10 @@ class User extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+			'minlength' => array(
+				'rule' => array('minLength', 6),
+				'message' => 'Your password must be at least 6 characters in length'
+			)
 		),
 		'password2' => array(
 			'required' => array(

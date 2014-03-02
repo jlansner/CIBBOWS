@@ -1,3 +1,4 @@
+@import 'compass';
 @import '_variables';
 @import '_grid';
 
@@ -522,17 +523,19 @@ legend {
   font-weight: bold;
 }
 
-label {
-  display: inline-block;
-  margin-right: 1%;
-  width: 15%;
+.input {
+  margin-bottom: 1em;
 }
 
-input[type=text], input[type=password], input[type=email], input[type=tel] {
+label {
+  display: block;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=tel], input[type=number] {
 //  @include border-box();
   @include box-sizing(border-box);
-  width: 75%;
-  padding: 1%;
+  width: 100%;
+  padding: .5em;
 }
 
 input[type=submit], .linkButton {

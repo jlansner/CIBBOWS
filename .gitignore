@@ -22,3 +22,5 @@
 Icon?
 ehthumbs.db
 Thumbs.dbapp/Config/core.php
+
+*.scssc

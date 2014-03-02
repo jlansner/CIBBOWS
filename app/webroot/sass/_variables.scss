@@ -11,16 +11,3 @@ $pragmatica: "pragmatica-web-condensed";
 @mixin column-width($span) {
   width: percentage($span / 12);
 }
-
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-       -o-border-radius: $radius;
-          border-radius: $radius;
-}
-
-@mixin border-box() {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
