@@ -89,6 +89,31 @@
 			'url_title' => '[a-z0-9_\-]*'
 		)
 	);
+
+	Router::connect(
+		'/results/:url_title',
+		array(
+			'controller' => 'results',
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('url_title'),
+			'url_title' => '[a-z_\-]*'
+		)
+	);
+
+	Router::connect(
+		'/series/:url_title',
+		array(
+			'controller' => 'series',
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('url_title'),
+			'url_title' => '[a-z0-9_\-]*'
+		)
+	);
+
 	
 	Router::connect(
 		'/:controller/:year/:url_title',

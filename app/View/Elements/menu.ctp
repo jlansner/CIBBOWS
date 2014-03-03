@@ -34,7 +34,7 @@ foreach ($menuItems as $menuItem) { ?>
 						'admin' => false,
 						'controller' => 'series',
 						'action' => 'view',
-						$subMenuItem['Series']['url_title']
+						'url_title' => $subMenuItem['Series']['url_title']
 					)
 				) . '</li>';
 			}

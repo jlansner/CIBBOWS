@@ -21,8 +21,8 @@
 			array(
 				'controller' => 'races',
 				'action' => 'view',
-				substr($racesList[0]['Race']['date'],0,4),
-				$racesList[0]['Race']['url_title']
+				'year' => substr($racesList[0]['Race']['date'],0,4),
+				'url_title' => $racesList[0]['Race']['url_title']
 			)
 		); ?>
  	</li>
@@ -32,8 +32,8 @@
 			array(
 				'controller' => 'race_registrations',
 				'action' => 'view',
-				substr($racesList[0]['Race']['date'],0,4),
-				$racesList[0]['Race']['url_title']
+				'year' => substr($racesList[0]['Race']['date'],0,4),
+				'url_title' => $racesList[0]['Race']['url_title']
 			)
 		); ?>
  	</li>
@@ -44,9 +44,11 @@
 
 <select name="year" id="year">
 <?php foreach ($racesList as $raceYear) {
-	$lineYear = substr($raceYear['Race']['date'],0,4); ?>
-	<option value="<?php echo $lineYear; ?>"<?php if ($lineYear == $year) { echo ' selected';} ?>><?php echo $lineYear; ?></option>	
-<?php } ?>	
+	if (strtotime($raceYear['Race']['date']) < time()) {
+		$lineYear = substr($raceYear['Race']['date'],0,4); ?>
+		<option value="<?php echo $lineYear; ?>"<?php if ($lineYear == $year) { echo ' selected';} ?>><?php echo $lineYear; ?></option>	
+<?php 	}
+	} ?>	
 </select>
 </p>
 

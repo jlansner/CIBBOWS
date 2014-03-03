@@ -50,7 +50,7 @@ class ResultsController extends AppController {
 				'conditions' => array(
 					'series_id' => $series['Series']['id'],
 					'parent_id' => null,
-					'date <=' => date('Y-m-d')
+//					'date <=' => date('Y-m-d')
 				),
 				'fields' => array(
 					'Race.id','Race.date','Race.url_title'
@@ -63,7 +63,11 @@ class ResultsController extends AppController {
 		);
 		
 		if (!$year) {
-			$year = substr($racesList[0]['Race']['date'],0,4);
+			if (strtotime($racesList[0]['Race']['date']) < time()) {
+				$year = substr($racesList[0]['Race']['date'],0,4);
+			} else {
+				$year = substr($racesList[1]['Race']['date'],0,4);				
+			}
 		}
 
 		$races = $this->Result->Race->find(

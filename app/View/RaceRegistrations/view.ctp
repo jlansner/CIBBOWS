@@ -22,7 +22,7 @@
 			array(
 				'controller' => 'results',
 				'action' => 'view',
-				$race['Series']['url_title']
+				'url_title' => $race['Series']['url_title']
 			)
 		); ?>
  	</li>
