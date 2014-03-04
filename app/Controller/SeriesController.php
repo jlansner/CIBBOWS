@@ -53,7 +53,14 @@ class SeriesController extends AppController {
 		);
 
 		if ($race) {
-			$this->redirect(array('controller' => 'races', 'action' => 'view', substr($race['Race']['date'], 0, 4), $race['Race']['url_title']));
+			$this->redirect(
+				array(
+					'controller' => 'races',
+					'action' => 'view',
+					'year' => substr($race['Race']['date'], 0, 4),
+					'url_title' => $race['Race']['url_title']
+				)
+			);
 		} else {
 			$this->set('series',$series);
 		}

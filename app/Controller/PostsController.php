@@ -17,7 +17,7 @@ class PostsController extends AppController {
         'conditions' => array(
 			'Post.active' => 1,
 			'Post.archived' => 0
-		)
+		)		
 	);
 
 
@@ -26,14 +26,22 @@ class PostsController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function index($page = null) {
 //		$this->Post->recursive = 0;
 //		$this->set('posts', $this->paginate());
-	$this->Paginator->settings = $this->paginate;
 
-    // similar to findAll(), but fetches paged results
-    $posts = $this->Paginator->paginate('Post');
-    $this->set('posts', $posts);
+		if (is_numeric($page)) {
+			$this->paginate['page'] = $page;
+		}
+
+		try {
+			$this->Paginator->settings = $this->paginate;
+			$posts = $this->Paginator->paginate('Post');
+		} catch (NotFoundException $e) {
+			$this->redirect('/posts/');
+		}
+	
+	    $this->set('posts', $posts);
 
 	}
 

@@ -57,7 +57,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 			array(
 				'controller' => 'results',
 				'action' => 'view',
-				$race['Series']['url_title']
+				'url_title' => $race['Series']['url_title']
 			)
 		); ?>
  	</li>

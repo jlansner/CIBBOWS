@@ -23,15 +23,31 @@ echo $this->Html->link(
     <?php unset($post); ?>
     
 <?php 
- if ($this->Paginator->hasPrev()){
-       echo $this->Paginator->prev(
-	  ' << Newer Posts'
+
+if ($this->Paginator->hasPrev()) {
+		$prevpage = "";
+
+	if ($this->Paginator->current() > 2) {
+		$prevpage = $this->Paginator->current() - 1;
+	}
+       echo $this->Html->link(
+		  ' << Newer Posts',
+		  array(
+	        'controller' => 'posts',
+	        'action' => 'index',
+	        'page' => $prevpage
+	    )
 	);
 }
 
- if ($this->Paginator->hasNext()){
-	echo $this->Paginator->next(
-	  'Older Posts >> '
+if ($this->Paginator->hasNext()) {
+	echo $this->Html->link(
+	  'Older Posts >> ',
+	  array(
+	        'controller' => 'posts',
+	        'action' => 'index',
+	        'page' => $this->Paginator->current() + 1	  	
+	  )
 	);
  }
  ?>

@@ -548,6 +548,13 @@ input[type=submit], .linkButton {
   cursor: pointer;
 }
 
+.checkbox {
+  label {
+    display: inline;
+    margin-left: .5em;
+  }
+}
+
 .inline-block {
   display: inline-block;
 }

@@ -269,7 +269,30 @@
 		$i = 0;
 		foreach ($user['Result'] as $result): ?>
 		<tr>
-			<td><?php echo $this->Html->link($result['Race']['title'], array('controller' => 'races', 'action' => 'view', substr($result['Race']['date'],0,4), $result['Race']['url_title'])); ?></td>
+			<td><?php
+			if ($result['Race']['parent_id']) {
+				echo $this->Html->link(
+				 	$result['Race']['ParentRace']['title'] . ' - ' . $result['Race']['title'],
+				 	array(
+				 		'controller' => 'results',
+				 		'action' => 'view',
+				 		'year' => substr($result['Race']['ParentRace']['date'],0,4),
+				 		'url_title' => $result['Race']['ParentRace']['Series']['url_title']
+					)
+				);
+
+			} else {
+				echo $this->Html->link(
+				 	$result['Race']['title'],
+				 	array(
+				 		'controller' => 'results',
+				 		'action' => 'view',
+				 		'year' => substr($result['Race']['date'],0,4),
+				 		'url_title' => $result['Race']['Series']['url_title']
+					)
+				);
+			}
+			?></td>
 			<td><?php echo $this->Time->format('n/j/y',$result['Race']['date']); ?></td>
 			<td><?php echo ($result['Race']['distance_number'] + 0) . $result['Race']['Distance']['abbreviation']; ?></td>
 			<td><?php echo ltrim($result['time'],'0:'); ?></td>

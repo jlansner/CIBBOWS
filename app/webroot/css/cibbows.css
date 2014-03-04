@@ -621,55 +621,60 @@ input[type=submit], .linkButton {
   font-size: 1.25em;
   cursor: pointer; }
 
-/* line 551, ../sass/cibbows.scss */
+/* line 552, ../sass/cibbows.scss */
+.checkbox label {
+  display: inline;
+  margin-left: .5em; }
+
+/* line 558, ../sass/cibbows.scss */
 .inline-block {
   display: inline-block; }
 
-/* line 555, ../sass/cibbows.scss */
+/* line 562, ../sass/cibbows.scss */
 .edit, .delete {
   font-size: 1.3em;
   margin-left: .5em; }
 
-/* line 560, ../sass/cibbows.scss */
+/* line 567, ../sass/cibbows.scss */
 .edit {
   color: #009900; }
 
-/* line 564, ../sass/cibbows.scss */
+/* line 571, ../sass/cibbows.scss */
 .delete {
   color: #990000; }
 
-/* line 568, ../sass/cibbows.scss */
+/* line 575, ../sass/cibbows.scss */
 .orange {
   color: #ee971a; }
 
-/* line 572, ../sass/cibbows.scss */
+/* line 579, ../sass/cibbows.scss */
 .zebraTable {
   width: 100%;
   border: 0;
   padding: 0;
   margin: 0;
   border-collapse: collapse; }
-  /* line 579, ../sass/cibbows.scss */
+  /* line 586, ../sass/cibbows.scss */
   .zebraTable th {
     background-color: #5a7f92;
     color: #fff; }
-  /* line 585, ../sass/cibbows.scss */
+  /* line 592, ../sass/cibbows.scss */
   .zebraTable tr:nth-child(even) {
     background-color: #ddd; }
-  /* line 590, ../sass/cibbows.scss */
+  /* line 597, ../sass/cibbows.scss */
   .zebraTable td {
     padding: 2px; }
-  /* line 594, ../sass/cibbows.scss */
+  /* line 601, ../sass/cibbows.scss */
   .zebraTable .fa {
     font-size: 1.3em;
     margin-left: .5em; }
 
-/* line 600, ../sass/cibbows.scss */
+/* line 607, ../sass/cibbows.scss */
 .mapFrame {
   width: 100%;
   height: 400px; }
 
-/* line 605, ../sass/cibbows.scss */
+/* line 612, ../sass/cibbows.scss */
 .liabilityWaiver {
   border: 1px solid #ccc;
   -webkit-border-radius: 5px;
@@ -690,7 +695,7 @@ input[type=submit], .linkButton {
   box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
   text-align: justify; }
 
-/* line 622, ../sass/cibbows.scss */
+/* line 629, ../sass/cibbows.scss */
 .liabilityClose {
   position: absolute;
   top: 5px;
@@ -699,17 +704,17 @@ input[type=submit], .linkButton {
   color: #666;
   cursor: pointer; }
 
-/* line 631, ../sass/cibbows.scss */
+/* line 638, ../sass/cibbows.scss */
 .resultCode {
   margin: 0 3px; }
 
-/* line 635, ../sass/cibbows.scss */
+/* line 642, ../sass/cibbows.scss */
 .raceNav {
   padding: 0;
   margin: 0;
   list-style-type: none;
   width: 100%; }
-  /* line 641, ../sass/cibbows.scss */
+  /* line 648, ../sass/cibbows.scss */
   .raceNav li {
     display: inline-block;
     padding: 5px 20px;
@@ -717,19 +722,19 @@ input[type=submit], .linkButton {
     margin: 0 10px;
     background-color: #5a7f92;
     color: #fff; }
-    /* line 649, ../sass/cibbows.scss */
+    /* line 656, ../sass/cibbows.scss */
     .raceNav li a {
       color: #fff; }
-    /* line 653, ../sass/cibbows.scss */
+    /* line 660, ../sass/cibbows.scss */
     .raceNav li.active {
       background-color: #fff;
       color: #5a7f92; }
 
-/* line 661, ../sass/cibbows.scss */
+/* line 668, ../sass/cibbows.scss */
 .homepageSlideshow {
   margin-bottom: 1em; }
 
-/* line 665, ../sass/cibbows.scss */
+/* line 672, ../sass/cibbows.scss */
 .phoneMenu {
   display: none;
   width: 100%;
@@ -737,22 +742,22 @@ input[type=submit], .linkButton {
   background: #fff;
   position: fixed;
   font-size: 20px; }
-  /* line 673, ../sass/cibbows.scss */
+  /* line 680, ../sass/cibbows.scss */
   .phoneMenu ul {
     list-style-type: none;
     margin: 0;
     padding: 0; }
-  /* line 679, ../sass/cibbows.scss */
+  /* line 686, ../sass/cibbows.scss */
   .phoneMenu li {
     margin: 0;
     padding: 5px; }
-  /* line 684, ../sass/cibbows.scss */
+  /* line 691, ../sass/cibbows.scss */
   .phoneMenu .navMenu {
     text-align: left; }
-    /* line 687, ../sass/cibbows.scss */
+    /* line 694, ../sass/cibbows.scss */
     .phoneMenu .navMenu ul {
       text-align: left;
       font-size: 80%; }
-      /* line 691, ../sass/cibbows.scss */
+      /* line 698, ../sass/cibbows.scss */
       .phoneMenu .navMenu ul li {
         text-align: left; }

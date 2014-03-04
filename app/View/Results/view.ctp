@@ -1,7 +1,7 @@
 <script>
 	$(document).ready(function() {
 		$('#year').change(function() {
-			window.location.replace('/results/view/<?php echo $series['Series']['url_title']; ?>/' + $('#year').val());
+			window.location.replace('/results/<?php echo $series['Series']['url_title']; ?>/' + $('#year').val());
 		});
 	});
 	
@@ -193,4 +193,4 @@ endforeach; ?>
 	
 	} ?>
 	</div>
-	</div>
+</div>

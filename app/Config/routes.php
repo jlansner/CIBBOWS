@@ -103,6 +103,19 @@
 	);
 
 	Router::connect(
+		'/results/:url_title/:year',
+		array(
+			'controller' => 'results',
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('url_title','year'),
+			'year' => '[0-9]{4}',
+			'url_title' => '[a-z_\-]*'
+		)
+	);
+
+	Router::connect(
 		'/series/:url_title',
 		array(
 			'controller' => 'series',
@@ -138,6 +151,19 @@
 			'month' => '[0-9]{2}',
 			'day' => '[0-9]{2}',
 			'url_title' => '[a-z_\-]*'			
+		)
+	);
+
+	
+	Router::connect(
+		'/posts/:page',
+		array(
+			'controller' => 'posts',
+			'action' => 'index'
+		),
+		array(
+			'pass' => array('page'),
+			'page' => '[0-9]*'
 		)
 	);
 	

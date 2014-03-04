@@ -143,7 +143,7 @@ class Result extends AppModel {
 			'className' => 'Race',
 			'foreignKey' => 'race_id',
 			'conditions' => '',
-			'fields' => array('title','url_title','date','distance_number','distance_id'),
+			'fields' => '',
 			'order' => ''
 		),
 		'Gender' => array(

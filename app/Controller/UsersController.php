@@ -283,7 +283,22 @@ class UsersController extends AppController {
 						'Distance',
 					),
 					'Result' => array(
-						'Race',
+						'Race' => array(
+							'Series' => array(
+								'fields' => array(
+									'Series.title',
+									'Series.url_title'
+								)
+							),
+							'ParentRace' => array(
+								'Series' => array(
+									'fields' => array(
+										'Series.title',
+										'Series.url_title'
+									)
+								)
+							),
+						),
 						'AgeGroup'
 					),
 					'RaceRegistration' => array(
