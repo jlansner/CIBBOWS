@@ -316,6 +316,10 @@ h2 {
 		font-size: 50%;
 		display: none;
 
+      &.open {
+         display: block;
+      }
+
         li {
             text-align: center;
 
@@ -694,10 +698,11 @@ input[type=submit], .linkButton {
     ul {
       text-align: left;
       font-size: 80%;
-      
+     
       li {
         text-align: left;
       }
     }
   }
 }
+

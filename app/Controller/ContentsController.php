@@ -38,7 +38,8 @@ class ContentsController extends AppController {
 	        			array('Content.archived' => 0),
 	        			array('Content.archived' => null)
 					),
-	    	    )
+	    	    ),
+	    	    'order' => array('Content.title')
 			)
 		);
 
@@ -64,7 +65,9 @@ class ContentsController extends AppController {
 		$content = $this->Content->find(
 			'first',
 			array(
-				'fields' => array('Content.title', 'Content.body','Content.controller','Content.membership_level_id'),
+				'fields' => array(
+					'Content.title', 'Content.body', 'Content.controller', 'Content.membership_level_id', 'Content.permanent', 'Content.menu_parent'
+				),
 	        	'conditions' => array(
     	    		'Content.url_title' => $url_title,
     	    		'Content.active' => 1,
@@ -203,7 +206,9 @@ class ContentsController extends AppController {
 		$menuItems = $this->Content->find(
 			'all',
 			array(
-				'fields' => array('Content.permanent','Content.title', 'Content.url_title','Content.menu_rank','Content.controller'),
+				'fields' => array(
+					'Content.permanent', 'Content.title', 'Content.url_title', 'Content.menu_rank', 'Content.controller'
+					),
 	        	'conditions' => array(
 	        		array(
 		        		'OR' => array(

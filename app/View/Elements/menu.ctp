@@ -15,7 +15,24 @@ foreach ($menuItems as $menuItem) { ?>
 			),
 			array('class' => 'showMenu')
 		);
-		echo '<ul>';
+
+		if (
+			(
+				(isset($content))
+				&&
+				(
+					($menuItem['Content']['permanent'] == $content['Content']['permanent'])
+					||
+					($menuItem['Content']['permanent'] == $content['Content']['menu_parent'])
+				)
+			) || ((isset($race)) && ($menuItem['Content']['url_title'] == "races"))
+		) {
+			echo '<ul class="open">';
+		} else {
+			echo '<ul>';
+		}
+
+
 		foreach ($menuItem['SubContent'] as $subMenuItem) {
 			if (($menuItem['Content']['controller'] == null) || ($menuItem['Content']['controller'] == "contents")) {
 				echo '<li>' . $this->Html->Link(

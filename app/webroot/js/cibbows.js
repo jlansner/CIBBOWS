@@ -1,7 +1,12 @@
 $(document).ready(function () {
     $('body').on('click', '.showMenu', function (event) {
         event.preventDefault();
-        $(this).siblings('ul').slideToggle();
+		if ($(this).siblings('ul').hasClass('open')) {
+	        $(this).siblings('ul').slideToggle().removeClass('open');			
+		} else {
+	        $('.navMenu .open').slideToggle().removeClass('open');
+	        $(this).siblings('ul').slideToggle().addClass('open');
+	   }
     });
 
     $('#raceTabs').tabs();

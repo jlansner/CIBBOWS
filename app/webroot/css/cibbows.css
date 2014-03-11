@@ -406,12 +406,15 @@ h2 {
     font-size: 50%;
     display: none; }
     /* line 319, ../sass/cibbows.scss */
+    .navMenu ul.open {
+      display: block; }
+    /* line 323, ../sass/cibbows.scss */
     .navMenu ul li {
       text-align: center; }
-      /* line 322, ../sass/cibbows.scss */
+      /* line 326, ../sass/cibbows.scss */
       .navMenu ul li a {
         color: #5a7f92; }
-  /* line 328, ../sass/cibbows.scss */
+  /* line 332, ../sass/cibbows.scss */
   .navMenu li {
     margin: 0;
     padding: 0;
@@ -419,44 +422,44 @@ h2 {
     white-space: nowrap; }
 
 @media only screen and (min-width: 600px) {
-  /* line 341, ../sass/cibbows.scss */
+  /* line 345, ../sass/cibbows.scss */
   .navMenu > li {
     border-bottom: 3px solid #5a7f92; }
-  /* line 345, ../sass/cibbows.scss */
+  /* line 349, ../sass/cibbows.scss */
   .navMenu > li:nth-child(3n) {
     font-family: "blackoak-std";
     font-size: 1.4em; }
-  /* line 350, ../sass/cibbows.scss */
+  /* line 354, ../sass/cibbows.scss */
   .navMenu > li:nth-child(3n+1) {
     font-family: "zebrawood-std";
     font-size: 2.5em; }
-  /* line 355, ../sass/cibbows.scss */
+  /* line 359, ../sass/cibbows.scss */
   .navMenu > li:nth-child(4) {
     font-family: "rosewood-std";
     font-size: 3em; }
-  /* line 360, ../sass/cibbows.scss */
+  /* line 364, ../sass/cibbows.scss */
   .navMenu > li:nth-child(3n+2) {
     font-family: "stud";
     font-size: 0.8em; }
-  /* line 366, ../sass/cibbows.scss */
+  /* line 370, ../sass/cibbows.scss */
   .navMenu > li:nth-child(1) {
     font-size: 4.4em; }
-  /* line 370, ../sass/cibbows.scss */
+  /* line 374, ../sass/cibbows.scss */
   .navMenu > li:nth-child(2) {
     font-size: 2.0em; }
-  /* line 374, ../sass/cibbows.scss */
+  /* line 378, ../sass/cibbows.scss */
   .navMenu > li:nth-child(3) {
     font-size: .8em; }
-  /* line 378, ../sass/cibbows.scss */
+  /* line 382, ../sass/cibbows.scss */
   .navMenu > li:nth-child(4) {
     font-size: 2.3em; }
-  /* line 382, ../sass/cibbows.scss */
+  /* line 386, ../sass/cibbows.scss */
   .navMenu > li:nth-child(5) {
     font-size: 1.1em; }
-  /* line 386, ../sass/cibbows.scss */
+  /* line 390, ../sass/cibbows.scss */
   .navMenu > li:nth-child(6) {
     font-size: 1.8em; }
-  /* line 390, ../sass/cibbows.scss */
+  /* line 394, ../sass/cibbows.scss */
   .navMenu ul li {
     white-space: normal;
     /*				font-family: "french-clarendon-ornamented", "cowboyslang";
@@ -469,7 +472,7 @@ h2 {
     				font-family: "fatboy";
     } */ } }
 /** Notices and Errors **/
-/* line 409, ../sass/cibbows.scss */
+/* line 413, ../sass/cibbows.scss */
 .message {
   clear: both;
   color: #fff;
@@ -478,7 +481,7 @@ h2 {
   margin: 0 0 1em 0;
   padding: 5px; }
 
-/* line 424, ../sass/cibbows.scss */
+/* line 428, ../sass/cibbows.scss */
 .success,
 .message,
 .cake-error,
@@ -507,7 +510,7 @@ p.error,
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25); }
 
-/* line 450, ../sass/cibbows.scss */
+/* line 454, ../sass/cibbows.scss */
 .success,
 .message,
 .cake-error,
@@ -526,7 +529,7 @@ p.error,
   background-image: linear-gradient(top, #ee5f5b, #c43c35);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3); }
 
-/* line 464, ../sass/cibbows.scss */
+/* line 468, ../sass/cibbows.scss */
 .success {
   clear: both;
   color: #fff;
@@ -541,19 +544,19 @@ p.error,
   background-image: linear-gradient(top, #76bf6b, #3b8230);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3); }
 
-/* line 478, ../sass/cibbows.scss */
+/* line 482, ../sass/cibbows.scss */
 p.error {
   font-family: Monaco, Consolas, Courier, monospace;
   font-size: 120%;
   padding: 0.8em;
   margin: 1em 0; }
 
-/* line 484, ../sass/cibbows.scss */
+/* line 488, ../sass/cibbows.scss */
 p.error em {
   font-weight: normal;
   line-height: 140%; }
 
-/* line 488, ../sass/cibbows.scss */
+/* line 492, ../sass/cibbows.scss */
 .notice {
   color: #000;
   display: block;
@@ -561,45 +564,45 @@ p.error em {
   padding: 0.8em;
   margin: 1em 0; }
 
-/* line 495, ../sass/cibbows.scss */
+/* line 499, ../sass/cibbows.scss */
 .success {
   color: #fff; }
 
-/* line 499, ../sass/cibbows.scss */
+/* line 503, ../sass/cibbows.scss */
 .footer {
   padding-top: 20px;
   font-size: 80%; }
 
-/* line 504, ../sass/cibbows.scss */
+/* line 508, ../sass/cibbows.scss */
 .smIcons {
   font-size: 32px;
   text-align: center; }
-  /* line 508, ../sass/cibbows.scss */
+  /* line 512, ../sass/cibbows.scss */
   .smIcons a {
     color: #5a7f92;
     padding: 0 5px; }
 
-/* line 514, ../sass/cibbows.scss */
+/* line 518, ../sass/cibbows.scss */
 fieldset {
   border: 0;
   padding: 0; }
 
-/* line 519, ../sass/cibbows.scss */
+/* line 523, ../sass/cibbows.scss */
 legend {
   padding: 0;
   margin: 0 0 1em 0;
   font-size: 2em;
   font-weight: bold; }
 
-/* line 526, ../sass/cibbows.scss */
+/* line 530, ../sass/cibbows.scss */
 .input {
   margin-bottom: 1em; }
 
-/* line 530, ../sass/cibbows.scss */
+/* line 534, ../sass/cibbows.scss */
 label {
   display: block; }
 
-/* line 534, ../sass/cibbows.scss */
+/* line 538, ../sass/cibbows.scss */
 input[type=text], input[type=password], input[type=email], input[type=tel], input[type=number] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -607,7 +610,7 @@ input[type=text], input[type=password], input[type=email], input[type=tel], inpu
   width: 100%;
   padding: .5em; }
 
-/* line 541, ../sass/cibbows.scss */
+/* line 545, ../sass/cibbows.scss */
 input[type=submit], .linkButton {
   background-color: #5a7f92;
   color: #fff;
@@ -621,60 +624,60 @@ input[type=submit], .linkButton {
   font-size: 1.25em;
   cursor: pointer; }
 
-/* line 552, ../sass/cibbows.scss */
+/* line 556, ../sass/cibbows.scss */
 .checkbox label {
   display: inline;
   margin-left: .5em; }
 
-/* line 558, ../sass/cibbows.scss */
+/* line 562, ../sass/cibbows.scss */
 .inline-block {
   display: inline-block; }
 
-/* line 562, ../sass/cibbows.scss */
+/* line 566, ../sass/cibbows.scss */
 .edit, .delete {
   font-size: 1.3em;
   margin-left: .5em; }
 
-/* line 567, ../sass/cibbows.scss */
+/* line 571, ../sass/cibbows.scss */
 .edit {
   color: #009900; }
 
-/* line 571, ../sass/cibbows.scss */
+/* line 575, ../sass/cibbows.scss */
 .delete {
   color: #990000; }
 
-/* line 575, ../sass/cibbows.scss */
+/* line 579, ../sass/cibbows.scss */
 .orange {
   color: #ee971a; }
 
-/* line 579, ../sass/cibbows.scss */
+/* line 583, ../sass/cibbows.scss */
 .zebraTable {
   width: 100%;
   border: 0;
   padding: 0;
   margin: 0;
   border-collapse: collapse; }
-  /* line 586, ../sass/cibbows.scss */
+  /* line 590, ../sass/cibbows.scss */
   .zebraTable th {
     background-color: #5a7f92;
     color: #fff; }
-  /* line 592, ../sass/cibbows.scss */
+  /* line 596, ../sass/cibbows.scss */
   .zebraTable tr:nth-child(even) {
     background-color: #ddd; }
-  /* line 597, ../sass/cibbows.scss */
+  /* line 601, ../sass/cibbows.scss */
   .zebraTable td {
     padding: 2px; }
-  /* line 601, ../sass/cibbows.scss */
+  /* line 605, ../sass/cibbows.scss */
   .zebraTable .fa {
     font-size: 1.3em;
     margin-left: .5em; }
 
-/* line 607, ../sass/cibbows.scss */
+/* line 611, ../sass/cibbows.scss */
 .mapFrame {
   width: 100%;
   height: 400px; }
 
-/* line 612, ../sass/cibbows.scss */
+/* line 616, ../sass/cibbows.scss */
 .liabilityWaiver {
   border: 1px solid #ccc;
   -webkit-border-radius: 5px;
@@ -695,7 +698,7 @@ input[type=submit], .linkButton {
   box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
   text-align: justify; }
 
-/* line 629, ../sass/cibbows.scss */
+/* line 633, ../sass/cibbows.scss */
 .liabilityClose {
   position: absolute;
   top: 5px;
@@ -704,17 +707,17 @@ input[type=submit], .linkButton {
   color: #666;
   cursor: pointer; }
 
-/* line 638, ../sass/cibbows.scss */
+/* line 642, ../sass/cibbows.scss */
 .resultCode {
   margin: 0 3px; }
 
-/* line 642, ../sass/cibbows.scss */
+/* line 646, ../sass/cibbows.scss */
 .raceNav {
   padding: 0;
   margin: 0;
   list-style-type: none;
   width: 100%; }
-  /* line 648, ../sass/cibbows.scss */
+  /* line 652, ../sass/cibbows.scss */
   .raceNav li {
     display: inline-block;
     padding: 5px 20px;
@@ -722,19 +725,19 @@ input[type=submit], .linkButton {
     margin: 0 10px;
     background-color: #5a7f92;
     color: #fff; }
-    /* line 656, ../sass/cibbows.scss */
+    /* line 660, ../sass/cibbows.scss */
     .raceNav li a {
       color: #fff; }
-    /* line 660, ../sass/cibbows.scss */
+    /* line 664, ../sass/cibbows.scss */
     .raceNav li.active {
       background-color: #fff;
       color: #5a7f92; }
 
-/* line 668, ../sass/cibbows.scss */
+/* line 672, ../sass/cibbows.scss */
 .homepageSlideshow {
   margin-bottom: 1em; }
 
-/* line 672, ../sass/cibbows.scss */
+/* line 676, ../sass/cibbows.scss */
 .phoneMenu {
   display: none;
   width: 100%;
@@ -742,22 +745,22 @@ input[type=submit], .linkButton {
   background: #fff;
   position: fixed;
   font-size: 20px; }
-  /* line 680, ../sass/cibbows.scss */
+  /* line 684, ../sass/cibbows.scss */
   .phoneMenu ul {
     list-style-type: none;
     margin: 0;
     padding: 0; }
-  /* line 686, ../sass/cibbows.scss */
+  /* line 690, ../sass/cibbows.scss */
   .phoneMenu li {
     margin: 0;
     padding: 5px; }
-  /* line 691, ../sass/cibbows.scss */
+  /* line 695, ../sass/cibbows.scss */
   .phoneMenu .navMenu {
     text-align: left; }
-    /* line 694, ../sass/cibbows.scss */
+    /* line 698, ../sass/cibbows.scss */
     .phoneMenu .navMenu ul {
       text-align: left;
       font-size: 80%; }
-      /* line 698, ../sass/cibbows.scss */
+      /* line 702, ../sass/cibbows.scss */
       .phoneMenu .navMenu ul li {
         text-align: left; }
