@@ -81,12 +81,12 @@ class ResultsController extends AppController {
 				'contain' => array(
 					'ChildRace' => array(
 						'fields' => array(
-							'ChildRace.id','ChildRace.title',
+							'ChildRace.id','ChildRace.title',''
 						)
 					)
 				),
 				'fields' => array(
-					'Race.id','Race.title','Race.url_title'
+					'Race.id','Race.title','Race.url_title','Race.body'
 				)
 			)
 		);

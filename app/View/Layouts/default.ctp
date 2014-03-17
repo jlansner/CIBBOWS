@@ -118,7 +118,7 @@
 					'action' => 'login'
 				)
 			) . ' <i class="fa fa-star"></i> ' . $this->Html->link(
-				'Register',
+				'Create Account',
 				array(
 					'admin' => false,
 					'controller' => 'users',
@@ -180,7 +180,7 @@
 				)
 			) . '</li>
 			<li>' . $this->Html->link(
-				'Register',
+				'Create Account',
 				array(
 					'admin' => false,
 					'controller' => 'users',

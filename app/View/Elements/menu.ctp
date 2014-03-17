@@ -58,15 +58,24 @@ foreach ($menuItems as $menuItem) { ?>
 		 }
 		 echo '</ul>';
 	} else {
-		echo $this->Html->Link(
-			$menuItem['Content']['title'],
-			array(
-				'admin' => false,
-				'controller' => 'contents',
-				'action' => 'view',
-				'url_title' => $menuItem['Content']['url_title']
-			)
-		);
+		if ($menuItem['Content']['controller'] == 'redirect') {
+			echo $this->Html->Link(
+				$menuItem['Content']['title'],
+				$menuItem['Content']['redirect'],
+				array('target' => '_blank')
+			);
+			
+		} else {
+			echo $this->Html->Link(
+				$menuItem['Content']['title'],
+				array(
+					'admin' => false,
+					'controller' => 'contents',
+					'action' => 'view',
+					'url_title' => $menuItem['Content']['url_title']
+				)
+			);
+		}
 	}
 	?>
 	</li>

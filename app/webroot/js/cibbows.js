@@ -2,10 +2,10 @@ $(document).ready(function () {
     $('body').on('click', '.showMenu', function (event) {
         event.preventDefault();
 		if ($(this).siblings('ul').hasClass('open')) {
-	        $(this).siblings('ul').slideToggle().removeClass('open');			
+	        $(this).siblings('ul').slideUp().removeClass('open');			
 		} else {
-	        $('.navMenu .open').slideToggle().removeClass('open');
-	        $(this).siblings('ul').slideToggle().addClass('open');
+	        $('.navMenu .open').slideUp().removeClass('open');
+	        $(this).siblings('ul').slideDown().addClass('open');
 	   }
     });
 

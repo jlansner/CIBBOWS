@@ -53,6 +53,8 @@
 </p>
 
 <?php
+
+echo $races['Race']['body'];
 if (count($races['ChildRace'])) {
 	$i = 0;
 	foreach ($results['Child'] as $section): ?>

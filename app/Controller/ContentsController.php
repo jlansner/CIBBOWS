@@ -207,7 +207,7 @@ class ContentsController extends AppController {
 			'all',
 			array(
 				'fields' => array(
-					'Content.permanent', 'Content.title', 'Content.url_title', 'Content.menu_rank', 'Content.controller'
+					'Content.permanent', 'Content.title', 'Content.url_title', 'Content.menu_rank', 'Content.controller','Content.redirect'
 					),
 	        	'conditions' => array(
 	        		array(
