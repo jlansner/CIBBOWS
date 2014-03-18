@@ -96,7 +96,14 @@ if ($reg) {
 	 if (!(($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date']))) { ?>
 		<tr>
 			<td>Check-in Location:</td>
-			<td><?php echo $this -> Html -> link($race['CheckinLocation']['title'], array('controller' => 'locations', 'action' => 'view', $race['CheckinLocation']['url_title'])); ?></td>
+			<td><?php echo $this->Html->link(
+				$race['CheckinLocation']['title'],
+				array(
+					'controller' => 'locations',
+					'action' => 'view',
+					'url_title' => $race['CheckinLocation']['url_title']
+				)
+			); ?></td>
 		</tr>
 
 		<tr>
@@ -124,19 +131,40 @@ if ($reg) {
 
 	<tr>
 		<td>Start Location:</td>
-		<td><?php echo $this -> Html -> link($race['StartLocation']['title'], array('controller' => 'locations', 'action' => 'view', $race['StartLocation']['url_title'])); ?></td>
+		<td><?php echo $this -> Html -> link(
+			$race['StartLocation']['title'],
+			array(
+				'controller' => 'locations', 
+				'action' => 'view', 
+				'url_title' => $race['StartLocation']['url_title']
+			)
+		); ?></td>
 	</tr>
 
 	<tr>
 		<td>End Location:</td>
-		<td><?php echo $this -> Html -> link($race['EndLocation']['title'], array('controller' => 'locations', 'action' => 'view', $race['EndLocation']['url_title'])); ?></td>
+		<td><?php echo $this -> Html -> link(
+			$race['EndLocation']['title'], 
+			array(
+				'controller' => 'locations', 
+				'action' => 'view', 
+				'url_title' => $race['EndLocation']['url_title']
+			)
+		); ?></td>
 	</tr>
 
 	<?php if (!(($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date']))) { ?>
 
 		<tr>
 			<td>Postrace Location:</td>
-			<td><?php echo $this -> Html -> link($race['PostraceLocation']['title'], array('controller' => 'locations', 'action' => 'view', $race['PostraceLocation']['url_title'])); ?></td>
+			<td><?php echo $this -> Html -> link(
+				$race['PostraceLocation']['title'], 
+				array(
+					'controller' => 'locations',
+					'action' => 'view', 
+					'url_title' => $race['PostraceLocation']['url_title']
+				)
+			); ?></td>
 		</tr>
 	<?php } ?>
 
@@ -153,7 +181,7 @@ if ($reg) {
 			?>
 			</td>
 		</tr>
-	<?php if (substr($race['Race']['date'],0,4) < $this->Time->format('Y')) { ?>
+	<?php if ($this->Time->isFuture($race['Race']['date'])) { ?>
 
 	<tr>
 		<td>Minimum Age:</td>

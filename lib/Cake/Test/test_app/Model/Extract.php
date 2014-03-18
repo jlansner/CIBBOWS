@@ -1,6 +1,6 @@
 <?php
 /**
- * Test App Comment Model
+ * Test App Extract Model
  *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -12,22 +12,20 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.TestApp.Model
- * @since         CakePHP v 1.2.0.7726
+ * @since         CakePHP v 2.4
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
- * Class PersisterOne
+ * Class Extract
+ *
+ * For testing Console i18n validation message extraction with quotes
  *
  * @package       Cake.Test.TestApp.Model
  */
-class PersisterOne extends AppModel {
+class Extract extends AppModel {
 
-	public $useTable = 'posts';
-
-	public $actsAs = array('PersisterOneBehavior', 'TestPlugin.TestPluginPersisterOne');
-
-	public $hasMany = array('Comment', 'TestPlugin.TestPluginComment');
+	public $useTable = false;
 
 	public $validate = array(
 		'title' => array(
@@ -35,25 +33,11 @@ class PersisterOne extends AppModel {
 				'rule' => array('custom', '.*'),
 				'allowEmpty' => true,
 				'required' => false,
-				'message' => 'Post title is required'
+				'message' => 'double "quoted" validation'
 			),
 			'between' => array(
 				'rule' => array('between', 5, 15),
-				'message' => array('You may enter up to %s chars (minimum is %s chars)', 14, 6)
-			)
-		),
-		'body' => array(
-			'first_rule' => array(
-				'rule' => array('custom', '.*'),
-				'allowEmpty' => true,
-				'required' => false,
-				'message' => 'Post body is required'
-			),
-			'second_rule' => array(
-				'rule' => array('custom', '.*'),
-				'allowEmpty' => true,
-				'required' => false,
-				'message' => 'Post body is super required'
+				'message' => "single 'quoted' validation"
 			)
 		),
 	);

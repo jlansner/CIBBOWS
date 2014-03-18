@@ -127,6 +127,17 @@
 		)
 	);
 
+	Router::connect(
+		'/locations/:url_title',
+		array(
+			'controller' => 'locations',
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('url_title'),
+			'url_title' => '[a-z0-9_\-]*'
+		)
+	);
 	
 	Router::connect(
 		'/:controller/:year/:url_title',
