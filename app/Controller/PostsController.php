@@ -60,12 +60,18 @@ class PostsController extends AppController {
 		$post = $this->Post->find(
 			'first',
 			array(
-				'fields' => array('Post.title', 'Post.user_id', 'Post.anonymous', 'Post.body', 'Post.posted', 'User.first_name', 'User.last_name', 'User.id'),
+				'fields' => array('Post.title', 'Post.user_id', 'Post.anonymous', 'Post.body', 'Post.posted', 'Post.parent_id', 'User.first_name', 'User.last_name', 'User.id'),
 				'conditions' => array(
 					'Post.url_title' => $url_title,
 					'Post.posted LIKE' => $year . '-' . $month . '-' . $day . '%',
 					'Post.active' => 1,
 					'Post.archived'=> 0
+				),
+				'contain' => array(
+					'User',
+					'ParentPost' => array(
+						'Tag'
+					)
 				)
 			)
 		);
@@ -89,7 +95,7 @@ class PostsController extends AppController {
 			$this->request->data['Post']['user_id'] = $this->Auth->user('id');
 			$this->Post->create();
 			if ($this->Post->save($this->request->data)) {
-				$this->Post->saveField('permanent',$this->Post->id);
+				$this->Post->saveField('parent_id',$this->Post->id);
 				$this->Session->setFlash(__('The post has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -113,7 +119,7 @@ class PostsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 
-			$permanent = $this->request->data['Post']['id'];
+//			$permanent = $this->request->data['Post']['id'];
 			unset($this->request->data['Post']['id']);
 			$this->Post->create();
 			if ($this->Post->save($this->request->data)) {
@@ -168,6 +174,40 @@ class PostsController extends AppController {
 			)
 		);
 		return $post;
+	}
+	
+	public function tags($tag) {
+		$posts = $this->Post->Tag->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Tag.url_title' => $tag
+				),
+				'order' => 'post_id ASC',
+				'fields' => array('post_id'),
+				'recursive' => -1,
+				'contain' => array(
+					'Post' => array(
+						'fields' => array('Post.id'),
+						'ChildPost' => array(
+							'conditions' => array(
+								'active' => 1,
+								'archived' => 0
+							),
+							'fields' => array('ChildPost.title', 'ChildPost.url_title', 'ChildPost.user_id', 'ChildPost.anonymous', 'ChildPost.body', 'ChildPost.posted', 'ChildPost.parent_id'),
+							'User' => array(
+								'fields' => array('User.first_name', 'User.last_name', 'User.id')
+							)
+						),
+						'Tag' => array(
+							'fields' => array('Tag.title','Tag.url_title')
+						)
+					)					
+				)
+			)
+		);
+		
+		$this->set(compact('posts'));
 	}
 
 }

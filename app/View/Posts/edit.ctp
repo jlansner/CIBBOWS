@@ -4,6 +4,10 @@
 		<legend><?php echo __('Edit Post'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
+		echo $this->Form->hidden('parent_id');
+		echo $this->Form->hidden('active');
+		echo $this->Form->hidden('archived');
+		echo $this->Form->hidden('posted');
 		echo $this->Form->input('title');
 		echo $this->Form->input('anonymous');
 		echo $this->Form->input(

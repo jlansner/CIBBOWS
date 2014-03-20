@@ -13,11 +13,11 @@ class Post extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'permanent' => array(
+		'parent_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -97,7 +97,7 @@ class Post extends AppModel {
 			'boolean' => array(
 				'rule' => array('boolean'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -127,5 +127,29 @@ class Post extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'ParentPost' => array(
+			'className' => 'Post',
+			'foreignKey' => 'parent_id'
+		)
+	);
+	
+	public $hasOne = array(
+		'ChildPost' => array(
+			'className' => 'Post',
+			'foreignKey' => 'parent_id',
+			'conditions' => array(
+				'ChildPost.active' => 1,
+				'ChildPost.archived' => 0
+			)
+		)
+	);
+
+	public $hasMany = array(
+		'Tag' => array(
+			'className' => 'Tag',
+			'foreignKey' => 'post_id',
+			'conditions' => array(
+			)
+		)
 	);
 }

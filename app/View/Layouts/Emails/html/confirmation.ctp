@@ -2,8 +2,7 @@
 
 <p>Please click on the link below to confirm your account:</p>
 
-<blockquote style="background-color: #cfc; padding: 10px; text-align: center;"><?php
-$this->Html->link(
+<blockquote style="background-color: #cfc; padding: 10px; text-align: center;"><?php echo $this->Html->link(
 	'Click here',
 	array(
 		'controller' => 'users',

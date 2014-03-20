@@ -15,5 +15,20 @@ if ($post['Post']['anonymous'] == 0) {
 </p>
 
 <p><?php echo $post['Post']['body']; ?></p>
+
+<?php
+	if ($post['ParentPost']['Tag']) {
+		foreach ($post['ParentPost']['Tag'] as $tag) {
+			echo $this->Html->link(
+				'#' . $tag['title'],
+				array(
+					'controller' => 'posts',
+					'action' => 'tags',
+					'tag' => $tag['url_title']
+				)
+			);
+		}
+	}
+?>
 	</div>
 </div>

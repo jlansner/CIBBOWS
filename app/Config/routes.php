@@ -177,6 +177,18 @@
 			'page' => '[0-9]*'
 		)
 	);
+
+	Router::connect(
+		'/posts/tagged/:tag',
+		array(
+			'controller' => 'posts',
+			'action' => 'tags'
+		),
+		array(
+			'pass' => array('tag'),
+			'page' => '[a-z0-9_\-]*'
+		)
+	);
 	
 /**
  * Load all plugin routes. See the CakePlugin documentation on
