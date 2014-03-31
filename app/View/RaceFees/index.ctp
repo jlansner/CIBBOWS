@@ -1,6 +1,6 @@
 <div class="raceFees index">
 	<h2><?php echo __('Race Fees'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table class="zebraTable">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('race_id'); ?></th>
@@ -9,15 +9,13 @@
 			<th><?php echo $this->Paginator->sort('price'); ?></th>
 			<th><?php echo $this->Paginator->sort('priority'); ?></th>
 			<th><?php echo $this->Paginator->sort('membership_level_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($raceFees as $raceFee): ?>
 	<tr>
 		<td><?php echo h($raceFee['RaceFee']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($raceFee['Race']['title'], array('controller' => 'races', 'action' => 'view', $raceFee['Race']['id'])); ?>
+			<?php echo $this->Html->link($raceFee['Race']['title'] . ' - ' . substr($raceFee['Race']['date'],0,4), array('controller' => 'races', 'action' => 'view', $raceFee['Race']['id'])); ?>
 		</td>
 		<td><?php echo h($raceFee['RaceFee']['start_date']); ?>&nbsp;</td>
 		<td><?php echo h($raceFee['RaceFee']['end_date']); ?>&nbsp;</td>
@@ -26,8 +24,6 @@
 		<td>
 			<?php echo $this->Html->link($raceFee['MembershipLevel']['title'], array('controller' => 'membership_levels', 'action' => 'view', $raceFee['MembershipLevel']['id'])); ?>
 		</td>
-		<td><?php echo h($raceFee['RaceFee']['created']); ?>&nbsp;</td>
-		<td><?php echo h($raceFee['RaceFee']['modified']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $raceFee['RaceFee']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $raceFee['RaceFee']['id'])); ?>

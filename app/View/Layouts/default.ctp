@@ -65,6 +65,9 @@
 		echo $this->Html->script('ckeditor/ckeditor');
 	}
 	?>
+	<!-- 
+		Website built and maintained by Jesse Lansner. For more information, check out http://lansner.com
+	-->
 </head>
 <body>
 <script>

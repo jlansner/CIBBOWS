@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="column column12">
 
-<h1>Thank You for Your donation.</h1>
+<h1>Thank You For Your Donation.</h1>
 
 	<p><?php echo $this->request->data['Donation']['first_name'] . " " . $this->request->data['Donation']['last_name']; ?>,<br />
 		<br />

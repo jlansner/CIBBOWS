@@ -6,12 +6,13 @@
 <?php // echo h($race['Race']['logo']); ?>
 
 <p>
-	<?php
-	echo $this -> Time -> format('F j, Y', $race['Race']['date']);
-	if (($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date'])) {
-		echo ' &ndash; ' . $this -> Time -> format('F j, Y', $race['Race']['end_date']);
-	}
-	?>
+<?php
+echo $this -> Time -> format('F j, Y', $race['Race']['date']);
+
+if (($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date'])) {
+	echo ' &ndash; ' . $this -> Time -> format('F j, Y', $race['Race']['end_date']);
+}
+?>
 </p>
 
 <?php
@@ -61,13 +62,14 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 			)
 		); ?>
  	</li>
- </ul>
- <br class="clear" />
+</ul>
+<br class="clear" />
+
 <p>
 <?php
 
 if ($reg) {
-	echo 'You are already registered';
+	echo 'You are already registered for this race.';
 } else {
 	if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
 		echo $this->Html->link(
@@ -90,14 +92,17 @@ if ($reg) {
 	<?php echo $race['Race']['body']; ?>
 	
 	<table class="zebraTable">
+		<tr>
+			<th colspan="2">Race Details</th>
+		</tr>
 
 	<?php
-		if (substr($race['Race']['date'],0,4) < $this->Time->format('Y')) { 
-	 if (!(($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date']))) { ?>
+	if ($this->Time->isFuture($race['Race']['date'])) {
+		if (!(($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date']))) { ?>
 		<tr>
 			<td>Check-in Location:</td>
-			<td><?php echo $this->Html->link(
-				$race['CheckinLocation']['title'],
+			<td><?php echo $race['CheckinLocation']['title'] . ' ' . $this->Html->link(
+				'(map/details)',
 				array(
 					'controller' => 'locations',
 					'action' => 'view',
@@ -117,8 +122,32 @@ if ($reg) {
 		</tr>
 
 		<tr>
+			<td>Start Location:</td>
+			<td><?php echo $race['StartLocation']['title'] . ' ' . $this -> Html -> link(
+				'(map/details)',
+				array(
+					'controller' => 'locations', 
+					'action' => 'view', 
+					'url_title' => $race['StartLocation']['url_title']
+				)
+			); ?></td>
+		</tr>
+
+		<tr>
 			<td>Start Time:</td>
 			<td><?php echo $this -> Time -> format('g:i a', $race['Race']['start_time']); ?></td>
+		</tr>
+
+		<tr>
+			<td>End Location:</td>
+			<td><?php echo $race['EndLocation']['title'] . ' ' . $this -> Html -> link(
+				'(map/details)', 
+				array(
+					'controller' => 'locations', 
+					'action' => 'view', 
+					'url_title' => $race['EndLocation']['url_title']
+				)
+			); ?></td>
 		</tr>
 
 		<tr>
@@ -126,39 +155,10 @@ if ($reg) {
 			<td><?php echo $this -> Time -> format('g:i a', $race['Race']['end_time']); ?></td>
 		</tr>
 
-	<?php } 
-	 } ?>
-
-	<tr>
-		<td>Start Location:</td>
-		<td><?php echo $this -> Html -> link(
-			$race['StartLocation']['title'],
-			array(
-				'controller' => 'locations', 
-				'action' => 'view', 
-				'url_title' => $race['StartLocation']['url_title']
-			)
-		); ?></td>
-	</tr>
-
-	<tr>
-		<td>End Location:</td>
-		<td><?php echo $this -> Html -> link(
-			$race['EndLocation']['title'], 
-			array(
-				'controller' => 'locations', 
-				'action' => 'view', 
-				'url_title' => $race['EndLocation']['url_title']
-			)
-		); ?></td>
-	</tr>
-
-	<?php if (!(($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date']))) { ?>
-
 		<tr>
 			<td>Postrace Location:</td>
-			<td><?php echo $this -> Html -> link(
-				$race['PostraceLocation']['title'], 
+			<td><?php echo $race['PostraceLocation']['title'] . ' ' . $this -> Html -> link(
+				'(map/details)', 
 				array(
 					'controller' => 'locations',
 					'action' => 'view', 
@@ -166,7 +166,12 @@ if ($reg) {
 				)
 			); ?></td>
 		</tr>
-	<?php } ?>
+
+	<?php } 
+	 } ?>
+
+
+
 
 		<tr>
 			<td>Distance:</td>
@@ -193,16 +198,8 @@ if ($reg) {
 		<td><?php echo h($race['Race']['max_swimmers']); ?></td>
 	</tr>
 
-<!--	
-	<tr>
-		<td>Course Map:</td>
-		<td><?php echo h($race['Race']['course_map']); ?></td>
-	</tr>
--->
-
 	<tr>
 		<td>Fees</td>
-		
 		<td>
 
 			<?php if (!empty($race['NonMemberRaceFee'])) { ?>
@@ -230,14 +227,30 @@ if ($reg) {
 		</td>
 		</tr>
 
-		<tr>
-			<td>Experience Requirement:</td>
-			<td><?php echo $race['Experience']['name']; ?></td>
-		</tr>
+	<?php if ($race['Race']['experience_id']) { ?>
+			<tr>
+				<td>Experience Requirement:</td>
+				<td><?php echo $race['Experience']['name']; ?></td>
+			</tr>
+	<?php } ?>
 <?php } ?>
-	</table>
 
-	<?php if (!empty($race['ChildRace'])): ?>
+	<tr>
+		<td>Course Map:</td>
+		<td><?php echo 
+			$this->Html->image(
+				'coursemaps/' . $race['Race']['course_map'],
+				array(
+					'alt' => $race['Race']['title'] . ' map'
+				)
+			); ?></td>
+	</tr>
+
+</table>		
+	<?php if (empty($race['ChildRace'])) { ?>
+
+		<?php } else { ?>
+
 
 <div class="related">
 	<h3>Sections</h3>
@@ -414,7 +427,7 @@ if ($reg) {
 	</div>
 </div>
 
-<?php endif; ?>
+<?php } ?>
 
 
 <?php } else { ?>

@@ -4,8 +4,8 @@
 echo $this->Form->create(
 	'Donation',
 	array(
-		'action' => 'confirm'
-		
+		'controller' => 'donations',
+		'action' => 'confirm'		
 	)
 ); ?>
 	<fieldset>

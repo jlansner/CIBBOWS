@@ -12,42 +12,10 @@
 		echo $this->Form->input('series_id');
 		echo $this->Form->input('date');
 		echo $this->Form->input('end_date');
-		echo $this->Form->input(
-			'checkin_start_time',
-			array(
-				'selected' => array(
-					'hour' => '7',
-					'minute' => '00',
-					'meridian' => 'am')
-				)
-		);
-		echo $this->Form->input(
-			'checkin_end_time',
-			array(
-				'selected' => array(
-					'hour' => '8',
-					'minute' => '00',
-					'meridian' => 'am')
-				)			
-		);
-		echo $this->Form->input(
-			'start_time',
-			array(
-				'selected' => array(
-					'hour' => '9',
-					'minute' => '00',
-					'meridian' => 'am')
-				)
-		);
-		echo $this->Form->input(
-			'end_time',
-			array(
-				'selected' => array(
-					'hour' => '10',
-					'minute' => '00',
-					'meridian' => 'am')
-				)
-		);
+		echo $this->Form->input('checkin_start_time');
+		echo $this->Form->input('checkin_end_time');
+		echo $this->Form->input('start_time');
+		echo $this->Form->input('end_time');
 		echo $this->Form->input('start_location');
 		echo $this->Form->input('end_location');
 		echo $this->Form->input('checkin_location');
@@ -103,7 +71,8 @@
 		echo $this->Form->input(
 			'experience_id',
 			array(
-				'label' => 'Expereince Requirement'
+				'label' => 'Expereince Requirement',
+				'empty' => 'No Experience Necessary'
 			)
 		);
 	?>

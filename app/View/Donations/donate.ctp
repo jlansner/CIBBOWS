@@ -1,6 +1,8 @@
 <div class="row">
 	<div class="column column12">
 		<h1>Donate to CIBBOWS</h1>
+		
+		<p>CIBBOWS is a non-profit organization, supported entirely by your generous donations.</p>
 	</div>
 </div>
 <?php echo $this->Form->create('Donation');
@@ -52,6 +54,7 @@ if (AuthComponent::user('id')) {
 		<?php echo $this->Form->input(
 			'amount',
 			array(
+				'label' => 'Donation Amount'
 			)
 		); ?>
 	</div>

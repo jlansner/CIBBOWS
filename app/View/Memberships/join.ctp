@@ -1,10 +1,13 @@
-
+<div class="row">
+	<div class="column column12">
+		<h1>Join CIBBOWS</h1>
+		
+		<p>Become a member of CIBBOWS today and enjoy discounts on races, invitations to special members-only swims and social events, and more!</p>
 <?php
 
 if (count($membershipFee)) {
 	echo $this->Form->create('Membership'); ?>
 	<fieldset>
-		<legend>Join CIBBOWS</legend>
 		<?php
 			echo $this->Form->hidden(
 				'membership_level_id',
@@ -37,3 +40,5 @@ if (count($membershipFee)) {
 	
 	<p>Membership is not available at this time.</p>
 <?php } ?>
+	</div>
+</div>

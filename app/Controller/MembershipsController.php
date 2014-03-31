@@ -9,6 +9,11 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class MembershipsController extends AppController {
 
+public function beforeFilter() {
+    parent::beforeFilter();
+	$this->Security->blackHoleCallback = '_forceSecure';
+	$this->Security->requireSecure();
+}
 
 /**
  * index method
@@ -105,6 +110,7 @@ class MembershipsController extends AppController {
 	}
 
 	public function join() {
+		
 		$membershipFee = $this->Membership->MembershipLevel->MembershipFee->find(
 			'first',
 			array(

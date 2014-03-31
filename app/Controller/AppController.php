@@ -33,6 +33,7 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class AppController extends Controller {
 	public $components = array(
+		'Security',
 		'Acl',
         'Auth' => array(
             'authorize' => array(
@@ -47,7 +48,6 @@ class AppController extends Controller {
 		'DebugKit.Toolbar',
 		'Paginator',
 		'Session',
-//		'Security',
 		'Stripe.Stripe'
 	);
 
@@ -133,4 +133,8 @@ class AppController extends Controller {
 		$Email->send();		
 		
 	}
+
+    public function _forceSecure() {
+        $this->redirect( 'https://'.env('SERVER_NAME').env('REQUEST_URI') );
+    }
 }

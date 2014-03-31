@@ -2,7 +2,7 @@
 
 <p>Please click on the link below to confirm your account:</p>
 
-<blockquote style="background-color: #cfc; padding: 10px; text-align: center;"><?php echo $this->Html->link(
+<blockquote style="border: 1px solid #5a7f92; padding: 10px; text-align: center;"><?php echo $this->Html->link(
 	'Click here',
 	array(
 		'controller' => 'users',
@@ -13,7 +13,7 @@
 );
 ?></blockquote>
 
-<p>Or copy and paste the following link into your browser: <?php echo $this->Html->url(
+<p>Or copy and paste the following link into your browser:<br /> <?php echo $this->Html->url(
 	array(
 		'controller' => 'users',
 		'action' => 'confirm',

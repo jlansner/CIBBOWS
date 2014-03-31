@@ -10,6 +10,15 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class DonationsController extends AppController {
 
+	public function beforeFilter() {
+	    parent::beforeFilter();
+//	    $this->Security->blackHoleCallback = 'blackhole';
+		$this->Auth->allow('*');
+		$this->Security->blackHoleCallback = '_forceSecure';
+		$this->Security->requireSecure();
+		$this->Security->validatePost = false;
+	}
+
 /**
  * Components
  *
@@ -17,10 +26,6 @@ class DonationsController extends AppController {
  */
 	public $components = array('Paginator');
 	
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->allow('*');
-	}
 /**
  * index method
  *
@@ -119,7 +124,7 @@ class DonationsController extends AppController {
 		}
 	}
 
-	public function confirm() {
+	public function confirm() {		
 		if ($this->request->is('post')) {
 
 			$customerData = array(

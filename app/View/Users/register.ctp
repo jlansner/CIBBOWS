@@ -1,6 +1,8 @@
 <div class="row">
 	<div class="column column12">
-		<h1>Register</h1>
+		<h1>Create An Account</h1>
+		
+		<p>You must have an account on the site in order to become a member of CIBBOWS, or to register for races and other events. Your account is free, and we will never share your information with anyone else.</p>
 	</div>
 </div>
 

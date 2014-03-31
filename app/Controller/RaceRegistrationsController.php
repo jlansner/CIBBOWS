@@ -9,6 +9,13 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class RaceRegistrationsController extends AppController {
 
+public function beforeFilter() {
+    parent::beforeFilter();
+	if ($this->action == 'register') {
+		$this->Security->blackHoleCallback = '_forceSecure';
+		$this->Security->requireSecure();
+	}
+}
 /**
  * index method
  *

@@ -66,7 +66,7 @@ class RaceFeesController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->RaceFee->save($this->request->data)) {
 				$this->Session->setFlash(__('The race fee has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller' => 'race_fees', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The race fee could not be saved. Please, try again.'));
 			}
