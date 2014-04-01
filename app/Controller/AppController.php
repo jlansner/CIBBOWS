@@ -128,13 +128,15 @@ class AppController extends Controller {
 				'email' => $emailvars
 			)
 		);
-		$Email->template('race_registration_updated_approved', 'race_registration_updated_approved');
+		$Email->template('race_registration_updated_approved', 'default');
 		$Email->emailFormat('both');
 		$Email->send();		
 		
 	}
 
-    public function _forceSecure() {
-        $this->redirect( 'https://'.env('SERVER_NAME').env('REQUEST_URI') );
+    public function forceSecure() {
+    	if (!$this->request->is('ssl')) {
+	        $this->redirect( 'https://'.env('SERVER_NAME').env('REQUEST_URI') );
+		}
     }
 }

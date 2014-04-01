@@ -12,10 +12,8 @@ class DonationsController extends AppController {
 
 	public function beforeFilter() {
 	    parent::beforeFilter();
-//	    $this->Security->blackHoleCallback = 'blackhole';
 		$this->Auth->allow('*');
-		$this->Security->blackHoleCallback = '_forceSecure';
-		$this->Security->requireSecure();
+		$this->forceSecure();
 		$this->Security->validatePost = false;
 	}
 
@@ -175,7 +173,7 @@ class DonationsController extends AppController {
 				'email' => $emailvars,
 			)
 		);
-		$Email->template('send_donation_email', 'send_donation_email');
+		$Email->template('send_donation_email', 'default');
 		$Email->emailFormat('both');
 		$Email->send();				
 	}

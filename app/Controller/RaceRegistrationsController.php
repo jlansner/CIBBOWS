@@ -12,8 +12,8 @@ class RaceRegistrationsController extends AppController {
 public function beforeFilter() {
     parent::beforeFilter();
 	if ($this->action == 'register') {
-		$this->Security->blackHoleCallback = '_forceSecure';
-		$this->Security->requireSecure();
+		$this->forceSecure();
+		$this->Security->validatePost = false;
 	}
 }
 /**
@@ -428,7 +428,7 @@ public function beforeFilter() {
 				'email' => $emailvars
 			)
 		);
-		$Email->template('race_registration_approved', 'race_registration_approved');
+		$Email->template('race_registration_approved', 'default');
 		$Email->emailFormat('both');
 		$Email->send();		
 	}
@@ -445,7 +445,7 @@ public function beforeFilter() {
 				'hasAddress' => $hasAddress
 			)
 		);
-		$Email->template('race_registration_received', 'race_registration_received');
+		$Email->template('race_registration_received', 'default');
 		$Email->emailFormat('both');
 		$Email->send();				
 	}

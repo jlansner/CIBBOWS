@@ -1,26 +1,23 @@
-<?php
-/**
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Emails.html
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-?>
-<?php
-$content = explode("\n", $content);
+<h1 style="font-size: 24px; font-family: Arial, Helvetica, sans-serif;">Confirm Your Email</h1>		
 
-foreach ($content as $line):
-	echo '<p> ' . $line . "</p>\n";
-endforeach;
-?>
+<p>Please click on the link below to confirm your account:</p>
+
+<blockquote style="border: 1px solid #5a7f92; padding: 10px; text-align: center;"><?php echo $this->Html->link(
+	'Click here',
+	array(
+		'controller' => 'users',
+		'action' => 'confirm',
+		'string' => $encrypted,
+		'full_base' => true
+	)
+);
+?></blockquote>
+
+<p>Or copy and paste the following link into your browser:<br /> <?php echo $this->Html->url(
+	array(
+		'controller' => 'users',
+		'action' => 'confirm',
+		'string' => $encrypted,
+		'full_base' => true
+	)
+); ?></p>

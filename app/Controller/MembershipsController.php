@@ -9,11 +9,11 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class MembershipsController extends AppController {
 
-public function beforeFilter() {
-    parent::beforeFilter();
-	$this->Security->blackHoleCallback = '_forceSecure';
-	$this->Security->requireSecure();
-}
+	public function beforeFilter() {
+	    parent::beforeFilter();
+		$this->forceSecure();
+		$this->Security->validatePost = false;
+	}
 
 /**
  * index method
@@ -173,7 +173,7 @@ public function beforeFilter() {
 		$Email->to($user['email']);
 		$Email->subject('Thank you for joining CIBBOWS');
 		$Email->viewVars(array('name' => $user['name'], 'year' => $membershipFee['MembershipFee']['year'], 'price' => $membershipFee['MembershipFee']['price']));
-		$Email->template('join', 'join');
+		$Email->template('join', 'default');
 		$Email->emailFormat('both');
 		$Email->send();		
 	}

@@ -4,6 +4,11 @@ App::uses('CakeEmail', 'Network/Email');
 
 class UsersController extends AppController {
 
+	public function beforeFilter() {
+	    parent::beforeFilter();
+		$this->forceSecure();
+	}
+
 	public function index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
@@ -156,7 +161,7 @@ class UsersController extends AppController {
 //		$Email->cc('jlansner@gmail.com');
 		$Email->subject('Confirmation Email');
 		$Email->viewVars(array('encrypted' => $encrypted));
-		$Email->template('confirmation', 'confirmation');
+		$Email->template('confirmation', 'default');
 		$Email->emailFormat('both');
 		$Email->send();
 	}
@@ -233,7 +238,7 @@ class UsersController extends AppController {
 		$Email->to($user['User']['email']);
 		$Email->subject('Password Reset');
 		$Email->viewVars(array('encrypted' => $encrypted));
-		$Email->template('password_reset', 'password_reset');
+		$Email->template('password_reset', 'default');
 		$Email->emailFormat('both');
 		$Email->send();
 	}

@@ -20,7 +20,7 @@ echo $this->Form->create(
 	<p>
 	Name: <?php echo $this->request->data['Donation']['first_name'] . " " . $this->request->data['Donation']['last_name']; ?><br />
 	Email Address: <?php echo $this->request->data['Donation']['email']; ?><br />
-	Amount: $<?php echo $this->request->data['Donation']['amount']; ?>
+	Amount: $<?php echo number_format($this->request->data['Donation']['amount'],2); ?>
 	</p>
 	</fieldset>
  <script
