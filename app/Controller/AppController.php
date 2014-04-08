@@ -68,7 +68,7 @@ class AppController extends Controller {
 		);
 //        $this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
 
-		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','register','confirm','forgot_password','reset_password','menu','donate','confirm','thankyou');
+		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','create_account','confirm','forgot_password','reset_password','menu','donate','confirm','thankyou');
 		
 		if ($this->Session->read('Membership.membership_level')) {
 			$this->userMembershipLevel = $this->Session->read('Membership.membership_level');

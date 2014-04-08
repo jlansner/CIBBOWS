@@ -6,8 +6,27 @@ $deleteRed: #900;
 $orange: #ee971a;
 
 // fonts
+$blackoak: "blackoak-std";
+$franklin: "franklin-gothic-urw";
+$gothic: "tablet-gothic";
+$poplar: "poplar-std";
 $pragmatica: "pragmatica-web-condensed";
+
+// columns
+$numColumns: 12;
 
 @mixin column-width($span) {
   width: percentage($span / 12);
 }
+
+  $allColumns: ();
+  @for $i from 1 through $numColumns {
+    $nextcol: ".column" + $i;
+    $allColumns: append($allColumns, unquote($nextcol), comma);
+  }
+  
+  $allHeadings: ();
+  @for $i from 1 through 6 {
+    $heading: "h" + $i;
+    $allHeadings: append($allHeadings, unquote($heading), comma);
+  }

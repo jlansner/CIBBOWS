@@ -32,7 +32,7 @@ if (count($membershipFee)) {
     data-description="Membership"
     data-label="Join"
     data-email="<?php echo AuthComponent::user('email'); ?>"
-    data-image="/128x128.png">
+    data-image="/img/128x128.png">
   </script>
 
 	<?php // echo $this->Form->end(__('Join')); 

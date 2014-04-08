@@ -54,7 +54,7 @@
 		);
 	}
 	
-	$userActions = array('login', 'logout', 'register', 'forgot_password', 'my_profile', 'edit_profile');
+	$userActions = array('login', 'logout', 'create_account', 'forgot_password', 'my_profile', 'edit_profile');
 	
 	foreach ($userActions as $action) {
 		Router::connect(
@@ -67,14 +67,26 @@
 	}
 	
 	Router::connect(
-		'/reset_password/:encrypted',
+		'/confirm/:string',
+		array(
+			'controller' => 'users',
+			'action' => 'confirm'
+		),
+		array(
+			'pass' => array('string'),
+			'string' => '[a-zA-Z0-9]*'
+		)
+	);
+
+	Router::connect(
+		'/reset_password/:string',
 		array(
 			'controller' => 'users',
 			'action' => 'reset_password'
 		),
 		array(
-			'pass' => array('encrypted'),
-			'encrypted' => '[a-zA-Z0-9]'
+			'pass' => array('string'),
+			'string' => '[a-zA-Z0-9]*'
 		)
 	);
 		
@@ -147,7 +159,7 @@
 		array(
 			'pass' => array('year','url_title'),
 			'year' => '[0-9]{4}',
-			'url_title' => '[a-z_\-]*'
+			'url_title' => '[a-z0-9_\-]*'
 		)
 	);
 	

@@ -30,7 +30,7 @@ echo $this->Form->create(
     data-description="Donation"
     data-label="Donate"
     data-email="<?php echo $this->request->data['Donation']['email']; ?>"
-    data-image="/128x128.png">
+    data-image="/img/128x128.png">
   </script>
 <?php // echo $this->Form->end(__('Submit')); ?>
 </div>

@@ -5,14 +5,15 @@
 body {
 	color: #000;
 	background-color: #fff;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: $gothic, Arial, Helvetica, sans-serif;
   font-size: 13px;
   margin: 0;
   padding: 0;
 }
 
 a, .linkSpan {
-	color: $darkBlue;
+//	color: $darkBlue;
+  color: #00e;
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -46,11 +47,20 @@ img {
 	margin: 0;
 	font-family: $pragmatica;
   font-size: 1.25em;
+  
+  a {
+    color: $darkBlue;
+  }
 
    i {
         color: $greyBlue;
     }
 
+}
+
+#{$allHeadings} {
+  font-family: $pragmatica;
+  color: $greyBlue;
 }
 
 h1 {
@@ -78,9 +88,7 @@ h2 {
   h2 {
     text-transform: uppercase;
     text-align: center;
-    font-family: "fatboy";
     font-size: 1.5em;
-    color: $greyBlue;
     margin: 0 0 1em 0;
 
     &::before, &::after {
@@ -113,7 +121,7 @@ h2 {
     line-height: 1em;
 
   	a {
-  		font-family: $pragmatica;
+  		font-family: $franklin;
   	}
   }
   
@@ -272,11 +280,9 @@ h2 {
 		width: 100%;
 	}
 	
-	//reset all columns
-  @for $i from 1 through 12 {
-    .column#{$i} {
-      width: 100%;
-    }
+	//reset all columns  
+  #{$allColumns} {
+    width: 100%;
   }
 
 	.leftNav {
@@ -306,7 +312,11 @@ h2 {
 	padding: 0;
 	list-style-type: none;
 	text-align: center;
-    text-transform: uppercase;
+  text-transform: uppercase;
+
+  a {
+    color: $darkBlue;
+  }
 
 	ul {
 		margin: 0;
@@ -331,7 +341,7 @@ h2 {
 
 	li {
 		margin: 0;
-		padding: 0;
+    padding: .1em 0;
     line-height: 1em;
     white-space: nowrap;
 	}
@@ -342,10 +352,26 @@ h2 {
 @media only screen and (min-width:600px) {
 
 	.navMenu {
+	  
+	   &::before, &::after {
+      content: '\f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005';
+      color: $greyBlue;
+      font-family: "FontAwesome";
+      font-size: 1.25em;
+      font-style: normal;
+      letter-spacing: .35em;
+      padding: .2em 0;
+      display: block;
+    }
+
 		> li {
 			border-bottom: 3px solid $greyBlue;
+			
+			&:last-child {
+			  border-bottom: 0;
+			}
 		}
-
+/*
 		> li:nth-child(3n) {
 			font-family: "blackoak-std";
 			font-size: 1.4em;
@@ -365,30 +391,46 @@ h2 {
 			font-family: "stud";
 			font-size: 0.8em;
 		}
-
+*/
 // hard code widths for now		
 		> li:nth-child(1) {
-		  font-size: 4.4em;
+		  font-family: $blackoak;
+		  font-size: 1.5em;
 		}
 
     > li:nth-child(2) {
-      font-size: 2.0em;
+      font-family: $pragmatica;
+      font-size: 4.0em;
     }
 
     > li:nth-child(3) {
-      font-size: .8em;
+      font-family: $pragmatica;
+      font-size: 2.0em;
     }
 
     > li:nth-child(4) {
-      font-size: 2.3em;
+      font-family: $poplar;
+      font-size: 2.8em;
     }
 
     > li:nth-child(5) {
-      font-size: 1.1em;
+      font-family: $pragmatica;
+      font-size: 2.2em;
     }
 
     > li:nth-child(6) {
+      font-family: $blackoak;
       font-size: 1.8em;
+    }
+
+    > li:nth-child(7) {
+      font-family: $poplar;
+      font-size: 2.4em;
+    }
+
+    > li:nth-child(8) {
+      font-family: $blackoak;
+      font-size: 1.9em;
     }
 
 		ul li {

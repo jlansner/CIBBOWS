@@ -84,8 +84,8 @@
 	<div class="header">
 		<p class="headerLinks"><?php
 		if (AuthComponent::user('id')) {
-			echo "Welcome " . $this->Html->link(
-				AuthComponent::user('first_name'),
+			echo /*"Welcome " . AuthComponent::user('first_name') . '(' .*/ $this->Html->link(
+				'My Profile',
 				array(
 					'admin' => false,
 					'controller' => 'users',
@@ -125,7 +125,7 @@
 				array(
 					'admin' => false,
 					'controller' => 'users',
-					'action' => 'register'
+					'action' => 'create_account'
 				)
 			); 
 		}
@@ -187,7 +187,7 @@
 				array(
 					'admin' => false,
 					'controller' => 'users',
-					'action' => 'register'
+					'action' => 'create_account'
 				)
 			) . '</li>'; 
 		}

@@ -92,7 +92,7 @@
     data-description="Race Registration"
     data-label="Register"
     data-email="<?php echo AuthComponent::user('email'); ?>"
-    data-image="/128x128.png">
+    data-image="/img/128x128.png">
   </script>
 
 

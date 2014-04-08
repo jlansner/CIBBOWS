@@ -9,13 +9,12 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class RaceRegistrationsController extends AppController {
 
-public function beforeFilter() {
-    parent::beforeFilter();
-	if ($this->action == 'register') {
+	public function beforeFilter() {
+	    parent::beforeFilter();
 		$this->forceSecure();
 		$this->Security->validatePost = false;
 	}
-}
+
 /**
  * index method
  *
@@ -257,7 +256,8 @@ public function beforeFilter() {
 			)
 		);
 
-		if ($this->request->is('post')) {		
+		if ($this->request->is('post')) {
+			$this->request->data['RaceRegistration']['date'] = $race['Race']['date'];
 			if (isset($this->request->data['RaceRegistration']['dob'])) {
 				$dob = $this->request->data['RaceRegistration']['dob']['year'] . '-' . $this->request->data['RaceRegistration']['dob']['month'] . '-' . $this->request->data['RaceRegistration']['dob']['day'];
 				$this->RaceRegistration->User->id = $this->Auth->user('id');

@@ -5,7 +5,7 @@
 <div id="profileTabs">
 	<ul>
 		<li><a href="#general">General Information</a></li>
-		<li><a href="#qualifying">Qualifying Swims</a></li>
+<?php /*		<li><a href="#qualifying">Qualifying Swims</a></li> */ ?>
 		<li><a href="#results">Results</a></li>
 		<li><a href="#registrations">Registrations</a></li>
 		<li><a href="#donations">Donations</a></li>
@@ -151,6 +151,7 @@
 	*/ ?>
 	</div>
 
+<?php /*
 	<div id="qualifying">
 <h3>Qualifying Races</h3>
 <?php if (!empty($user['QualifyingRace'])): ?>
@@ -214,10 +215,18 @@
 <?php endif; ?>
 
 	<p>
-		<?php echo $this->html->Link('<i class="fa fa-plus add"></i> Add Qualifying Race', array('controller' => 'qualifying_races', 'action' => 'add_race'), array('escape' => FALSE)); ?>
+		<?php echo $this->html->Link(
+			'<i class="fa fa-plus add"></i> Add Qualifying Race',
+			array(
+				'controller' => 'qualifying_races',
+				'action' => 'add_race'
+			),
+			array(
+				'escape' => FALSE
+			)
+		); ?>
 	</p>
 
-<?php /*
 <h3>Qualifying Swims</h3>
 <?php if (!empty($user['QualifyingSwim'])): ?>
 	<table class="zebraTable">
@@ -244,9 +253,9 @@
 
 <p>
 	<a href="#">Add Qualifying Swim</a>
-</p> */ ?>
+</p> 
 </div>
-
+*/ ?>
 <div id="results">
 
 <h3>Results</h3>
@@ -326,14 +335,22 @@
 		$i = 0;
 		foreach ($user['RaceRegistration'] as $raceRegistration): ?>
 		<tr>
-			<td><?php echo $raceRegistration['Race']['title']; ?></td>
+			<td><?php echo $this->Html->link(
+				$raceRegistration['Race']['title'],
+				array(
+					'controller' => 'race_registrations',
+					'action' => 'view',
+					'year' => substr($raceRegistration['Race']['date'],0,4),
+					'url_title' => 	$raceRegistration['Race']['url_title']
+				)
+			); ?></td>
 			<td><?php echo $this->Time->format('n/j/y',$raceRegistration['Race']['date']); ?></td>
 			<td><?php echo ($raceRegistration['Race']['distance_number'] + 0) . $raceRegistration['Race']['Distance']['abbreviation']; ?></td>
 			<td>
 			<?php if ($raceRegistration['approved']) { ?>
 				<i class="fa fa-check edit" title="Approved"></i>
 			<?php } else { 
-				if (($raceRegistration['no_qualifier']) || (($raceRegistration['result_id'] == null) && ($raceRegistration['qualifying_race_id'] == null) && ($raceRegistration['qualifying_swim_id'] == null))) { 
+				if (($raceRegistration['Race']['experience_id'] !== null) && (($raceRegistration['result_id'] == null) && ($raceRegistration['qualifying_race_id'] == null) && ($raceRegistration['qualifying_swim_id'] == null))) { 
 					echo $this->html->Link(
 						'<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>',
 						array(

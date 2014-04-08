@@ -26,7 +26,7 @@ echo $this->Html->link('Forgot your password?', array('controller' => 'users', '
 	'Create an account',
 	array(
 		'controller' => 'users',
-		'action' => 'register'
+		'action' => 'create_account'
 	),
 	array(
 		'class' => 'linkButton'

@@ -41,7 +41,7 @@ class UsersController extends AppController {
 		$this->set(compact('genders', 'shirtSizes', 'groups'));
 	}
 
-	public function register() {
+	public function create_account() {
 		if ($this->Auth->user('id')) {
 			$this->redirect('/');
 		}
@@ -72,6 +72,8 @@ class UsersController extends AppController {
 				$user['email'] = $this->request->data['User']['email'];
 				$user['activation_code'] = $this->request->data['User']['activation_code'];
 				$user['id'] = $this->User->id;
+				$user['first_name'] = $this->request->data['User']['first_name'];
+				$user['last_name'] = $this->request->data['User']['last_name'];
 				$this->send_confirmation($user);
 				$this->Session->setFlash(__('Thank you for registering'));
 				$this->Auth->login($user);
@@ -233,7 +235,7 @@ class UsersController extends AppController {
 	private function send_password_reset($user) {
 		
 		$encrypted = $user['User']['activation_code'] . $user['User']['id'];
-		$encrypted = urlencode(base64_encode(Security::cipher($encrypted, Configure::read('Security.cipherSeed'))));
+//		$encrypted = urlencode(base64_encode(Security::cipher($encrypted, Configure::read('Security.cipherSeed'))));
 		$Email = new CakeEmail('default');
 		$Email->to($user['User']['email']);
 		$Email->subject('Password Reset');
@@ -243,7 +245,7 @@ class UsersController extends AppController {
 		$Email->send();
 	}
 	
-	public function reset_password($encrypted) {
+	public function reset_password($string) {
 		if (($this->request->is('post')) || ($this->request->is('put'))) {
 
 			$this->request->data['User']['activation_code'] = "0";
@@ -252,7 +254,7 @@ class UsersController extends AppController {
 				$this->redirect('/');
 			}
 		} else {
-			$string = Security::cipher(base64_decode($encrypted), Configure::read('Security.cipherSeed'));
+//			$string = Security::cipher(base64_decode($encrypted), Configure::read('Security.cipherSeed'));
 			$activation_code = substr($string,0,30);
 			$id = substr($string,30);
 			
@@ -316,6 +318,8 @@ class UsersController extends AppController {
 								'Race.title',
 								'Race.date',
 								'Race.distance_number',
+								'Race.experience_id',
+								'Race.url_title'
 							),
 							'Distance' => array(
 								'fields' => array(
