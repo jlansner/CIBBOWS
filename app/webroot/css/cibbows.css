@@ -94,7 +94,7 @@ body {
   padding: 0; }
 
 /* line 14, ../sass/cibbows.scss */
-a, .linkSpan {
+a, .linkSpan, .ui-widget-content a {
   color: #00e;
   text-decoration: none;
   cursor: pointer; }
@@ -193,91 +193,92 @@ h2 {
   line-height: 1em; }
   /* line 123, ../sass/cibbows.scss */
   .homepage li a {
-    font-family: "franklin-gothic-urw"; }
-/* line 128, ../sass/cibbows.scss */
+    font-family: "franklin-gothic-urw";
+    color: #1c2172; }
+/* line 129, ../sass/cibbows.scss */
 .homepage a {
   font-weight: bold; }
 
-/* line 134, ../sass/cibbows.scss */
+/* line 135, ../sass/cibbows.scss */
 .dateLine {
   font-size: .75em;
   color: #333; }
 
-/* line 139, ../sass/cibbows.scss */
+/* line 140, ../sass/cibbows.scss */
 .phoneMenuLink {
   display: none; }
 
 @media only screen and (min-width: 1000px) {
-  /* line 144, ../sass/cibbows.scss */
+  /* line 145, ../sass/cibbows.scss */
   .header {
     width: 980px;
     padding: 0;
     margin: 0 auto 1% auto; }
 
-  /* line 150, ../sass/cibbows.scss */
+  /* line 151, ../sass/cibbows.scss */
   .headerHome {
     background: url("/img/header980.gif") no-repeat;
     height: 283px; }
 
-  /* line 155, ../sass/cibbows.scss */
+  /* line 156, ../sass/cibbows.scss */
   .container {
     width: 1000px; }
 
-  /* line 159, ../sass/cibbows.scss */
+  /* line 160, ../sass/cibbows.scss */
   .footer {
     padding-left: 20%; } }
 @media only screen and (min-width: 768px) and (max-width: 999px) {
-  /* line 166, ../sass/cibbows.scss */
+  /* line 167, ../sass/cibbows.scss */
   .header {
     width: 748px;
     padding: 0;
     margin: 0 auto 1% auto; }
 
-  /* line 172, ../sass/cibbows.scss */
+  /* line 173, ../sass/cibbows.scss */
   .headerHome {
     background: url("/img/header748.gif") no-repeat;
     height: 217px; }
 
-  /* line 177, ../sass/cibbows.scss */
+  /* line 178, ../sass/cibbows.scss */
   .container {
     width: 768px; }
 
-  /* line 181, ../sass/cibbows.scss */
+  /* line 182, ../sass/cibbows.scss */
   .footer {
     padding-left: 20%; }
 
-  /* line 185, ../sass/cibbows.scss */
+  /* line 186, ../sass/cibbows.scss */
   .leftNav, .homepage h2 {
     font-size: 80%; } }
 @media only screen and (min-width: 600px) and (max-width: 767px) {
-  /* line 192, ../sass/cibbows.scss */
+  /* line 193, ../sass/cibbows.scss */
   .header {
     width: 600px;
     padding: 0;
     margin: 0 auto 1% auto; }
 
-  /* line 198, ../sass/cibbows.scss */
+  /* line 199, ../sass/cibbows.scss */
   .headerHome {
     background: url("/img/header600.gif") no-repeat;
     height: 174px; }
 
-  /* line 203, ../sass/cibbows.scss */
+  /* line 204, ../sass/cibbows.scss */
   .container {
     width: 600px; }
 
-  /* line 207, ../sass/cibbows.scss */
+  /* line 208, ../sass/cibbows.scss */
   .leftNav, .homepage h2 {
     font-size: 65%; } }
 @media only screen and (max-width: 599px) {
-  /* line 214, ../sass/cibbows.scss */
+  /* line 215, ../sass/cibbows.scss */
   #debug-kit-toolbar {
     display: none; }
 
-  /* line 217, ../sass/cibbows.scss */
+  /* line 218, ../sass/cibbows.scss */
   .container {
     width: 100%; }
 
-  /* line 221, ../sass/cibbows.scss */
+  /* line 222, ../sass/cibbows.scss */
   .header {
     width: 100%;
     padding: 0;
@@ -287,16 +288,16 @@ h2 {
     left: 0;
     z-index: 100; }
 
-  /* line 231, ../sass/cibbows.scss */
+  /* line 232, ../sass/cibbows.scss */
   .headerHome {
     background: url("/img/phone_logo_left_5.gif") no-repeat;
     height: 50px; }
 
-  /* line 236, ../sass/cibbows.scss */
+  /* line 237, ../sass/cibbows.scss */
   .headerLinks {
     display: none; }
 
-  /* line 240, ../sass/cibbows.scss */
+  /* line 241, ../sass/cibbows.scss */
   .phoneMenuLink {
     display: block;
     position: absolute;
@@ -311,58 +312,58 @@ h2 {
     color: #fff;
     cursor: pointer; }
 
-  /* line 255, ../sass/cibbows.scss */
+  /* line 256, ../sass/cibbows.scss */
   .contentWrapper {
     margin-top: 55px; } }
 @media only screen and (max-width: 599px) and (min--moz-device-pixel-ratio: 2), only screen and (max-device-width: 599px) and (-o-min-device-pixel-ratio: 2 / 1), only screen and (max-device-width: 599px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-device-width: 599px) and (min-device-pixel-ratio: 2) {
-  /* line 264, ../sass/cibbows.scss */
+  /* line 265, ../sass/cibbows.scss */
   .headerHome {
     background: url("/img/phone_logo_left_5_2X.gif") no-repeat;
     background-size: auto 100%; } }
 @media only screen and (max-width: 599px) {
-  /* line 273, ../sass/cibbows.scss */
+  /* line 274, ../sass/cibbows.scss */
   .homepageSlideshow {
     display: none; }
 
-  /* line 277, ../sass/cibbows.scss */
+  /* line 278, ../sass/cibbows.scss */
   .column {
     float: none;
     margin: 0;
     width: 100%; }
 
-  /* line 284, ../sass/cibbows.scss */
+  /* line 285, ../sass/cibbows.scss */
   .column1, .column2, .column3, .column4, .column5, .column6, .column7, .column8, .column9, .column10, .column11, .column12 {
     width: 100%; }
 
-  /* line 288, ../sass/cibbows.scss */
+  /* line 289, ../sass/cibbows.scss */
   .leftNav {
     display: none; }
 
-  /* line 291, ../sass/cibbows.scss */
+  /* line 292, ../sass/cibbows.scss */
   .content {
     float: none;
     width: 100%;
     padding: 0; }
 
-  /* line 297, ../sass/cibbows.scss */
+  /* line 298, ../sass/cibbows.scss */
   .leftNav ul li {
     display: inline-block;
     margin: 0 5px; }
 
-  /* line 303, ../sass/cibbows.scss */
+  /* line 304, ../sass/cibbows.scss */
   .homepage .column:first-child {
     border: 0; } }
-/* line 309, ../sass/cibbows.scss */
+/* line 310, ../sass/cibbows.scss */
 .navMenu {
   margin: 0;
   padding: 0;
   list-style-type: none;
   text-align: center;
   text-transform: uppercase; }
-  /* line 317, ../sass/cibbows.scss */
+  /* line 318, ../sass/cibbows.scss */
   .navMenu a {
     color: #1c2172; }
-  /* line 321, ../sass/cibbows.scss */
+  /* line 322, ../sass/cibbows.scss */
   .navMenu ul {
     margin: 0;
     padding: 0;
@@ -370,16 +371,16 @@ h2 {
     text-align: center;
     font-size: 50%;
     display: none; }
-    /* line 329, ../sass/cibbows.scss */
+    /* line 330, ../sass/cibbows.scss */
     .navMenu ul.open {
       display: block; }
-    /* line 333, ../sass/cibbows.scss */
+    /* line 334, ../sass/cibbows.scss */
     .navMenu ul li {
       text-align: center; }
-      /* line 336, ../sass/cibbows.scss */
+      /* line 337, ../sass/cibbows.scss */
       .navMenu ul li a {
         color: #5a7f92; }
-  /* line 342, ../sass/cibbows.scss */
+  /* line 343, ../sass/cibbows.scss */
   .navMenu li {
     margin: 0;
     padding: .1em 0;
@@ -387,7 +388,7 @@ h2 {
     white-space: nowrap; }
 
 @media only screen and (min-width: 600px) {
-  /* line 354, ../sass/cibbows.scss */
+  /* line 355, ../sass/cibbows.scss */
   .navMenu {
     /*
     		> li:nth-child(3n) {
@@ -410,7 +411,7 @@ h2 {
     			font-size: 0.8em;
     		}
     */ }
-    /* line 356, ../sass/cibbows.scss */
+    /* line 357, ../sass/cibbows.scss */
     .navMenu::before, .navMenu::after {
       content: '\f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005';
       color: #5a7f92;
@@ -420,45 +421,45 @@ h2 {
       letter-spacing: .35em;
       padding: .2em 0;
       display: block; }
-    /* line 367, ../sass/cibbows.scss */
+    /* line 368, ../sass/cibbows.scss */
     .navMenu > li {
       border-bottom: 3px solid #5a7f92; }
-      /* line 370, ../sass/cibbows.scss */
+      /* line 371, ../sass/cibbows.scss */
       .navMenu > li:last-child {
         border-bottom: 0; }
-    /* line 396, ../sass/cibbows.scss */
+    /* line 397, ../sass/cibbows.scss */
     .navMenu > li:nth-child(1) {
       font-family: "blackoak-std";
       font-size: 1.5em; }
-    /* line 401, ../sass/cibbows.scss */
+    /* line 402, ../sass/cibbows.scss */
     .navMenu > li:nth-child(2) {
       font-family: "pragmatica-web-condensed";
       font-size: 4.0em; }
-    /* line 406, ../sass/cibbows.scss */
+    /* line 407, ../sass/cibbows.scss */
     .navMenu > li:nth-child(3) {
       font-family: "pragmatica-web-condensed";
       font-size: 2.0em; }
-    /* line 411, ../sass/cibbows.scss */
+    /* line 412, ../sass/cibbows.scss */
     .navMenu > li:nth-child(4) {
       font-family: "poplar-std";
       font-size: 2.8em; }
-    /* line 416, ../sass/cibbows.scss */
+    /* line 417, ../sass/cibbows.scss */
     .navMenu > li:nth-child(5) {
       font-family: "pragmatica-web-condensed";
       font-size: 2.2em; }
-    /* line 421, ../sass/cibbows.scss */
+    /* line 422, ../sass/cibbows.scss */
     .navMenu > li:nth-child(6) {
       font-family: "blackoak-std";
       font-size: 1.8em; }
-    /* line 426, ../sass/cibbows.scss */
+    /* line 427, ../sass/cibbows.scss */
     .navMenu > li:nth-child(7) {
       font-family: "poplar-std";
       font-size: 2.4em; }
-    /* line 431, ../sass/cibbows.scss */
+    /* line 432, ../sass/cibbows.scss */
     .navMenu > li:nth-child(8) {
       font-family: "blackoak-std";
       font-size: 1.9em; }
-    /* line 436, ../sass/cibbows.scss */
+    /* line 437, ../sass/cibbows.scss */
     .navMenu ul li {
       white-space: normal;
       /*				font-family: "french-clarendon-ornamented", "cowboyslang";
@@ -471,7 +472,7 @@ h2 {
       				font-family: "fatboy";
       } */ } }
 /** Notices and Errors **/
-/* line 455, ../sass/cibbows.scss */
+/* line 456, ../sass/cibbows.scss */
 .message {
   clear: both;
   color: #fff;
@@ -480,7 +481,7 @@ h2 {
   margin: 0 0 1em 0;
   padding: 5px; }
 
-/* line 470, ../sass/cibbows.scss */
+/* line 471, ../sass/cibbows.scss */
 .success,
 .message,
 .cake-error,
@@ -509,7 +510,7 @@ p.error,
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25); }
 
-/* line 496, ../sass/cibbows.scss */
+/* line 497, ../sass/cibbows.scss */
 .success,
 .message,
 .cake-error,
@@ -528,7 +529,7 @@ p.error,
   background-image: linear-gradient(top, #ee5f5b, #c43c35);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3); }
 
-/* line 510, ../sass/cibbows.scss */
+/* line 511, ../sass/cibbows.scss */
 .success {
   clear: both;
   color: #fff;
@@ -543,19 +544,19 @@ p.error,
   background-image: linear-gradient(top, #76bf6b, #3b8230);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3); }
 
-/* line 524, ../sass/cibbows.scss */
+/* line 525, ../sass/cibbows.scss */
 p.error {
   font-family: Monaco, Consolas, Courier, monospace;
   font-size: 120%;
   padding: 0.8em;
   margin: 1em 0; }
 
-/* line 530, ../sass/cibbows.scss */
+/* line 531, ../sass/cibbows.scss */
 p.error em {
   font-weight: normal;
   line-height: 140%; }
 
-/* line 534, ../sass/cibbows.scss */
+/* line 535, ../sass/cibbows.scss */
 .notice {
   color: #000;
   display: block;
@@ -563,45 +564,45 @@ p.error em {
   padding: 0.8em;
   margin: 1em 0; }
 
-/* line 541, ../sass/cibbows.scss */
+/* line 542, ../sass/cibbows.scss */
 .success {
   color: #fff; }
 
-/* line 545, ../sass/cibbows.scss */
+/* line 546, ../sass/cibbows.scss */
 .footer {
   padding-top: 20px;
   font-size: 80%; }
 
-/* line 550, ../sass/cibbows.scss */
+/* line 551, ../sass/cibbows.scss */
 .smIcons {
   font-size: 32px;
   text-align: center; }
-  /* line 554, ../sass/cibbows.scss */
+  /* line 555, ../sass/cibbows.scss */
   .smIcons a {
     color: #5a7f92;
     padding: 0 5px; }
 
-/* line 560, ../sass/cibbows.scss */
+/* line 561, ../sass/cibbows.scss */
 fieldset {
   border: 0;
   padding: 0; }
 
-/* line 565, ../sass/cibbows.scss */
+/* line 566, ../sass/cibbows.scss */
 legend {
   padding: 0;
   margin: 0 0 1em 0;
   font-size: 2em;
   font-weight: bold; }
 
-/* line 572, ../sass/cibbows.scss */
+/* line 573, ../sass/cibbows.scss */
 .input {
   margin-bottom: 1em; }
 
-/* line 576, ../sass/cibbows.scss */
+/* line 577, ../sass/cibbows.scss */
 label {
   display: block; }
 
-/* line 580, ../sass/cibbows.scss */
+/* line 581, ../sass/cibbows.scss */
 input[type=text], input[type=password], input[type=email], input[type=tel], input[type=number] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -609,7 +610,7 @@ input[type=text], input[type=password], input[type=email], input[type=tel], inpu
   width: 100%;
   padding: .5em; }
 
-/* line 587, ../sass/cibbows.scss */
+/* line 588, ../sass/cibbows.scss */
 input[type=submit], .linkButton {
   background-color: #5a7f92;
   color: #fff;
@@ -623,60 +624,60 @@ input[type=submit], .linkButton {
   font-size: 1.25em;
   cursor: pointer; }
 
-/* line 598, ../sass/cibbows.scss */
+/* line 599, ../sass/cibbows.scss */
 .checkbox label {
   display: inline;
   margin-left: .5em; }
 
-/* line 604, ../sass/cibbows.scss */
+/* line 605, ../sass/cibbows.scss */
 .inline-block {
   display: inline-block; }
 
-/* line 608, ../sass/cibbows.scss */
+/* line 609, ../sass/cibbows.scss */
 .edit, .delete {
   font-size: 1.3em;
   margin-left: .5em; }
 
-/* line 613, ../sass/cibbows.scss */
+/* line 614, ../sass/cibbows.scss */
 .edit {
   color: #009900; }
 
-/* line 617, ../sass/cibbows.scss */
+/* line 618, ../sass/cibbows.scss */
 .delete {
   color: #990000; }
 
-/* line 621, ../sass/cibbows.scss */
+/* line 622, ../sass/cibbows.scss */
 .orange {
   color: #ee971a; }
 
-/* line 625, ../sass/cibbows.scss */
+/* line 626, ../sass/cibbows.scss */
 .zebraTable {
   width: 100%;
   border: 0;
   padding: 0;
   margin: 0;
   border-collapse: collapse; }
-  /* line 632, ../sass/cibbows.scss */
+  /* line 633, ../sass/cibbows.scss */
   .zebraTable th {
     background-color: #5a7f92;
     color: #fff; }
-  /* line 638, ../sass/cibbows.scss */
+  /* line 639, ../sass/cibbows.scss */
   .zebraTable tr:nth-child(even) {
     background-color: #ddd; }
-  /* line 643, ../sass/cibbows.scss */
+  /* line 644, ../sass/cibbows.scss */
   .zebraTable td {
     padding: 2px; }
-  /* line 647, ../sass/cibbows.scss */
+  /* line 648, ../sass/cibbows.scss */
   .zebraTable .fa {
     font-size: 1.3em;
     margin-left: .5em; }
 
-/* line 653, ../sass/cibbows.scss */
+/* line 654, ../sass/cibbows.scss */
 .mapFrame {
   width: 100%;
   height: 400px; }
 
-/* line 658, ../sass/cibbows.scss */
+/* line 659, ../sass/cibbows.scss */
 .liabilityWaiver {
   border: 1px solid #ccc;
   -webkit-border-radius: 5px;
@@ -697,7 +698,7 @@ input[type=submit], .linkButton {
   box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
   text-align: justify; }
 
-/* line 675, ../sass/cibbows.scss */
+/* line 676, ../sass/cibbows.scss */
 .liabilityClose {
   position: absolute;
   top: 5px;
@@ -706,17 +707,17 @@ input[type=submit], .linkButton {
   color: #666;
   cursor: pointer; }
 
-/* line 684, ../sass/cibbows.scss */
+/* line 685, ../sass/cibbows.scss */
 .resultCode {
   margin: 0 3px; }
 
-/* line 688, ../sass/cibbows.scss */
+/* line 689, ../sass/cibbows.scss */
 .raceNav {
   padding: 0;
   margin: 0;
   list-style-type: none;
   width: 100%; }
-  /* line 694, ../sass/cibbows.scss */
+  /* line 695, ../sass/cibbows.scss */
   .raceNav li {
     display: inline-block;
     padding: 5px 20px;
@@ -724,19 +725,19 @@ input[type=submit], .linkButton {
     margin: 0 10px;
     background-color: #5a7f92;
     color: #fff; }
-    /* line 702, ../sass/cibbows.scss */
+    /* line 703, ../sass/cibbows.scss */
     .raceNav li a {
       color: #fff; }
-    /* line 706, ../sass/cibbows.scss */
+    /* line 707, ../sass/cibbows.scss */
     .raceNav li.active {
       background-color: #fff;
       color: #5a7f92; }
 
-/* line 714, ../sass/cibbows.scss */
+/* line 715, ../sass/cibbows.scss */
 .homepageSlideshow {
   margin-bottom: 1em; }
 
-/* line 718, ../sass/cibbows.scss */
+/* line 719, ../sass/cibbows.scss */
 .phoneMenu {
   display: none;
   width: 100%;
@@ -744,22 +745,30 @@ input[type=submit], .linkButton {
   background: #fff;
   position: fixed;
   font-size: 20px; }
-  /* line 726, ../sass/cibbows.scss */
+  /* line 727, ../sass/cibbows.scss */
   .phoneMenu ul {
     list-style-type: none;
     margin: 0;
     padding: 0; }
-  /* line 732, ../sass/cibbows.scss */
+  /* line 733, ../sass/cibbows.scss */
   .phoneMenu li {
     margin: 0;
     padding: 5px; }
-  /* line 737, ../sass/cibbows.scss */
+  /* line 738, ../sass/cibbows.scss */
   .phoneMenu .navMenu {
     text-align: left; }
-    /* line 740, ../sass/cibbows.scss */
+    /* line 741, ../sass/cibbows.scss */
     .phoneMenu .navMenu ul {
       text-align: left;
       font-size: 80%; }
-      /* line 744, ../sass/cibbows.scss */
+      /* line 745, ../sass/cibbows.scss */
       .phoneMenu .navMenu ul li {
         text-align: left; }
+
+/* line 752, ../sass/cibbows.scss */
+.homepagePhotoCaption {
+  margin: 0 0 .5em 0;
+  font-size: .8em;
+  font-style: italic;
+  text-align: right;
+  color: #666; }

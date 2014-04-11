@@ -45,6 +45,35 @@ class PostsController extends AppController {
 
 	}
 
+
+	public function admin_index() {
+
+		$posts = $this->Post->find(
+			'all',
+			array(
+	        	'conditions' => array(
+	        		'OR' => array(
+	        			array('Post.archived' => 0),
+	        			array('Post.archived' => null)
+					),
+	    	    ),
+	    	    'order' => array('Post.posted DESC')
+			)
+		);
+
+	$this->paginate = array(
+    	'conditions' => array(
+    		'OR' => array(
+    			array('Post.archived' => 0),
+    			array('Post.archived' => null)
+			),
+		)	
+	);
+
+		$this->set('posts', $this->paginate());
+		$this->set('posts', $posts);
+
+	}
 /**
  * view method
  *
@@ -60,7 +89,7 @@ class PostsController extends AppController {
 		$post = $this->Post->find(
 			'first',
 			array(
-				'fields' => array('Post.title', 'Post.user_id', 'Post.anonymous', 'Post.body', 'Post.posted', 'Post.parent_id', 'User.first_name', 'User.last_name', 'User.id'),
+				'fields' => array('Post.title', 'Post.user_id', 'Post.anonymous', 'Post.body', 'Post.posted', 'Post.parent_id', 'Post.id', 'Post.modified', 'User.first_name', 'User.last_name', 'User.id'),
 				'conditions' => array(
 					'Post.url_title' => $url_title,
 					'Post.posted LIKE' => $year . '-' . $month . '-' . $day . '%',
@@ -97,7 +126,12 @@ class PostsController extends AppController {
 			if ($this->Post->save($this->request->data)) {
 				$this->Post->saveField('parent_id',$this->Post->id);
 				$this->Session->setFlash(__('The post has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(	
+						'admin' => true,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
 			}
@@ -126,7 +160,12 @@ class PostsController extends AppController {
 				$this->Post->id = $id;
 				$this->Post->saveField('archived',1);
 				$this->Session->setFlash('Your post has been updated.');
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(	
+						'admin' => true,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
 			}

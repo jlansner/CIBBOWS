@@ -12,7 +12,7 @@ class RaceRegistrationsController extends AppController {
 	public function beforeFilter() {
 	    parent::beforeFilter();
 		$this->forceSecure();
-		$this->Security->validatePost = false;
+//		$this->Security->validatePost = false;
 	}
 
 /**
@@ -159,13 +159,23 @@ class RaceRegistrationsController extends AppController {
 		if ($this->request->is('post')) {
 
 			if (!isset($this->request->data['RaceRegistration']['age'])) {
-				$dob = $this->request->data['RaceRegistration']['dob']['year'] . '-' . $this->request->data['RaceRegistration']['dob']['month'] . '-' . $this->request->data['RaceRegistration']['dob']['day'];
+				$dob = $this->request->data['User']['dob']['year'] . '-' . $this->request->data['User']['dob']['month'] . '-' . $this->request->data['User']['dob']['day'];
 				$birthDate = new DateTime($dob);
 				$raceDate = new DateTime($race['Race']['date']);
 				$interval = $birthDate->diff($raceDate);
 				$this->request->data['RaceRegistration']['age'] = $interval->y;	
+				$this->Session->write('Auth.User.dob', $dob);
 			}
 
+			if (!isset($this->request->data['RaceRegistration']['gender_id'])) {
+				$this->request->data['RaceRegistration']['gender_id'] = $this->request->data['User']['gender_id'];
+				$this->Session->write('Auth.User.dob', $this->request->data['User']['gender_id']);
+			}
+
+			if (isset($this->request->data['User'])) {
+				$this->request->data['User']['id'] = $this->Auth->user('id');
+				$this->RaceRegistration->User->save($this->request->data);
+			}
 
 			$this->RaceRegistration->set($this->request->data);
 			if ($this->RaceRegistration->validates(array('fieldList' => array('waiver')))) {
@@ -196,7 +206,6 @@ class RaceRegistrationsController extends AppController {
 				$genders = $this->RaceRegistration->Gender->find('list');
 				$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
 				$this->set(compact('race','genders','ageGroups'));
-
 
 				$this->render('checkout');
 			}	
@@ -258,23 +267,6 @@ class RaceRegistrationsController extends AppController {
 
 		if ($this->request->is('post')) {
 			$this->request->data['RaceRegistration']['date'] = $race['Race']['date'];
-			if (isset($this->request->data['RaceRegistration']['dob'])) {
-				$dob = $this->request->data['RaceRegistration']['dob']['year'] . '-' . $this->request->data['RaceRegistration']['dob']['month'] . '-' . $this->request->data['RaceRegistration']['dob']['day'];
-				$this->RaceRegistration->User->id = $this->Auth->user('id');
-				$this->RaceRegistration->User->saveField('dob',$dob);
-				$this->Session->write('Auth.User.dob', $dob);
-				
-				$birthDate = new DateTime($dob);
-				$raceDate = new DateTime($race['Race']['date']);
-				$interval = $birthDate->diff($raceDate);		
-				$this->request->data['RaceRegistration']['age'] = $interval->y;						
-			}
-
-			if (!$this->Auth->user('gender_id')) {
-				$this->RaceRegistration->User->id = $this->Auth->user('id');
-				$this->RaceRegistration->User->saveField('gender_id',$this->request->data['RaceRegistration']['gender_id']);
-				$this->Session->write('Auth.User.gender_id', $this->request->data['RaceRegistration']['gender_id']);
-			}
 			
 			if ($race['Race']['experience_id']) {
 				$qualified = false;

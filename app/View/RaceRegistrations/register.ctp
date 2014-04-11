@@ -1,21 +1,21 @@
 <div class="row">
 	<div class="column column12">
+		<h1>Race Registration - <?php echo $race['Race']['title'] ?></h1>
 <?php
 
-echo $this->Form->create('RaceRegistration');
+echo $this->Form->create('null');
 ?>
 	<fieldset>
-		<legend>Race Registration - <?php echo $race['Race']['title'] ?></legend>
 	<?php
 		echo $this->Form->hidden(
-			'user_id',
+			'RaceRegistration.user_id',
 			array(
 				'value' => AuthComponent::user('id')
 			)
 		);
 		
 		echo $this->Form->hidden(
-			'race_id',
+			'RaceRegistration.race_id',
 			array(
 				'value' => $race['Race']['id']
 			)
@@ -26,13 +26,13 @@ echo $this->Form->create('RaceRegistration');
 				// allow multiple section sign up
 			} else {
 				echo $this->Form->hidden(
-					'parent_race_id',
+					'RaceRegistration.parent_race_id',
 					array(
 						'value' => $race['Race']['id']
 					)
 				);
 				echo $this->Form->input(
-					'child_race_id',
+					'RaceRegistration.child_race_id',
 					array(
 						'type' => 'radio',
 						'legend' => false,
@@ -45,13 +45,13 @@ echo $this->Form->create('RaceRegistration');
 		}
 
 		echo $this->Form->hidden(
-			'first_name',
+			'RaceRegistration.first_name',
 			array(
 				'value' => AuthComponent::user('first_name')
 			)
 		);
 		echo $this->Form->hidden(
-			'last_name',
+			'RaceRegistration.last_name',
 			array(
 				'value' => AuthComponent::user('last_name')
 			)
@@ -59,7 +59,7 @@ echo $this->Form->create('RaceRegistration');
 
 		if ((AuthComponent::user('dob') == null) || (AuthComponent::user('dob') == "0000-00-00")) {
 			echo $this->Form->input(
-				'dob',
+				'User.dob',
 				array(
 					'label' => 'Date of Birth',
 					'type' => 'date',
@@ -75,7 +75,7 @@ echo $this->Form->create('RaceRegistration');
 			$age = $interval->y;	
 		
 			echo $this->Form->hidden(
-				'age',
+				'RaceRegistration.age',
 				array(
 					'value' => $age 
 				)
@@ -84,20 +84,25 @@ echo $this->Form->create('RaceRegistration');
 
 		if (AuthComponent::user('gender_id')) {
 			echo $this->Form->hidden(
-				'gender_id',
+				'RaceRegistration.gender_id',
 				array(
 					'value' => AuthComponent::user('gender_id')
 				)
 			);
 		} else {
-			echo $this->Form->input('gender_id');
+			echo $this->Form->input(
+				'User.gender_id',
+				array(
+					'empty' => ''
+				)
+			);
 		}		
 
 		if ($userMembershipLevel) {
 			if (is_array($currentMemFee)) {
 				echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
 				echo $this->Form->hidden(
-					'payment',
+					'RaceRegistration.payment',
 					array(
 						'value' => $currentMemFee['price']
 					)
@@ -106,7 +111,7 @@ echo $this->Form->create('RaceRegistration');
 			} else {
 				echo '<p>Price: $' . $currentFee['price'] . '</p>';
 				echo $this->Form->hidden(
-					'payment',
+					'RaceRegistration.payment',
 					array(
 						'value' => $currentFee['price']
 					)
@@ -115,7 +120,7 @@ echo $this->Form->create('RaceRegistration');
 		} else {
 			echo '<p>Non-Member Price: $' . $currentFee['price'] . '</p>';
 			echo $this->Form->hidden(
-				'payment',
+				'RaceRegistration.payment',
 				array(
 					'value' => $currentFee['price']
 				)
@@ -137,14 +142,14 @@ echo $this->Form->create('RaceRegistration');
 		}
 		
 		echo $this->Form->input(
-			'wetsuit',
+			'RaceRegistration.wetsuit',
 			array(
 				'label' => 'I will be swimming in a wetsuit'
 			)
 		);
 
 		echo $this->Form->input(
-			'waiver',
+			'RaceRegistration.waiver',
 			array(
 				'label' => 'I agree to the terms of the <span class="linkSpan liabilityLink">liability release</span>',
 				array(

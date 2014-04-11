@@ -12,7 +12,7 @@ class MembershipsController extends AppController {
 	public function beforeFilter() {
 	    parent::beforeFilter();
 		$this->forceSecure();
-		$this->Security->validatePost = false;
+//		$this->Security->validatePost = false;
 	}
 
 /**

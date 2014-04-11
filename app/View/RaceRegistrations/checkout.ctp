@@ -1,5 +1,6 @@
 <div class="row">
 	<div class="column column12">
+		<h1>Checkout</h1>
 <?php echo $this->Form->create(
 	'RaceRegistration',
 	array(
@@ -7,7 +8,6 @@
 	)
 ); ?>
 	<fieldset>
-		<legend>Checkout</legend>
 		
 		<p>
 			Name:

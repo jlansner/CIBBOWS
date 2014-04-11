@@ -259,7 +259,7 @@
 <div id="results">
 
 <h3>Results</h3>
-<?php if (!empty($user['Result'])): ?>
+<?php if (!empty($user['Result'])) { ?>
 	<table class="zebraTable">
 		<thead>
 	<tr>
@@ -313,7 +313,10 @@
 	<?php endforeach; ?>
 	</tbody>
 	</table>
-<?php endif; ?>
+<?php } else { ?>
+	<p>You do not have any results.</p>
+<?php }  ?>
+
 </div>
 
 <div id="registrations">
@@ -397,6 +400,7 @@
 	<p>You are not registered for any races.</p>
 <?php } ?>
 
+<?php /*
 <h4>Clinic Registrations</h4>
 	<?php if (!empty($user['ClinicRegistration'])) { ?>
 	<table class="zebraTable">
@@ -480,7 +484,7 @@
 	</table>
 <?php } else { ?>
 	<p>You are not registered for any volunteer assignments.</p>
-<?php } ?>
+<?php } ?> */ ?>
 </div>
 
 <div id="donations">
@@ -504,7 +508,9 @@
 				<?php } ?>
 				
 			</tbody>
-		</table>	
+		</table>
+	<?php } else { ?>
+		<p>You have not made any donations to CIBBOWS.</p>
 	<?php } ?>
 
 </div>

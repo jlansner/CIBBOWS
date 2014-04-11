@@ -34,26 +34,49 @@ class ContentsController extends AppController {
 			'all',
 			array(
 	        	'conditions' => array(
+	        		'Content.active' => 1,
 	        		'OR' => array(
 	        			array('Content.archived' => 0),
 	        			array('Content.archived' => null)
 					),
 	    	    ),
-	    	    'order' => array('Content.title')
+	    	    'order' => array('Content.title'),
+	    	    'contain' => array(
+					'User'
+				),
+				'fields' => array('Content.title', 'Content.url_title','Content.id','Content.user_id','Content.created','Content.modified','User.name')
 			)
 		);
 
-	$this->paginate = array(
+		$deletedContents = $this->Content->find(
+			'all',
+			array(
+	        	'conditions' => array(
+	        		'Content.active' => 0,
+	        		'OR' => array(
+	        			array('Content.archived' => 0),
+	        			array('Content.archived' => null)
+					),
+	    	    ),
+	    	    'order' => array('Content.title'),
+	    	    'contain' => array(
+					'User'
+				),
+				'fields' => array('Content.title', 'Content.url_title','Content.id','Content.user_id','Content.created','Content.modified','User.name')
+			)
+		);
+
+/*	$this->paginate = array(
     	'conditions' => array(
     		'OR' => array(
     			array('Content.archived' => 0),
     			array('Content.archived' => null)
 			),
 		)	
-	);
+	); */
 
-		$this->set('contents', $this->paginate());
-		$this->set('contents', $contents);
+//		$this->set('contents', $this->paginate());
+		$this->set(compact('contents', 'deletedContents'));
 
 	}
 
@@ -194,12 +217,32 @@ class ContentsController extends AppController {
 			throw new NotFoundException(__('Invalid content'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Content->delete()) {
+		$this->Content->set('active',0);
+
+		if ($this->Content->save()) {
 			$this->Session->setFlash(__('Content deleted'));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect(array('action' => 'index', 'admin' => true));
 		}
 		$this->Session->setFlash(__('Content was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		
+		$this->redirect(array('action' => 'index', 'admin' => true));
+	}
+	
+	public function undelete($id = null) {
+		$this->Content->id = $id;
+		if (!$this->Content->exists()) {
+			throw new NotFoundException(__('Invalid content'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		$this->Content->set('active',1);
+		if ($this->Content->save()) {
+			$this->Session->setFlash(__('Content restored'));
+			$this->redirect(array('action' => 'index', 'admin' => true));
+		}
+		$this->Session->setFlash(__('Content was not restored'));
+		
+		$this->redirect(array('action' => 'index', 'admin' => true));
+		
 	}
 	
 	public function menu() {

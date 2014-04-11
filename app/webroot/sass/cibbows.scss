@@ -11,7 +11,7 @@ body {
   padding: 0;
 }
 
-a, .linkSpan {
+a, .linkSpan, .ui-widget-content a {
 //	color: $darkBlue;
   color: #00e;
 	text-decoration: none;
@@ -122,6 +122,7 @@ h2 {
 
   	a {
   		font-family: $franklin;
+  		color: $darkBlue;
   	}
   }
   
@@ -748,3 +749,10 @@ input[type=submit], .linkButton {
   }
 }
 
+.homepagePhotoCaption {
+  margin: 0 0 .5em 0;
+  font-size: .8em;
+  font-style: italic;
+  text-align: right;
+  color: #666;
+}

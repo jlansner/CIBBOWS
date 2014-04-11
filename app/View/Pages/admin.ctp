@@ -2,21 +2,32 @@
 <div class="row">
 <h1>Admin</h1>
 
-<h2>Posts</h2>
-
-<ul>
-	<li><?php
+<h2>Contents</h2>
+<p><?php
 
 echo $this->Html->link(
-	'New Post',
+	'Pages',
 	array(
-		'controller' => 'posts',
-		'action' => 'add'
+		'controller' => 'contents',
+		'action' => 'index',
+		'admin' => true
 	)
 );
-?></li>
+?></p>
 
-</ul>
+
+<p><?php
+
+echo $this->Html->link(
+	'Posts',
+	array(
+		'controller' => 'posts',
+		'action' => 'index',
+		'admin' => true
+	)
+);
+?></p>
+
 
 <h2>Qualifying Races</h2>
 <ul>

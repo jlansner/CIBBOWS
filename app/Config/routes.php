@@ -41,6 +41,15 @@
 			'status' => 302
 		)
 	);
+
+	Router::connect(
+		'/admin',
+		array(
+			'controller' => 'pages',
+			'action' => 'display',
+			'admin'
+		)
+	);
 	
 	$indexControllers = array('posts','races','users','events','test_swims','clinics');
 

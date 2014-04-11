@@ -16,6 +16,10 @@ if ($post['Post']['anonymous'] == 0) {
 
 <p><?php echo $post['Post']['body']; ?></p>
 
+<?php if (($post['Post']['parent_id'] == null) || ($post['Post']['id'] != $post['Post']['parent_id'])) { ?>
+	<p><em>This post was edited on <?php echo $this->Time->nice($post['Post']['modified']); ?>.</em></p>
+<?php } ?>
+
 <?php
 	if ($post['ParentPost']['Tag']) {
 		foreach ($post['ParentPost']['Tag'] as $tag) {

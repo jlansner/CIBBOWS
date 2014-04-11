@@ -1,6 +1,6 @@
 <div class="row homepageSlideshowRow">
 	<div class="column column12 homepageSlideshow">
-		<img src="/img/homepageSlideshow/1.jpg" />
+		<?php echo $this->element('homepage_slideshow'); ?>
 	</div>
 </div>
 

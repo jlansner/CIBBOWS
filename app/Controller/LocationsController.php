@@ -12,7 +12,7 @@ class LocationsController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->Location->recursive = 0;
 		$this->set('locations', $this->paginate());
 	}
@@ -38,7 +38,7 @@ class LocationsController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Location->create();
 			if ($this->Location->save($this->request->data)) {
@@ -57,7 +57,7 @@ class LocationsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Location->exists($id)) {
 			throw new NotFoundException(__('Invalid location'));
 		}

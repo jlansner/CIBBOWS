@@ -33,7 +33,7 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class AppController extends Controller {
 	public $components = array(
-		'Security',
+//		'Security',
 		'Acl',
         'Auth' => array(
             'authorize' => array(
@@ -68,7 +68,7 @@ class AppController extends Controller {
 		);
 //        $this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
 
-		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','create_account','confirm','forgot_password','reset_password','menu','donate','confirm','thankyou');
+		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','create_account','confirm','forgot_password','reset_password','menu','donate','confirm','thankyou','homepage_slideshow');
 		
 		if ($this->Session->read('Membership.membership_level')) {
 			$this->userMembershipLevel = $this->Session->read('Membership.membership_level');

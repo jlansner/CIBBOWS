@@ -235,6 +235,7 @@ if ($reg) {
 	<?php } ?>
 <?php } ?>
 
+<?php if ($race['Race']['course_map']) { ?>
 	<tr>
 		<td>Course Map:</td>
 		<td><?php echo 
@@ -245,7 +246,7 @@ if ($reg) {
 				)
 			); ?></td>
 	</tr>
-
+<?php } ?>
 </table>		
 	<?php if (empty($race['ChildRace'])) { ?>
 
