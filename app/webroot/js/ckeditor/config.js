@@ -7,6 +7,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+	
 	config.toolbarGroups = [
 //		{ name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'document',    groups: [ 'mode' ] },
@@ -24,7 +25,14 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'styles' },
 //		{ name: 'colors' },
 //		{ name: 'about' },
-		{ name: 'others' }
+		{ name: 'others' },
+		{ name: 'insert'}
 	];
+//	config.filebrowserBrowseUrl = '/js/filemanager/index.html';
+//    config.filebrowserImageBrowseUrl = '/js/filemanager/index.html?type=Images';
+//    config.filebrowserUploadUrl = '/js/filemanager/connectors/php/filemanager.php';
+
+
+	config.filebrowserBrowseUrl = '/js/ckfinder/ckfinder.html';
 
 };

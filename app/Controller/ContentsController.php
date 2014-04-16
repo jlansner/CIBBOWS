@@ -35,10 +35,19 @@ class ContentsController extends AppController {
 			array(
 	        	'conditions' => array(
 	        		'Content.active' => 1,
-	        		'OR' => array(
-	        			array('Content.archived' => 0),
-	        			array('Content.archived' => null)
+	        		array(
+		        		'OR' => array(
+		        			array('Content.placeholder' => 0),
+		        			array('Content.placeholder' => null)
+						)
 					),
+					array(
+						'OR' => array(
+	        				array('Content.archived' => 0),
+	        				array('Content.archived' => null)
+						)	
+					),
+					'Content.redirect' => null
 	    	    ),
 	    	    'order' => array('Content.title'),
 	    	    'contain' => array(
@@ -89,7 +98,7 @@ class ContentsController extends AppController {
 			'first',
 			array(
 				'fields' => array(
-					'Content.title', 'Content.body', 'Content.controller', 'Content.membership_level_id', 'Content.permanent', 'Content.menu_parent'
+					'Content.permanent', 'Content.title', 'Content.body', 'Content.controller', 'Content.membership_level_id', 'Content.permanent', 'Content.menu_parent', 'Content.placeholder'
 				),
 	        	'conditions' => array(
     	    		'Content.url_title' => $url_title,
@@ -101,16 +110,36 @@ class ContentsController extends AppController {
 
 		if (!$content) {
 			$this->redirect('/');
-		}		
+		}
+
 		if (!(($content['Content']['controller'] == "contents") || ($content['Content']['controller'] == null))) {
 			$this->redirect('/' . $content['Content']['controller'] . '/');
 		}
 		
+		if ($content['Content']['placeholder'] == 1) {
+		
+			$contents = $this->Content->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Content.active' => 1,
+						'Content.archived' => 0,
+						'Content.menu_parent' => $content['Content']['permanent'] 
+					),
+					'fields' => array(
+						'Content.id', 'Content.title', 'Content.url_title'
+					),
+					'order' => array('Content.menu_rank'),
+				)
+			);
+			
+			$this->set('contents', $contents);
+			$this->render('placeholder');
+				
+		} else {
 
-//		$options = array('conditions' => array('Content.' . $this->Content->url_title => $u));
-//		$this->set('content', $this->Content->find('first', $options));
-        $this->set('content', $content);
-
+        	$this->set('content', $content);
+		}
 	}
 
 /**
