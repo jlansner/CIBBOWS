@@ -30,17 +30,8 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-	Router::redirect(
-		'/membership.html',
-		array(
-			'controller' => 'contents',
-			'action' => 'view',
-			'membership'
-		),
-		array(
-			'status' => 302
-		)
-	);
+	include('redirects.php');
+	// redirects from old site
 
 	Router::connect(
 		'/admin',
@@ -51,7 +42,7 @@
 		)
 	);
 	
-	$indexControllers = array('posts','races','users','events','test_swims','clinics');
+	$indexControllers = array('races','users','events','test_swims','clinics');
 
 	foreach ($indexControllers as $controller) {
 		Router::connect(
@@ -63,6 +54,14 @@
 		);
 	}
 	
+	Router::connect(
+		'/news',
+		array(
+			'controller' => 'posts',
+			'action' => 'index'
+		)
+	);
+
 	$userActions = array('login', 'logout', 'create_account', 'forgot_password', 'my_profile', 'edit_profile');
 	
 	foreach ($userActions as $action) {
@@ -171,6 +170,22 @@
 			'url_title' => '[a-z0-9_\-]*'
 		)
 	);
+
+
+	Router::connect(
+		'/news/:year/:month/:day/:url_title',
+		array(
+			'controller' => 'posts',
+			'action' => 'view'
+		),
+		array(
+			'pass' => array('year','month','day','url_title'),
+			'year' => '[0-9]{4}',
+			'month' => '[0-9]{2}',
+			'day' => '[0-9]{2}',
+			'url_title' => '[a-z_\-]*'			
+		)
+	);
 	
 	Router::connect(
 		'/:controller/:year/:month/:day/:url_title',
@@ -188,7 +203,7 @@
 
 	
 	Router::connect(
-		'/posts/:page',
+		'/news/:page',
 		array(
 			'controller' => 'posts',
 			'action' => 'index'
@@ -200,7 +215,7 @@
 	);
 
 	Router::connect(
-		'/posts/tagged/:tag',
+		'/news/tagged/:tag',
 		array(
 			'controller' => 'posts',
 			'action' => 'tags'

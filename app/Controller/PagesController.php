@@ -63,15 +63,21 @@ class PagesController extends AppController {
 		if (!empty($path[$count - 1])) {
 			$title_for_layout = Inflector::humanize($path[$count - 1]);
 		}
-		$this->set(compact('page', 'subpage', 'title_for_layout'));
 
-		try {
-			$this->render(implode('/', $path));
-		} catch (MissingViewException $e) {
-			if (Configure::read('debug')) {
-				throw $e;
+		if (($page == 'admin') && !(($this->Auth->loggedIn()) && ($this->Auth->user('group_id') > 1))) {
+			$this->redirect('/login');
+		} else {
+
+			$this->set(compact('page', 'subpage', 'title_for_layout'));
+	
+			try {
+				$this->render(implode('/', $path));
+			} catch (MissingViewException $e) {
+				if (Configure::read('debug')) {
+					throw $e;
+				}
+				throw new NotFoundException();
 			}
-			throw new NotFoundException();
 		}
 	}
 }

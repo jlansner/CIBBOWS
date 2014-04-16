@@ -144,6 +144,7 @@ class RaceRegistrationsController extends AppController {
 			)
 		);
 		
+
 		if ($reg) {
 
 			$this->Session->setFlash('You are already registered for this race.');
@@ -156,8 +157,18 @@ class RaceRegistrationsController extends AppController {
 			);
 		}
 
+		$childRaces = $this->RaceRegistration->Race->find(
+			'list',
+			array(
+				'conditions' => array(
+					'parent_id' => $race_id
+				)
+			)
+		);
+
 		if ($this->request->is('post')) {
 
+/*
 			if (!isset($this->request->data['RaceRegistration']['age'])) {
 				$dob = $this->request->data['User']['dob']['year'] . '-' . $this->request->data['User']['dob']['month'] . '-' . $this->request->data['User']['dob']['day'];
 				$birthDate = new DateTime($dob);
@@ -176,10 +187,31 @@ class RaceRegistrationsController extends AppController {
 				$this->request->data['User']['id'] = $this->Auth->user('id');
 				$this->RaceRegistration->User->save($this->request->data);
 			}
-
+*/
 			$this->RaceRegistration->set($this->request->data);
-			if ($this->RaceRegistration->validates(array('fieldList' => array('waiver')))) {
 
+//			if (count($childRaces) > 0) {
+				$validationArray = array(
+					'fieldList' => array(
+						'waiver',
+						'child_race_id' => array(
+							'checked' => array(
+		                        'rule' => array('notempty'),
+		                        'required' => true,
+    		                    'message' => 'You must select a distance'
+		                    ),
+						)
+					)
+				);
+/*			} else {
+				$validationArray = array(
+					'fieldList' => array(
+						'waiver'
+					)
+				);
+			}
+	*/			
+			if ($this->RaceRegistration->validates($validationArray)) {
 				$race = $this->RaceRegistration->Race->find(
 					'first',
 					array(
@@ -210,6 +242,20 @@ class RaceRegistrationsController extends AppController {
 				$this->render('checkout');
 			}	
 		}
+
+		$address = $this->RaceRegistration->User->Address->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Address.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1
+			)
+		);
+		
+		$this->request->data['Address'] = $address['Address'];
+		$this->request->data['User']['dob'] = $this->Auth->user('dob');
+		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
 		
 		$currentFee = false;
 		if (count($race['NonMemberRaceFee']) > 0) {
@@ -230,15 +276,6 @@ class RaceRegistrationsController extends AppController {
 				}
 			}
 	 	}
-
-		$childRaces = $this->RaceRegistration->Race->find(
-			'list',
-			array(
-				'conditions' => array(
-					'parent_id' => $race_id
-				)
-			)
-		);
 		
 		$genders = $this->RaceRegistration->Gender->find('list');
 //		$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
@@ -246,7 +283,7 @@ class RaceRegistrationsController extends AppController {
 //		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
 //		$results = $this->RaceRegistration->Result->find('list');
 		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
-		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces'));
+		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces','shirtSizes'));
 	}
 
 	public function checkout() {

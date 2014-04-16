@@ -5,7 +5,6 @@
 
 echo $this->Form->create('null');
 ?>
-	<fieldset>
 	<?php
 		echo $this->Form->hidden(
 			'RaceRegistration.user_id',
@@ -34,69 +33,94 @@ echo $this->Form->create('null');
 				echo $this->Form->input(
 					'RaceRegistration.child_race_id',
 					array(
-						'type' => 'radio',
-						'legend' => false,
-						'before' => '<p>Section</p>',
-						'separator' => '<br />',
-						'escape' => false
+//						'type' => 'radio',
+//						'legend' => false,
+//						'before' => '<p>Section</p>',
+//						'separator' => '<br />',
+//						'escape' => false
+						'empty' => '',
+						'label' => 'Section'
 					)
 				);
+				
+			    echo $this->Form->error('child_race_id');
 			}
 		}
 
-		echo $this->Form->hidden(
-			'RaceRegistration.first_name',
+		echo $this->Form->input(
+			'User.dob',
 			array(
-				'value' => AuthComponent::user('first_name')
-			)
-		);
-		echo $this->Form->hidden(
-			'RaceRegistration.last_name',
-			array(
-				'value' => AuthComponent::user('last_name')
+				'label' => 'Date of Birth',
+				'type' => 'date',
+//				'dateFormat' => 'MDY',
+				'minYear' => date('Y') - 100,
+				'maxYear' => date('Y'),
 			)
 		);
 
-		if ((AuthComponent::user('dob') == null) || (AuthComponent::user('dob') == "0000-00-00")) {
-			echo $this->Form->input(
-				'User.dob',
-				array(
-					'label' => 'Date of Birth',
-					'type' => 'date',
-//					'dateFormat' => 'MDY',
-					'minYear' => date('Y') - 100,
-					'maxYear' => date('Y'),
-				)
-			);
-		} else {
-			$birthDate = new DateTime(AuthComponent::user('dob'));
-			$raceDate = new DateTime($race['Race']['date']);
-			$interval = $birthDate->diff($raceDate);		
-			$age = $interval->y;	
+		echo $this->Form->input(
+			'User.gender_id',
+			array(
+				'empty' => ''
+			)
+		);
 		
-			echo $this->Form->hidden(
-				'RaceRegistration.age',
-				array(
-					'value' => $age 
-				)
-			);
-		}
+		echo $this->Form->input('Address.id');
+		echo $this->Form->input(
+			'Address.line1',
+			array(
+				'label' => 'Line 1'
+			)
+		);
+		echo $this->Form->input(
+			'Address.line2',
+			array(
+				'label' => 'Line 2'
+			)
+		);
+		echo $this->Form->input(
+			'Address.line3',
+			array(
+				'label' => 'Line 3'
+			)
+		);
+?>
+	</div>
+</div>
+<div class="row">
+	<div class="column column4">
+		<?php echo $this->Form->input('Address.city'); ?>
+	</div>
+	<div class="column column4">
+		<?php echo $this->Form->input(
+			'Address.county_province',
+			array(
+				'label' => 'State/Province'
+			)
+		);
+		?> 
+	</div>
+	<div class="column column4">
+		<?php echo $this->Form->input(
+			'Address.postcode',
+			array(
+				'label' => 'Zip code'
+			)
+		); ?>
+	</div>
+</div>	
+<div class="row">
+	<div class="column column12">
 
-		if (AuthComponent::user('gender_id')) {
-			echo $this->Form->hidden(
-				'RaceRegistration.gender_id',
-				array(
-					'value' => AuthComponent::user('gender_id')
-				)
-			);
-		} else {
-			echo $this->Form->input(
-				'User.gender_id',
-				array(
-					'empty' => ''
-				)
-			);
-		}		
+			<?php
+		echo $this->Form->input('Address.country');
+		echo $this->Form->input('Address.other_details');
+		echo $this->Form->input(
+			'Address.phone',
+			array(
+				'label' => 'Phone Number'
+			)
+		);
 
 		if ($userMembershipLevel) {
 			if (is_array($currentMemFee)) {
@@ -157,9 +181,13 @@ echo $this->Form->create('null');
 				)
 			)
 		);
-//		echo $this->Form->input('shirt_size_id');
+		echo $this->Form->input(
+			'User.shirt_size_id',
+			array(
+				'empty' => ''
+			)
+		);
 	?>
-	</fieldset>
 
 <?php
 		echo $this->Form->end(
