@@ -606,6 +606,10 @@ label {
   display: block; }
 
 /* line 581, ../sass/cibbows.scss */
+.radio label {
+  display: inline; }
+
+/* line 585, ../sass/cibbows.scss */
 input[type=text], input[type=password], input[type=email], input[type=tel], input[type=number] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -613,7 +617,7 @@ input[type=text], input[type=password], input[type=email], input[type=tel], inpu
   width: 100%;
   padding: .5em; }
 
-/* line 588, ../sass/cibbows.scss */
+/* line 592, ../sass/cibbows.scss */
 input[type=submit], .linkButton {
   background-color: #5a7f92;
   color: #fff;
@@ -627,60 +631,60 @@ input[type=submit], .linkButton {
   font-size: 1.25em;
   cursor: pointer; }
 
-/* line 599, ../sass/cibbows.scss */
+/* line 603, ../sass/cibbows.scss */
 .checkbox label {
   display: inline;
   margin-left: .5em; }
 
-/* line 605, ../sass/cibbows.scss */
+/* line 609, ../sass/cibbows.scss */
 .inline-block {
   display: inline-block; }
 
-/* line 609, ../sass/cibbows.scss */
+/* line 613, ../sass/cibbows.scss */
 .edit, .delete {
   font-size: 1.3em;
   margin-left: .5em; }
 
-/* line 614, ../sass/cibbows.scss */
+/* line 618, ../sass/cibbows.scss */
 .edit {
   color: #009900; }
 
-/* line 618, ../sass/cibbows.scss */
+/* line 622, ../sass/cibbows.scss */
 .delete {
   color: #990000; }
 
-/* line 622, ../sass/cibbows.scss */
+/* line 626, ../sass/cibbows.scss */
 .orange {
   color: #ee971a; }
 
-/* line 626, ../sass/cibbows.scss */
+/* line 630, ../sass/cibbows.scss */
 .zebraTable {
   width: 100%;
   border: 0;
   padding: 0;
   margin: 0;
   border-collapse: collapse; }
-  /* line 633, ../sass/cibbows.scss */
+  /* line 637, ../sass/cibbows.scss */
   .zebraTable th {
     background-color: #5a7f92;
     color: #fff; }
-  /* line 639, ../sass/cibbows.scss */
+  /* line 643, ../sass/cibbows.scss */
   .zebraTable tr:nth-child(even) {
     background-color: #ddd; }
-  /* line 644, ../sass/cibbows.scss */
+  /* line 648, ../sass/cibbows.scss */
   .zebraTable td {
     padding: 2px; }
-  /* line 648, ../sass/cibbows.scss */
+  /* line 652, ../sass/cibbows.scss */
   .zebraTable .fa {
     font-size: 1.3em;
     margin-left: .5em; }
 
-/* line 654, ../sass/cibbows.scss */
+/* line 658, ../sass/cibbows.scss */
 .mapFrame {
   width: 100%;
   height: 400px; }
 
-/* line 659, ../sass/cibbows.scss */
+/* line 663, ../sass/cibbows.scss */
 .liabilityWaiver {
   border: 1px solid #ccc;
   -webkit-border-radius: 5px;
@@ -701,7 +705,7 @@ input[type=submit], .linkButton {
   box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
   text-align: justify; }
 
-/* line 676, ../sass/cibbows.scss */
+/* line 680, ../sass/cibbows.scss */
 .liabilityClose {
   position: absolute;
   top: 5px;
@@ -710,17 +714,17 @@ input[type=submit], .linkButton {
   color: #666;
   cursor: pointer; }
 
-/* line 685, ../sass/cibbows.scss */
+/* line 689, ../sass/cibbows.scss */
 .resultCode {
   margin: 0 3px; }
 
-/* line 689, ../sass/cibbows.scss */
+/* line 693, ../sass/cibbows.scss */
 .raceNav {
   padding: 0;
   margin: 0;
   list-style-type: none;
   width: 100%; }
-  /* line 695, ../sass/cibbows.scss */
+  /* line 699, ../sass/cibbows.scss */
   .raceNav li {
     display: inline-block;
     padding: 5px 20px;
@@ -728,19 +732,19 @@ input[type=submit], .linkButton {
     margin: 0 10px;
     background-color: #5a7f92;
     color: #fff; }
-    /* line 703, ../sass/cibbows.scss */
+    /* line 707, ../sass/cibbows.scss */
     .raceNav li a {
       color: #fff; }
-    /* line 707, ../sass/cibbows.scss */
+    /* line 711, ../sass/cibbows.scss */
     .raceNav li.active {
       background-color: #fff;
       color: #5a7f92; }
 
-/* line 715, ../sass/cibbows.scss */
+/* line 719, ../sass/cibbows.scss */
 .homepageSlideshow {
   margin-bottom: 1em; }
 
-/* line 719, ../sass/cibbows.scss */
+/* line 723, ../sass/cibbows.scss */
 .phoneMenu {
   display: none;
   width: 100%;
@@ -748,27 +752,27 @@ input[type=submit], .linkButton {
   background: #fff;
   position: fixed;
   font-size: 20px; }
-  /* line 727, ../sass/cibbows.scss */
+  /* line 731, ../sass/cibbows.scss */
   .phoneMenu ul {
     list-style-type: none;
     margin: 0;
     padding: 0; }
-  /* line 733, ../sass/cibbows.scss */
+  /* line 737, ../sass/cibbows.scss */
   .phoneMenu li {
     margin: 0;
     padding: 5px; }
-  /* line 738, ../sass/cibbows.scss */
+  /* line 742, ../sass/cibbows.scss */
   .phoneMenu .navMenu {
     text-align: left; }
-    /* line 741, ../sass/cibbows.scss */
+    /* line 745, ../sass/cibbows.scss */
     .phoneMenu .navMenu ul {
       text-align: left;
       font-size: 80%; }
-      /* line 745, ../sass/cibbows.scss */
+      /* line 749, ../sass/cibbows.scss */
       .phoneMenu .navMenu ul li {
         text-align: left; }
 
-/* line 752, ../sass/cibbows.scss */
+/* line 756, ../sass/cibbows.scss */
 .homepagePhotoCaption {
   margin: 0 0 .5em 0;
   font-size: .8em;

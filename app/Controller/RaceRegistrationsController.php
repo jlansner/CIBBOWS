@@ -196,7 +196,7 @@ class RaceRegistrationsController extends AppController {
 						'waiver',
 						'child_race_id' => array(
 							'checked' => array(
-		                        'rule' => array('notempty'),
+		                        'rule' => array('numeric'),
 		                        'required' => true,
     		                    'message' => 'You must select a distance'
 		                    ),
@@ -253,7 +253,24 @@ class RaceRegistrationsController extends AppController {
 			)
 		);
 		
-		$this->request->data['Address'] = $address['Address'];
+		$emergencyContact = $this->RaceRegistration->User->EmergencyContact->find(
+			'first',
+			array(
+				'conditions' => array(
+					'EmergencyContact.user_id' => $this->Auth->user('id')
+				),
+				'order' => array('id'),
+				'recursive' => -1
+			)
+		);
+		
+		if (count($address)) {
+			$this->request->data['Address'] = $address['Address'];
+		}
+
+		if (count($emergencyContact) > 0) {
+			$this->request->data['EmergencyContact'] = $emergencyContact['EmergencyContact'];
+			}
 		$this->request->data['User']['dob'] = $this->Auth->user('dob');
 		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
 		
@@ -277,13 +294,26 @@ class RaceRegistrationsController extends AppController {
 			}
 	 	}
 		
+		$this->loadModel('MembershipFee');
+		$membershipFee = $this->MembershipFee->find(
+			'first',
+			array(
+				'conditions' =>array(
+					'MembershipFee.start_date <= CURDATE()',
+					'MembershipFee.end_date >= CURDATE()'
+				),
+				'order' => array('MembershipFee.priority'),
+				'recursive' => -1
+			)
+		);
+		
 		$genders = $this->RaceRegistration->Gender->find('list');
 //		$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
 //		$qualifyingSwims = $this->RaceRegistration->QualifyingSwim->find('list');
 //		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
 //		$results = $this->RaceRegistration->Result->find('list');
 		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
-		$this->set(compact('race','genders','currentFee','currentMemFee','childRaces','shirtSizes'));
+		$this->set(compact('race', 'genders', 'currentFee', 'currentMemFee', 'childRaces', 'shirtSizes', 'membershipFee'));
 	}
 
 	public function checkout() {

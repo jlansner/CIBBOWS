@@ -578,6 +578,10 @@ label {
   display: block;
 }
 
+.radio label {
+  display: inline;
+}
+
 input[type=text], input[type=password], input[type=email], input[type=tel], input[type=number] {
 //  @include border-box();
   @include box-sizing(border-box);

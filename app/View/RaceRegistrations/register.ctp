@@ -12,7 +12,49 @@ echo $this->Form->create('null');
 				'value' => AuthComponent::user('id')
 			)
 		);
-		
+
+		if ($userMembershipLevel) {
+			if (is_array($currentMemFee)) {
+				echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
+				echo $this->Form->hidden(
+					'RaceRegistration.payment',
+					array(
+						'value' => $currentMemFee['price']
+					)
+				);
+	
+			} else {
+				echo '<p>Price: $' . $currentFee['price'] . '</p>';
+				echo $this->Form->hidden(
+					'RaceRegistration.payment',
+					array(
+						'value' => $currentFee['price']
+					)
+				);
+			}			
+		} else {
+			echo $this->Form->hidden(
+				'RaceRegistration.payment',
+				array(
+					'value' => $currentFee['price']
+				)
+			);
+			
+			echo $this->Form->input(
+				'join',
+				array(
+					'legend' => false,
+					'type' => 'radio',
+					'options' => array(
+						'1' => 'Non-Member Price: $' . $currentFee['price'],
+						'2' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just ' . $currentMemFee['price']
+					),
+					'separator' => '<br />',
+					
+				)
+			);
+		}		
+
 		echo $this->Form->hidden(
 			'RaceRegistration.race_id',
 			array(
@@ -24,30 +66,40 @@ echo $this->Form->create('null');
 			if ($race['Race']['exclusive']) {
 				// allow multiple section sign up
 			} else {
-				echo $this->Form->hidden(
-					'RaceRegistration.parent_race_id',
+/*				echo $this->Form->hidden(
+					'RaceRegistration.race_id',
 					array(
 						'value' => $race['Race']['id']
 					)
-				);
+				); */
 				echo $this->Form->input(
 					'RaceRegistration.child_race_id',
 					array(
-//						'type' => 'radio',
-//						'legend' => false,
-//						'before' => '<p>Section</p>',
-//						'separator' => '<br />',
-//						'escape' => false
-						'empty' => '',
-						'label' => 'Section'
+						'type' => 'radio',
+						'legend' => false,
+						'before' => '<p>Section</p>',
+						'separator' => '<br />',
+						'escape' => false
+//						'empty' => '',
+//						'label' => 'Section'
 					)
 				);
-				
-			    echo $this->Form->error('child_race_id');
 			}
+		} else {
+			echo $this->Form->hidden(
+				'child_race_id',
+				array(
+					'value' => $race['Race']['id']
+				)
+			);
 		}
+?>
+	</div>
+</div>
 
-		echo $this->Form->input(
+<div class="row">
+	<div class="column column4">
+<?php		echo $this->Form->input(
 			'User.dob',
 			array(
 				'label' => 'Date of Birth',
@@ -57,14 +109,49 @@ echo $this->Form->create('null');
 				'maxYear' => date('Y'),
 			)
 		);
-
-		echo $this->Form->input(
+?>
+	</div>
+	<div class="column column2">
+<?php		echo $this->Form->input(
 			'User.gender_id',
 			array(
 				'empty' => ''
 			)
 		);
+?>
+	</div>
+	<div class="column column4">
+<?php	echo $this->Form->input(
+			'User.shirt_size_id',
+			array(
+				'empty' => '',
+				'label' => 'T-Shirt Size'
+			)
+		);
+?>		
+	</div>
+</div>
+<div class="row">
+	<div class="column column12"><?php
+		echo $this->Form->input(
+			'User.medical',
+			array(
+				'type' => 'textarea',
+				'label' => 'Medical Conditions (if none, please enter "None")'
+			)
+		);
 		
+				echo $this->Form->input(
+			'RaceRegistration.wetsuit',
+			array(
+				'label' => 'I will be swimming in a wetsuit'
+			)
+		);
+		
+		 ?>
+
+<h2>Address</h2>
+<?php		
 		echo $this->Form->input('Address.id');
 		echo $this->Form->input(
 			'Address.line1',
@@ -121,57 +208,33 @@ echo $this->Form->create('null');
 				'label' => 'Phone Number'
 			)
 		);
+?>
+<h2>Emergency Contact</h2>
+	</div>
+</div>
 
-		if ($userMembershipLevel) {
-			if (is_array($currentMemFee)) {
-				echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
-				echo $this->Form->hidden(
-					'RaceRegistration.payment',
-					array(
-						'value' => $currentMemFee['price']
-					)
-				);
-	
-			} else {
-				echo '<p>Price: $' . $currentFee['price'] . '</p>';
-				echo $this->Form->hidden(
-					'RaceRegistration.payment',
-					array(
-						'value' => $currentFee['price']
-					)
-				);
-			}			
-		} else {
-			echo '<p>Non-Member Price: $' . $currentFee['price'] . '</p>';
-			echo $this->Form->hidden(
-				'RaceRegistration.payment',
-				array(
-					'value' => $currentFee['price']
-				)
-			);
-			
-			if (is_array($currentMemFee)) {
-				$saveText = 'Become a member today and save $' . ($currentFee['price'] - $currentMemFee['price']) . ' on your registration!';
-			} else {
-				$saveText = 'Become a member today!';
-			}
-			
-			echo '<p>' . $this->Html->link(
-				$saveText,
-				array(
-					'controller' => 'memberships',
-					'action' => 'join'
-				)
-			) . '</p>';
-		}
+<div class="row">
+	<div class="column column3">
+<?php
+echo $this->Form->input('EmergencyContact.id');
+ echo $this->Form->input('EmergencyContact.name'); ?>		
+	</div>
+	<div class="column column3">
+<?php echo $this->Form->input('EmergencyContact.phone'); ?>		
 		
-		echo $this->Form->input(
-			'RaceRegistration.wetsuit',
-			array(
-				'label' => 'I will be swimming in a wetsuit'
-			)
-		);
-
+	</div>
+	<div class="column column3">
+<?php echo $this->Form->input('EmergencyContact.email'); ?>		
+		
+	</div>
+	<div class="column column3">
+<?php echo $this->Form->input('EmergencyContact.relationship'); ?>		
+		
+	</div>
+</div>
+<div class="row">
+	<div class="column column12">
+<?php		
 		echo $this->Form->input(
 			'RaceRegistration.waiver',
 			array(
@@ -181,12 +244,7 @@ echo $this->Form->create('null');
 				)
 			)
 		);
-		echo $this->Form->input(
-			'User.shirt_size_id',
-			array(
-				'empty' => ''
-			)
-		);
+
 	?>
 
 <?php
