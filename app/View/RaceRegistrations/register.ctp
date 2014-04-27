@@ -31,7 +31,9 @@ echo $this->Form->create('null');
 						'value' => $currentFee['price']
 					)
 				);
-			}			
+			}
+			
+			echo $this->Form->hidden('RaceRegistration.join');			
 		} else {
 			echo $this->Form->hidden(
 				'RaceRegistration.payment',
@@ -41,16 +43,15 @@ echo $this->Form->create('null');
 			);
 			
 			echo $this->Form->input(
-				'join',
+				'RaceRegistration.join',
 				array(
 					'legend' => false,
 					'type' => 'radio',
 					'options' => array(
 						'1' => 'Non-Member Price: $' . $currentFee['price'],
-						'2' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just ' . $currentMemFee['price']
+						'2' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just $' . $currentMemFee['price'] . '!'
 					),
-					'separator' => '<br />',
-					
+					'separator' => '<br />'
 				)
 			);
 		}		
@@ -66,12 +67,6 @@ echo $this->Form->create('null');
 			if ($race['Race']['exclusive']) {
 				// allow multiple section sign up
 			} else {
-/*				echo $this->Form->hidden(
-					'RaceRegistration.race_id',
-					array(
-						'value' => $race['Race']['id']
-					)
-				); */
 				echo $this->Form->input(
 					'RaceRegistration.child_race_id',
 					array(
@@ -80,8 +75,6 @@ echo $this->Form->create('null');
 						'before' => '<p>Section</p>',
 						'separator' => '<br />',
 						'escape' => false
-//						'empty' => '',
-//						'label' => 'Section'
 					)
 				);
 			}
@@ -110,6 +103,25 @@ echo $this->Form->create('null');
 			)
 		);
 ?>
+
+<p>Age on race day: <span class="ageRaceDay"><?php
+	if (AuthComponent::user('dob')) {
+		$birthDate = new DateTime(AuthComponent::user('dob'));
+		$raceDate = new DateTime($race['Race']['date']);
+		$interval = $birthDate->diff($raceDate);
+		$ageRaceDay = $interval->y;
+		
+		echo $ageRaceDay;
+	}
+
+	echo $this->Form->hidden(
+		'RaceRegistration.age',
+		array(
+			'value' => $ageRaceDay
+		)
+	);		
+				
+?></span></p>
 	</div>
 	<div class="column column2">
 <?php		echo $this->Form->input(

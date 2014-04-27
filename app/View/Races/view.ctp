@@ -67,23 +67,32 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 
 <p>
 <?php
-
-if ($reg) {
-	echo 'You are already registered for this race.';
+if ($race['Race']['registration_link']) {
+	echo $this->Html->link(
+		'Register',
+		$race['Race']['registration_link'],
+		array(
+			'target' => '_blank'
+		)
+	);
 } else {
-	if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
-		echo $this->Html->link(
-			'Register',
-			array(
-				'controller' => 'race_registrations',
-				'action' => 'register',
-				$race['Race']['id']
-			)
-		);
-	} else if ($memRegOpen) {
-		echo 'Registration is currently open only for members.';
+	if ($reg) {
+		echo 'You are already registered for this race.';
 	} else {
-		echo 'Registraton for this race is not available at this time.';
+		if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
+			echo $this->Html->link(
+				'Register',
+				array(
+					'controller' => 'race_registrations',
+					'action' => 'register',
+					$race['Race']['id']
+				)
+			);
+		} else if ($memRegOpen) {
+			echo 'Registration is currently open only for members.';
+		} else {
+			echo 'Registraton for this race is not available at this time.';
+		}
 	}
 }
 ?>

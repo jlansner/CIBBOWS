@@ -9,7 +9,30 @@
 		
 <?php } else { ?>
 	
-	<p>This page is for members only.</p>
+	<p>This page is for members only. 
+		<?php
+		
+		if (AuthComponent::user('id')) { 
+			
+			echo $this->Html->link(
+			'Become a member now',
+			array(
+				'controller' => 'memberships',
+				'action' => 'join'
+			)
+		);?>.
+			
+		<?php } else {
+			 echo $this->Html->link(
+				'Login',
+				array(
+					'controller' => 'users',
+					'action' => 'login'
+				)
+			); ?>
+			
+			to view this page or to join CIBBOWS. 
+	<?php } ?></p>
 		
 <?php } ?>
 </div>

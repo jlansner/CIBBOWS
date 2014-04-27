@@ -190,27 +190,21 @@ class RaceRegistrationsController extends AppController {
 */
 			$this->RaceRegistration->set($this->request->data);
 
-//			if (count($childRaces) > 0) {
+			if ($this->userMembershipLevel == 0) {
 				$validationArray = array(
 					'fieldList' => array(
 						'waiver',
-						'child_race_id' => array(
-							'checked' => array(
-		                        'rule' => array('numeric'),
-		                        'required' => true,
-    		                    'message' => 'You must select a distance'
-		                    ),
-						)
+						'join'
 					)
 				);
-/*			} else {
+			} else {
 				$validationArray = array(
 					'fieldList' => array(
 						'waiver'
 					)
-				);
+				);				
 			}
-	*/			
+
 			if ($this->RaceRegistration->validates($validationArray)) {
 				$race = $this->RaceRegistration->Race->find(
 					'first',

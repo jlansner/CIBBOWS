@@ -11,8 +11,7 @@
 		
 		<p>
 			Name:
-			<?php echo $this->request->data['RaceRegistration']['first_name']; ?>
-			<?php echo $this->request->data['RaceRegistration']['last_name']; ?>
+			<?php echo AuthComponent::user('name'); ?>
 		</p>
 
 		<p>
@@ -26,7 +25,7 @@
 		
 		<p>
 			Gender:
-			<?php echo $genders[$this->request->data['RaceRegistration']['gender_id']]; ?>
+			<?php echo AuthComponent::user('Gender.title'); ?>
 		</p>
 
 		<p>
