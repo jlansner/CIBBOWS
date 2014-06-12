@@ -12,7 +12,6 @@ class RaceRegistrationsController extends AppController {
 	public function beforeFilter() {
 	    parent::beforeFilter();
 		$this->forceSecure();
-//		$this->Security->validatePost = false;
 	}
 
 /**
@@ -25,23 +24,8 @@ class RaceRegistrationsController extends AppController {
 		$this->set('raceRegistrations', $this->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-/*
- * Replace by funciton at end of file 
-  	public function view($id = null) {
-		if (!$this->RaceRegistration->exists($id)) {
-			throw new NotFoundException(__('Invalid race registration'));
-		}
-		$options = array('conditions' => array('RaceRegistration.' . $this->RaceRegistration->primaryKey => $id));
-		$this->set('raceRegistration', $this->RaceRegistration->find('first', $options));
-	}
-*/
+
+
 /**
  * add method
  *
@@ -129,7 +113,26 @@ class RaceRegistrationsController extends AppController {
 				'conditions' => array(
 					'Race.id' => $race_id
 				),
-				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date','Race.exclusive') 
+				'contain' => array(
+					'CurrentMemberRaceFee',
+					'CurrentNonMemberRaceFee',
+					'Distance',						
+					'ChildRace' => array(
+						'fields' => array(
+							'ChildRace.id','ChildRace.title','ChildRace.experience_id','ChildRace.date'),
+						'Distance' => array(
+							'fields' => array('Distance.name','Distance.plural','Distance.abbreviation'),
+						),
+						'CurrentMemberRaceFee' => array(
+							'fields' => array('CurrentMemberRaceFee.price')
+						),
+						'CurrentNonMemberRaceFee' => array(
+							'fields' => array('CurrentNonMemberRaceFee.price')
+						),						
+						'order' => 'ChildRace.id ASC'
+					)
+				),
+				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date','Race.exclusive','Race.url_title') 
 			)
 		);
 
@@ -152,42 +155,26 @@ class RaceRegistrationsController extends AppController {
 			array(
 				'controller' => 'race_registrations',
 				'action' => 'view',
-				substr($race['Race']['date'],0,4),
-				$race['Race']['url_title'])
+				'year' => substr($race['Race']['date'],0,4),
+				'url_title' => $race['Race']['url_title'])
 			);
 		}
 
-		$childRaces = $this->RaceRegistration->Race->find(
-			'list',
-			array(
-				'conditions' => array(
-					'parent_id' => $race_id
-				)
-			)
-		);
+		foreach ($race['ChildRace'] as $child) {
+			$childRaces[$child['id']] = $child['title'];
+			if ($this->Session->read('Membership.membership_level')) {
+				if (count($child['CurrentMemberRaceFee']) > 0) {
+					$childRaces[$child['id']] .= ' ($' . $child['CurrentMemberRaceFee']['price'] . ')';
+				}
+			} else {
+				if (count($child['CurrentNonMemberRaceFee']) > 0) {
+					$childRaces[$child['id']] .= ' ($' . $child['CurrentNonMemberRaceFee']['price'] . ')';
+				}
+			}
+		}
 
 		if ($this->request->is('post')) {
 
-/*
-			if (!isset($this->request->data['RaceRegistration']['age'])) {
-				$dob = $this->request->data['User']['dob']['year'] . '-' . $this->request->data['User']['dob']['month'] . '-' . $this->request->data['User']['dob']['day'];
-				$birthDate = new DateTime($dob);
-				$raceDate = new DateTime($race['Race']['date']);
-				$interval = $birthDate->diff($raceDate);
-				$this->request->data['RaceRegistration']['age'] = $interval->y;	
-				$this->Session->write('Auth.User.dob', $dob);
-			}
-
-			if (!isset($this->request->data['RaceRegistration']['gender_id'])) {
-				$this->request->data['RaceRegistration']['gender_id'] = $this->request->data['User']['gender_id'];
-				$this->Session->write('Auth.User.dob', $this->request->data['User']['gender_id']);
-			}
-
-			if (isset($this->request->data['User'])) {
-				$this->request->data['User']['id'] = $this->Auth->user('id');
-				$this->RaceRegistration->User->save($this->request->data);
-			}
-*/
 			$this->RaceRegistration->set($this->request->data);
 
 			if ($this->userMembershipLevel == 0) {
@@ -227,6 +214,14 @@ class RaceRegistrationsController extends AppController {
 						)
 					);
 					$this->set('childRace',$childRace);
+				}
+
+				if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
+					if ($this->Session->read('Membership.membership_level')) {
+						
+					}
+
+					// check alt pricing
 				}
 		
 				$genders = $this->RaceRegistration->Gender->find('list');
@@ -268,26 +263,7 @@ class RaceRegistrationsController extends AppController {
 		$this->request->data['User']['dob'] = $this->Auth->user('dob');
 		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
 		
-		$currentFee = false;
-		if (count($race['NonMemberRaceFee']) > 0) {
-			foreach ($race['NonMemberRaceFee'] as $racefee) {
-				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
-					$currentFee = $racefee;
-					break;
-				}
-			}
-		}	
-			
-		$currentMemFee = false;
-		if (count($race['MemberRaceFee']) > 0) {
-			foreach ($race['MemberRaceFee'] as $racefee) {
-				if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
-					$currentMemFee = $racefee;
-					break;
-				}
-			}
-	 	}
-		
+	
 		$this->loadModel('MembershipFee');
 		$membershipFee = $this->MembershipFee->find(
 			'first',
@@ -302,12 +278,8 @@ class RaceRegistrationsController extends AppController {
 		);
 		
 		$genders = $this->RaceRegistration->Gender->find('list');
-//		$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
-//		$qualifyingSwims = $this->RaceRegistration->QualifyingSwim->find('list');
-//		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
-//		$results = $this->RaceRegistration->Result->find('list');
 		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
-		$this->set(compact('race', 'genders', 'currentFee', 'currentMemFee', 'childRaces', 'shirtSizes', 'membershipFee'));
+		$this->set(compact('race', 'genders', 'childRaces', 'shirtSizes', 'membershipFee'));
 	}
 
 	public function checkout() {
@@ -512,7 +484,6 @@ class RaceRegistrationsController extends AppController {
 		$race = $this->RaceRegistration->Race->find(
 			'first',
 			array(
-//				'fields' => array('Race.id','Race.title','Race.date'),
 	        	'conditions' => array(
     	    		'Race.url_title' => $url_title,
     	    		'Race.date LIKE' => $year . '%'
@@ -534,22 +505,9 @@ class RaceRegistrationsController extends AppController {
 		);
 
 		if (!$race) {
-//			throw new NotFoundException(__('Invalid race'));
 			$this->redirect('/races/');
 		}
 
-/*		$raceRegistrations = $this->RaceRegistration->find(
-			'all',
-			array(
-				'conditions' => array(
-					'RaceRegistration.race_id' => $race['Race']['id']
-				),
-	    	    'order' => array(
-					'User.last_name ASC'
-				)
-			)
-		);
-*/
         $this->set(compact('race'));
 	}
 

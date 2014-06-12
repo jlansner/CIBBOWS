@@ -2,7 +2,7 @@
 	<div class="column column12">
 		<h1>Checkout</h1>
 <?php echo $this->Form->create(
-	'RaceRegistration',
+	'null',
 	array(
 		'action' => 'checkout'
 	)
@@ -50,16 +50,19 @@
 		</p>
 		
 	<?php
-		echo $this->Form->hidden('user_id');
-		echo $this->Form->hidden('race_id');
-		echo $this->Form->hidden('child_race_id');
-		echo $this->Form->hidden('first_name');
-		echo $this->Form->hidden('last_name');
-		echo $this->Form->hidden('age');
-		echo $this->Form->hidden('gender_id');
-		echo $this->Form->hidden('payment');
-		echo $this->Form->hidden('waiver'); 
-//		echo $this->Form->input('shirt_size_id');
+		echo $this->Form->hidden('RaceRegistration.user_id');
+		echo $this->Form->hidden('RaceRegistration.race_id');
+		echo $this->Form->hidden('RaceRegistration.child_race_id');
+		echo $this->Form->hidden('RaceRegistration.first_name');
+		echo $this->Form->hidden('RaceRegistration.last_name');
+		echo $this->Form->hidden('RaceRegistration.age');
+		echo $this->Form->hidden('User.gender_id');
+		echo $this->Form->hidden('RaceRegistration.join');
+		echo $this->Form->hidden('RaceRegistration.payment');
+		echo $this->Form->hidden('RaceRegistration.waiver');
+		echo $this->Form->hidden('User.shirt_size_id');
+		echo $this->Form->hidden('Donate.amount');
+		echo $this->Form->hidden('Donate.body');
 
 	?>
 	</fieldset>

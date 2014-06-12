@@ -14,21 +14,21 @@ echo $this->Form->create('null');
 		);
 
 		if ($userMembershipLevel) {
-			if (is_array($currentMemFee)) {
-				echo '<p>Member Price: $' . $currentMemFee['price'] . '</p>';
+			if (is_array($race['CurrentMemberRaceFee'])) {
+				echo '<p>Member Price: $' . $race['CurrentMemberRaceFee']['price'] . '</p>';
 				echo $this->Form->hidden(
 					'RaceRegistration.payment',
 					array(
-						'value' => $currentMemFee['price']
+						'value' => $race['CurrentMemberRaceFee']['price']
 					)
 				);
 	
 			} else {
-				echo '<p>Price: $' . $currentFee['price'] . '</p>';
+				echo '<p>Price: $' . $race['CurrentNonMemberRaceFee']['price'] . '</p>';
 				echo $this->Form->hidden(
 					'RaceRegistration.payment',
 					array(
-						'value' => $currentFee['price']
+						'value' => $race['CurrentNonMemberRaceFee']['price']
 					)
 				);
 			}
@@ -38,7 +38,7 @@ echo $this->Form->create('null');
 			echo $this->Form->hidden(
 				'RaceRegistration.payment',
 				array(
-					'value' => $currentFee['price']
+					'value' => $race['CurrentNonMemberRaceFee']['price']
 				)
 			);
 			
@@ -48,8 +48,8 @@ echo $this->Form->create('null');
 					'legend' => false,
 					'type' => 'radio',
 					'options' => array(
-						'1' => 'Non-Member Price: $' . $currentFee['price'],
-						'2' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just $' . $currentMemFee['price'] . '!'
+						'1' => 'Non-Member Price: $' . $race['CurrentNonMemberRaceFee']['price'],
+						'2' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just $' . $race['CurrentMemberRaceFee']['price'] . '!'
 					),
 					'separator' => '<br />'
 				)
@@ -244,6 +244,35 @@ echo $this->Form->input('EmergencyContact.id');
 		
 	</div>
 </div>
+<div class="row">
+	<div class="column column12">
+		<h2>Additional Donation</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="column column3">
+		<div class="input number required">
+			<?php echo $this->Form->label('Donate.amount', 'Donation Amount'); ?>
+			<div class="donationInputWrapper">
+				<span>$</span>
+				<div class="donationInput">
+					<?php echo $this->Form->number('Donate.amount'); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="column column4">
+		<?php echo $this->Form->input(
+			'Donate.body',
+			array(
+				'label' => 'Notes'
+			)		
+		); ?>
+		
+	</div>
+</div>
+
 <div class="row">
 	<div class="column column12">
 <?php		

@@ -118,7 +118,7 @@
 		),
 		array(
 			'pass' => array('url_title'),
-			'url_title' => '[a-z_\-]*'
+			'url_title' => '[a-z0-9_\-]*'
 		)
 	);
 
@@ -131,7 +131,7 @@
 		array(
 			'pass' => array('url_title','year'),
 			'year' => '[0-9]{4}',
-			'url_title' => '[a-z_\-]*'
+			'url_title' => '[a-z0-9_\-]*'
 		)
 	);
 

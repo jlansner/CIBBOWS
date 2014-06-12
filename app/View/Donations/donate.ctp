@@ -44,19 +44,33 @@ if (AuthComponent::user('id')) {
 	</div>
 	<div class="row">
 		<div class="column column8">
-			<?php echo $this->Form->input('email'); ?>					
+			<?php echo $this->Form->input('email'); ?>
 		</div>
 	</div>
 <?php } ?>
 
 <div class="row">
 	<div class="column column3">
+		<div class="input number required">
+			<?php echo $this->Form->label('amount', 'Donation Amount'); ?>
+			<div class="donationInputWrapper">
+				<span>$</span>
+				<div class="donationInput">
+					<?php echo $this->Form->number('amount'); ?>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="column column4">
 		<?php echo $this->Form->input(
-			'amount',
+			'body',
 			array(
-				'label' => 'Donation Amount'
-			)
+				'type' => 'text',
+				'label' => 'Notes'
+			)		
 		); ?>
+		
 	</div>
 </div>
 <div class="row">

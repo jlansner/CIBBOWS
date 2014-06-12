@@ -253,7 +253,47 @@ class Race extends AppModel {
 		'PostraceLocation' => array(
 			'className' => 'Location',
 			'foreignKey' => 'postrace_location'
-		)
+		),
+	);
+	
+	public $hasOne = array(
+		'CurrentMemberRaceFee' => array(
+			'className' => 'RaceFee',
+			'foreignKey' => 'race_id',
+			'dependent' => false,
+			'conditions' => array(
+				'CurrentMemberRaceFee.membership_level_id' => 1,
+				'CurrentMemberRaceFee.start_date <= DATE(NOW())',
+				'CurrentMemberRaceFee.end_date >= DATE(NOW())'
+			),
+			'fields' => 'CurrentMemberRaceFee.price',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),	
+		'CurrentNonMemberRaceFee' => array(
+			'className' => 'RaceFee',
+			'foreignKey' => 'race_id',
+			'dependent' => false,
+			'conditions' => array(
+				'OR' => array(
+					array('CurrentNonMemberRaceFee.membership_level_id' => 0),
+					array('CurrentNonMemberRaceFee.membership_level_id' => null),
+				),
+				'CurrentNonMemberRaceFee.start_date <= DATE(NOW())',
+				'CurrentNonMemberRaceFee.end_date >= DATE(NOW())'
+			),
+			'fields' => 'CurrentNonMemberRaceFee.price',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),	
 	);
 
 /**
@@ -268,8 +308,8 @@ class Race extends AppModel {
 			'dependent' => false,
 			'conditions' => array(
 				'OR' => array(
-					array('membership_level_id' => 0),
-					array('membership_level_id' => null),
+					array('NonMemberRaceFee.membership_level_id' => 0),
+					array('NonMemberRaceFee.membership_level_id' => null),
 				)
 			),
 			'fields' => '',
@@ -285,7 +325,7 @@ class Race extends AppModel {
 			'foreignKey' => 'race_id',
 			'dependent' => false,
 			'conditions' => array(
-				'membership_level_id' => 1
+				'MemberRaceFee.membership_level_id' => 1
 			),
 			'fields' => '',
 			'order' => 'start_date',

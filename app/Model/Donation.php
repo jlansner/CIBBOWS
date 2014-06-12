@@ -34,7 +34,7 @@ class Donation extends AppModel {
 			'notempty' => array(
 				'rule' => array('notempty'),
 			)
-		)		
+		)
 	);
 /**
  * belongsTo associations

@@ -36,21 +36,24 @@ class RacesController extends AppController {
 				$races[] = $race;
 			}		
 		}
+		$this->set(compact('races', 'series'));
+	}
+	
+	public function admin_index() {
 
-/*
-		$race = $this->Race->find(
+		$races = $this->Race->find(
 			'all',
 			array(
 				'fields' => array('Race.date','Race.end_date','Race.title','Race.url_title'),
 				'conditions' => array(
 					'Race.parent_id' => NULL
 				),
+				'order' => 'date DESC',
 				'recursive' => 0
 			)
 		);
-*/
-//		$this->set('races', $this->paginate());
-		$this->set(compact('races', 'series'));
+
+		$this->set(compact('races'));
 	}
 
 	public function view($year = null, $url_title = null) {			
@@ -66,7 +69,42 @@ class RacesController extends AppController {
     	    		'Race.url_title' => $url_title,
     	    		'Race.date LIKE' => $year . '%'
 	    	    ),
-	    	    'recursive' => 2
+	    	    'recursive' => -1,
+	    	    'contain' => array(
+					'Series' => array(
+						'fields' => array('Series.title','Series.url_title')
+					),
+					'Distance' => array(
+						'fields' => array('Distance.name','Distance.plural','Distance.abbreviation')
+					),
+					'StartLocation' => array(
+						'fields' => array('StartLocation.title', 'StartLocation.url_title')
+					),
+					'EndLocation' => array(
+						'fields' => array('EndLocation.title', 'EndLocation.url_title')
+					),
+					'CheckinLocation' => array(
+						'fields' => array('CheckinLocation.title', 'CheckinLocation.url_title')
+					),
+					'PostraceLocation' => array(
+						'fields' => array('PostraceLocation.title', 'PostraceLocation.url_title')
+					),
+					'Experience',
+					'MemberRaceFee',
+					'NonMemberRaceFee',
+					'ChildRace' => array(
+						'Distance' => array(
+							'fields' => array('Distance.name','Distance.plural','Distance.abbreviation'),
+						),
+						'MemberRaceFee',
+						'NonMemberRaceFee',
+						'CurrentMemberRaceFee',
+						'CurrentNonMemberRaceFee',						
+						'order' => 'ChildRace.id ASC'
+					),
+					'CurrentMemberRaceFee',
+					'CurrentNonMemberRaceFee'
+				)
 			)
 		);
 
@@ -218,10 +256,16 @@ class RacesController extends AppController {
 		if (!$this->Race->exists($id)) {
 			throw new NotFoundException(__('Invalid race'));
 		}
+
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Race->save($this->request->data)) {
 				$this->Session->setFlash(__('The race has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(	
+						'admin' => true,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The race could not be saved. Please, try again.'));
 			}

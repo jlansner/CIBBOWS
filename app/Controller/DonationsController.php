@@ -14,7 +14,6 @@ class DonationsController extends AppController {
 	    parent::beforeFilter();
 		$this->Auth->allow('*');
 		$this->forceSecure();
-		$this->Security->validatePost = false;
 	}
 
 /**

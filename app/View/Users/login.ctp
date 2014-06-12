@@ -12,10 +12,10 @@ echo $this->Form->create('User', array('action' => 'login'));
 echo $this->Form->input('email');
 echo $this->Form->input('password');
 ?>
-<label></label>
+<p>
 <?php
 echo $this->Html->link('Forgot your password?', array('controller' => 'users', 'action' => 'forgot_password')); ?>
-
+</p>
 <?php echo $this->Form->end('Login'); ?>
 	</div>
 	<div class="column column1">
