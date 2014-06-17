@@ -16,24 +16,16 @@ echo $this->Form->create('null');
 		if ($userMembershipLevel) {
 			if (is_array($race['CurrentMemberRaceFee'])) {
 				echo '<p>Member Price: $' . $race['CurrentMemberRaceFee']['price'] . '</p>';
-				echo $this->Form->hidden(
-					'RaceRegistration.payment',
-					array(
-						'value' => $race['CurrentMemberRaceFee']['price']
-					)
-				);
-	
 			} else {
 				echo '<p>Price: $' . $race['CurrentNonMemberRaceFee']['price'] . '</p>';
-				echo $this->Form->hidden(
-					'RaceRegistration.payment',
-					array(
-						'value' => $race['CurrentNonMemberRaceFee']['price']
-					)
-				);
 			}
 			
-			echo $this->Form->hidden('RaceRegistration.join');			
+			echo $this->Form->hidden(
+				'RaceRegistration.join',
+				array(
+					'value' => 0
+				)
+			);
 		} else {
 			echo $this->Form->hidden(
 				'RaceRegistration.payment',
@@ -48,12 +40,14 @@ echo $this->Form->create('null');
 					'legend' => false,
 					'type' => 'radio',
 					'options' => array(
-						'1' => 'Non-Member Price: $' . $race['CurrentNonMemberRaceFee']['price'],
-						'2' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just $' . $race['CurrentMemberRaceFee']['price'] . '!'
+						'0' => 'Non-Member Price: $' . $race['CurrentNonMemberRaceFee']['price'],
+						'1' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just $' . $race['CurrentMemberRaceFee']['price'] . '!'
 					),
 					'separator' => '<br />'
 				)
 			);
+			
+			echo $this->Form->hidden('MembershipFee.price');
 		}		
 
 		echo $this->Form->hidden(
@@ -100,28 +94,20 @@ echo $this->Form->create('null');
 //				'dateFormat' => 'MDY',
 				'minYear' => date('Y') - 100,
 				'maxYear' => date('Y'),
+				'empty' => ''
 			)
 		);
 ?>
 
-<p>Age on race day: <span class="ageRaceDay"><?php
-	if (AuthComponent::user('dob')) {
-		$birthDate = new DateTime(AuthComponent::user('dob'));
-		$raceDate = new DateTime($race['Race']['date']);
-		$interval = $birthDate->diff($raceDate);
-		$ageRaceDay = $interval->y;
-		
-		echo $ageRaceDay;
-	}
+<p>Age on race day: <span class="ageRaceDay"><?php echo $this->request->data['RaceRegistration']['age']; ?></span>
+
+<?php
 
 	echo $this->Form->hidden(
-		'RaceRegistration.age',
-		array(
-			'value' => $ageRaceDay
-		)
+		'RaceRegistration.age'
 	);		
 				
-?></span></p>
+?></p>
 	</div>
 	<div class="column column2">
 <?php		echo $this->Form->input(
@@ -196,8 +182,7 @@ echo $this->Form->create('null');
 			array(
 				'label' => 'State/Province'
 			)
-		);
-		?> 
+		); ?> 
 	</div>
 	<div class="column column4">
 		<?php echo $this->Form->input(
@@ -257,7 +242,12 @@ echo $this->Form->input('EmergencyContact.id');
 			<div class="donationInputWrapper">
 				<span>$</span>
 				<div class="donationInput">
-					<?php echo $this->Form->number('Donate.amount'); ?>
+					<?php echo $this->Form->number(
+						'Donate.amount',
+						array(
+							'step' => 'any'
+						)
+					); ?>
 				</div>
 			</div>
 		</div>

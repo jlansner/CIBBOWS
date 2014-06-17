@@ -15,26 +15,4 @@ Your registration is not yet complete. Please submit the following information:
 			'full_base' => true
 		)
 	);
-}
-	
-if (!$hasEmergencyContact) { ?>
-	- Emergency Contact <?php
-	echo $this->Html->url(
-		array(
-			'controller' => 'emergency_contact',
-			'action' => 'add_contact',
-			'full_base' => true
-		)
-	);
-}
-
-if (!$hasAddress) { ?>
-	- Address <?php
-	echo $this->Html->url(
-		array(
-			'controller' => 'addresses',
-			'action' => 'edit_address',
-			'full_base' => true
-		)
-	);
 } ?>

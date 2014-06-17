@@ -168,13 +168,4 @@ class MembershipsController extends AppController {
 		$this->set(compact('membershipFee','stripeKey'));
 	}
 
-	private function send_membership_email($user,$membershipFee) {
-		$Email = new CakeEmail('default');
-		$Email->to($user['email']);
-		$Email->subject('Thank you for joining CIBBOWS');
-		$Email->viewVars(array('name' => $user['name'], 'year' => $membershipFee['MembershipFee']['year'], 'price' => $membershipFee['MembershipFee']['price']));
-		$Email->template('join', 'default');
-		$Email->emailFormat('both');
-		$Email->send();		
-	}
 }

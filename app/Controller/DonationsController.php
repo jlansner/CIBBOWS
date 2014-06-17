@@ -163,17 +163,4 @@ class DonationsController extends AppController {
 		
 	}
 
-	private function send_donation_email($emailvars) {
-		$Email = new CakeEmail('default');
-		$Email->to($emailvars['User']['email']);
-		$Email->subject('Thank you for your donation');
-		$Email->viewVars(
-			array(
-				'email' => $emailvars,
-			)
-		);
-		$Email->template('send_donation_email', 'default');
-		$Email->emailFormat('both');
-		$Email->send();				
-	}
 }

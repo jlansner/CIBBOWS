@@ -25,7 +25,12 @@
 		
 		<p>
 			Gender:
-			<?php echo AuthComponent::user('Gender.title'); ?>
+			<?php echo $genders[$this->request->data['User']['gender_id']]; ?>
+		</p>
+
+		<p>
+			Date of Birth:
+			<?php echo $this->Time->format('F j, Y',$this->request->data['User']['dob']); ?>
 		</p>
 
 		<p>
@@ -45,8 +50,27 @@
 		</p>
 		
 		<p>
-			Fee:
-			<?php echo $this->request->data['RaceRegistration']['payment']; ?>
+			Registration Fee: $<?php echo $this->request->data['RaceRegistration']['payment']; 
+			$showTotal = false;
+
+			if ($this->request->data['RaceRegistration']['join']) {
+				echo "<br />Membership Fee: $" . $this->request->data['MembershipFee']['price'];
+				$showTotal = true; 
+			}
+
+			if ($this->request->data['Donate']['amount'] > 0) {
+				echo "<br />Additional Donation: $" . $this->request->data['Donate']['amount'];
+				if (trim($this->request->data['Donate']['body']) != '') {
+					echo ' - ' . $this->request->data['Donate']['body']; 
+				}
+				$showTotal = true; 
+			}
+			
+			if ($showTotal) {
+				echo "<br /><strong>Total Cost:</strong> $" . $this->request->data['RaceRegistration']['total_payment'];
+			}
+
+			?>
 		</p>
 		
 	<?php
@@ -56,10 +80,11 @@
 		echo $this->Form->hidden('RaceRegistration.first_name');
 		echo $this->Form->hidden('RaceRegistration.last_name');
 		echo $this->Form->hidden('RaceRegistration.age');
+		echo $this->Form->hidden('RaceRegistration.payment');
+		echo $this->Form->hidden('RaceRegistration.total_payment');
+		echo $this->Form->hidden('RaceRegistration.waiver');
 		echo $this->Form->hidden('User.gender_id');
 		echo $this->Form->hidden('RaceRegistration.join');
-		echo $this->Form->hidden('RaceRegistration.payment');
-		echo $this->Form->hidden('RaceRegistration.waiver');
 		echo $this->Form->hidden('User.shirt_size_id');
 		echo $this->Form->hidden('Donate.amount');
 		echo $this->Form->hidden('Donate.body');

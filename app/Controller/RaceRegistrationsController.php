@@ -132,7 +132,7 @@ class RaceRegistrationsController extends AppController {
 						'order' => 'ChildRace.id ASC'
 					)
 				),
-				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date','Race.exclusive','Race.url_title') 
+				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date','Race.exclusive','Race.url_title','Race.max_swimmers') 
 			)
 		);
 
@@ -172,10 +172,50 @@ class RaceRegistrationsController extends AppController {
 				}
 			}
 		}
+		
+		if (AuthComponent::user('dob') == "0000-00-00") {
+			$this->request->data['RaceRegistration']['age'] = "";
+		} else {
+			$birthDate = new DateTime(AuthComponent::user('dob'));
+			$raceDate = new DateTime($race['Race']['date']);
+			$interval = $birthDate->diff($raceDate);
+			$this->request->data['RaceRegistration']['age'] = $interval->y;
+		}
 
 		if ($this->request->is('post')) {
-
+			
 			$this->RaceRegistration->set($this->request->data);
+
+			$dob = $this->request->data['User']['dob']['year'] . '-' . $this->request->data['User']['dob']['month'] . '-' . $this->request->data['User']['dob']['day'];
+			$birthDate = new DateTime($dob);
+			$raceDate = new DateTime($race['Race']['date']);
+			$interval = $birthDate->diff($raceDate);
+			$this->request->data['RaceRegistration']['age'] = $interval->y;
+
+			$this->request->data['User']['id'] = $this->Auth->user('id');
+  			$this->RaceRegistration->User->save($this->request->data);
+			
+			$this->Session->write('Auth.User.gender_id',$this->request->data['User']['gender_id']);
+			$this->Session->write('Auth.User.shirt_size_id',$this->request->data['User']['shirt_size_id']);
+			$this->Session->write('Auth.User.medical',$this->request->data['User']['medical']);
+
+			$this->request->data['Address']['user_id'] = $this->Auth->user('id');
+ 			
+			if ($this->request->data['Address']['id']) {
+			 	$this->RaceRegistration->User->Address->save($this->request->data);
+			} else {
+			 	$this->RaceRegistration->User->Address->create();
+				$this->RaceRegistration->User->Address->save($this->request->data);			
+			}
+
+			$this->request->data['EmergencyContact']['user_id'] = $this->Auth->user('id');
+
+			if ($this->request->data['EmergencyContact']['id']) {
+				$this->RaceRegistration->User->EmergencyContact->save($this->request->data);				
+			} else {
+				$this->RaceRegistration->User->EmergencyContact->create();
+				$this->RaceRegistration->User->EmergencyContact->save($this->request->data);				
+			}
 
 			if ($this->userMembershipLevel == 0) {
 				$validationArray = array(
@@ -193,7 +233,7 @@ class RaceRegistrationsController extends AppController {
 			}
 
 			if ($this->RaceRegistration->validates($validationArray)) {
-				$race = $this->RaceRegistration->Race->find(
+/*				$race = $this->RaceRegistration->Race->find(
 					'first',
 					array(
 						'conditions' => array(
@@ -201,7 +241,7 @@ class RaceRegistrationsController extends AppController {
 						),
 						'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
 					)
-				);
+				); */
 				
 				if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
 					$childRace = $this->RaceRegistration->Race->find(
@@ -210,20 +250,40 @@ class RaceRegistrationsController extends AppController {
 							'conditions' => array(
 								'Race.id' => $this->request->data['RaceRegistration']['child_race_id']
 							),
-							'fields' => array('Race.id','Race.title','Race.experience_id','Race.date') 
+							'fields' => array('Race.id','Race.title','Race.experience_id','Race.date'),
+							'contain' => array(
+								'CurrentMemberRaceFee',
+								'CurrentNonMemberRaceFee'				
+							) 
 						)
 					);
 					$this->set('childRace',$childRace);
 				}
 
-				if (isset($this->request->data['RaceRegistration']['child_race_id'])) {
-					if ($this->Session->read('Membership.membership_level')) {
-						
+				if ($this->Session->read('Membership.membership_level') || $this->request->data['RaceRegistration']['join'] == 1) {
+					if ((isset($this->request->data['RaceRegistration']['child_race_id'])) && ($childRace['CurrentMemberRaceFee']['price'])) {
+						$this->request->data['RaceRegistration']['payment'] = $childRace['CurrentMemberRaceFee']['price'];
+					} else {
+						$this->request->data['RaceRegistration']['payment'] = $race['CurrentMemberRaceFee']['price'];
 					}
-
-					// check alt pricing
+				} else {
+					if ((isset($this->request->data['RaceRegistration']['child_race_id'])) && ($childRace['CurrentNonMemberRaceFee']['price'])) {
+						$this->request->data['RaceRegistration']['payment'] = $childRace['CurrentNonMemberRaceFee']['price'];
+					} else {
+						$this->request->data['RaceRegistration']['payment'] = $race['CurrentNonMemberRaceFee']['price'];
+					}					
 				}
-		
+
+				if ($this->request->data['Donate']['amount']) {
+					$this->request->data['Donate']['amount'] = number_format($this->request->data['Donate']['amount'], 2);
+				} 
+
+				$this->request->data['RaceRegistration']['total_payment'] = number_format($this->request->data['RaceRegistration']['payment'] + $this->request->data['Donate']['amount'], 2);
+				
+				if ($this->request->data['RaceRegistration']['join'] == 1) {
+					$this->request->data['RaceRegistration']['total_payment'] += $this->request->data['MembershipFee']['price'];
+				}
+
 				$genders = $this->RaceRegistration->Gender->find('list');
 				$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
 				$this->set(compact('race','genders','ageGroups'));
@@ -262,6 +322,8 @@ class RaceRegistrationsController extends AppController {
 			}
 		$this->request->data['User']['dob'] = $this->Auth->user('dob');
 		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
+		$this->request->data['User']['medical'] = $this->Auth->user('medical');
+		$this->request->data['User']['shirt_size_id'] = $this->Auth->user('shirt_size_id');
 		
 	
 		$this->loadModel('MembershipFee');
@@ -276,6 +338,8 @@ class RaceRegistrationsController extends AppController {
 				'recursive' => -1
 			)
 		);
+		
+		$this->request->data['MembershipFee']['price'] = $membershipFee['MembershipFee']['price'];
 		
 		$genders = $this->RaceRegistration->Gender->find('list');
 		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
@@ -299,6 +363,17 @@ class RaceRegistrationsController extends AppController {
 		);
 
 		if ($this->request->is('post')) {
+			
+			$stripe_description = $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('name');
+			
+			if ($this->request->data['RaceRegistration']['join'] == 1) {
+				$stripe_description .= " | Membership Fee";
+			}
+			
+			if (($this->request->data['Donate']['amount']) > 0) {
+				$stripe_description .= " | Donation: $" . $this->request->data['Donate']['amount'];
+			}
+
 			$this->request->data['RaceRegistration']['date'] = $race['Race']['date'];
 			
 			if ($race['Race']['experience_id']) {
@@ -359,7 +434,7 @@ class RaceRegistrationsController extends AppController {
 				$this->request->data['RaceRegistration']['no_qualifier'] = 1;
 			}
 
-			$hasEmergencyContact = $this->RaceRegistration->User->EmergencyContact->find(
+/*			$hasEmergencyContact = $this->RaceRegistration->User->EmergencyContact->find(
 				'count',
 				array(
 					'conditions' => array(
@@ -384,8 +459,8 @@ class RaceRegistrationsController extends AppController {
 			if ($hasAddress) {
 				$this->request->data['RaceRegistration']['has_address'] = 1;
 			}
-			
-			if (($qualified) && ($hasEmergencyContact) && ($hasAddress)) {
+*/			
+			if ($qualified) {
 				$this->request->data['RaceRegistration']['approved'] = 1;
 			}
 
@@ -397,9 +472,9 @@ class RaceRegistrationsController extends AppController {
 			$customer = $this->Stripe->customerCreate($customerData);
 
 			$stripeData = array(
-			    'amount' => $this->request->data['RaceRegistration']['payment'],
+			    'amount' => $this->request->data['RaceRegistration']['total_payment'],
 			    'stripeCustomer' => $customer['stripe_id'],
-				'description' => $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('name')
+				'description' => $stripe_description
 			);
 
 			$emailvars['User']['name'] = $this->Auth->user('name');
@@ -409,22 +484,40 @@ class RaceRegistrationsController extends AppController {
 			$emailvars['Registration']['payment'] = $this->request->data['RaceRegistration']['payment'];
 
 			$result = $this->Stripe->charge($stripeData);
+
 			if (is_array($result)) {
 				$this->RaceRegistration->create();
 				if ($this->RaceRegistration->save($this->request->data)) {
-					$this->updateRaceTotal($this->request->data['RaceRegistration']['race_id']);
+					// $this->updateRaceTotal($this->request->data['RaceRegistration']['race_id']);
 					
-					if (isset($this->request->data['RaceRegistration']['parent_race_id'])) {
-						$this->updateRaceTotal($this->request->data['RaceRegistration']['parent_race_id']);
-					}
-					
-					if (($qualified) && ($hasEmergencyContact)) {
+//					if (isset($this->request->data['RaceRegistration']['parent_race_id'])) {
+//						$this->updateRaceTotal($this->request->data['RaceRegistration']['parent_race_id']);
+//					}
+
+					if ($qualified) {
 						$this->Session->setFlash('Your registration has been approved.');
 						$this->send_registration_approved_email($emailvars);
 					} else {
 						$this->Session->setFlash(__('Your registration has been submitted, but is not yet complete.'));
-						$this->send_registration_received_email($emailvars,$qualified,$hasEmergencyContact,$hasAddress);
+						$this->send_registration_received_email($emailvars,$qualified);
 					}
+					
+					if ($this->request->data['RaceRegistration']['join'] > 0) {
+						$this->RaceRegistration->Membership->create();
+						if ($this->Membership->save($this->request->data)) {
+							$this->Session->write('Membership.membership_level',$membershipFee['MembershipLevel']['id']);
+							$this->send_membership_email($user,$membershipFee);
+						}
+						
+					}
+					
+					if ($this->request->data['Donate']['amount'] > 0) {
+						$this->Donation->create();
+						if ($this->Donation->save($this->request->data)) {
+							$this->send_donation_email($emailvars);
+						}						
+					}
+
 					$this->redirect(
 						array(
 							'controller' => 'race_registrations',
@@ -458,16 +551,14 @@ class RaceRegistrationsController extends AppController {
 		$Email->send();		
 	}
 	
-	private function send_registration_received_email($emailvars,$qualified,$hasEmergencyContact,$hasAddress) {
+	private function send_registration_received_email($emailvars,$qualified) {
 		$Email = new CakeEmail('default');
 		$Email->to($emailvars['User']['email']);
 		$Email->subject('Thank you for registering for ' . $emailvars['Race']['title']);
 		$Email->viewVars(
 			array(
 				'email' => $emailvars,
-				'qualified' => $qualified,
-				'hasEmergencyContact' => $hasEmergencyContact,
-				'hasAddress' => $hasAddress
+				'qualified' => $qualified
 			)
 		);
 		$Email->template('race_registration_received', 'default');
