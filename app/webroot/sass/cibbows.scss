@@ -594,13 +594,26 @@ input[type=text], input[type=password], input[type=email], input[type=tel], inpu
 }
 
 input[type=submit], .linkButton {
+  background-image: none;
   background-color: $greyBlue;
   color: #fff;
   border: 0 none;
   @include border-radius(5px);
+  @include box-sizing(border-box);
   padding: 10px 20px;
   font-size: 1.25em;
-  cursor: pointer;
+  cursor: pointer;  
+}
+
+
+.stripe-button-el.cancelButton {
+  background: $deleteRed;
+  margin-right: 1em;
+  height: 30px;
+  
+  span {
+      background: $deleteRed;
+  }
 }
 
 .checkbox {

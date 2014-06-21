@@ -232,20 +232,23 @@ echo $this->Form->input('EmergencyContact.id');
 <div class="row">
 	<div class="column column12">
 		<h2>Additional Donation</h2>
+		
+		<p>CIBBOWS is a not-for-profit, all-volunteer organization. Please consider making an additional donation to support our work.</p>
 	</div>
 </div>
 
 <div class="row">
 	<div class="column column3">
-		<div class="input number required">
-			<?php echo $this->Form->label('Donate.amount', 'Donation Amount'); ?>
+		<div class="input number">
+			<?php echo $this->Form->label('Donation.amount', 'Donation Amount'); ?>
 			<div class="donationInputWrapper">
 				<span>$</span>
 				<div class="donationInput">
 					<?php echo $this->Form->number(
-						'Donate.amount',
+						'Donation.amount',
 						array(
-							'step' => 'any'
+							'step' => 'any',
+							'required' => false
 						)
 					); ?>
 				</div>
@@ -254,9 +257,10 @@ echo $this->Form->input('EmergencyContact.id');
 	</div>
 	<div class="column column4">
 		<?php echo $this->Form->input(
-			'Donate.body',
+			'Donation.body',
 			array(
-				'label' => 'Notes'
+				'label' => 'Notes',
+				'type' => 'text'
 			)		
 		); ?>
 		

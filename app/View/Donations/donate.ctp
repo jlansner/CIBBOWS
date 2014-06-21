@@ -56,7 +56,12 @@ if (AuthComponent::user('id')) {
 			<div class="donationInputWrapper">
 				<span>$</span>
 				<div class="donationInput">
-					<?php echo $this->Form->number('amount'); ?>
+					<?php echo $this->Form->number(
+						'amount',
+						array(
+							'step' => 'any'
+						)
+					); ?>
 				</div>
 			</div>
 		</div>

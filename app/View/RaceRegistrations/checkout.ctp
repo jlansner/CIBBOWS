@@ -4,7 +4,10 @@
 <?php echo $this->Form->create(
 	'null',
 	array(
-		'action' => 'checkout'
+		'url' => array(
+			'controller' => 'race_registrations',
+			'action' => 'checkout'
+		)
 	)
 ); ?>
 	<fieldset>
@@ -58,10 +61,10 @@
 				$showTotal = true; 
 			}
 
-			if ($this->request->data['Donate']['amount'] > 0) {
-				echo "<br />Additional Donation: $" . $this->request->data['Donate']['amount'];
-				if (trim($this->request->data['Donate']['body']) != '') {
-					echo ' - ' . $this->request->data['Donate']['body']; 
+			if ($this->request->data['Donation']['amount'] > 0) {
+				echo "<br />Additional Donation: $" . $this->request->data['Donation']['amount'];
+				if (trim($this->request->data['Donation']['body']) != '') {
+					echo ' - ' . $this->request->data['Donation']['body']; 
 				}
 				$showTotal = true; 
 			}
@@ -86,12 +89,13 @@
 		echo $this->Form->hidden('User.gender_id');
 		echo $this->Form->hidden('RaceRegistration.join');
 		echo $this->Form->hidden('User.shirt_size_id');
-		echo $this->Form->hidden('Donate.amount');
-		echo $this->Form->hidden('Donate.body');
+		echo $this->Form->hidden('Donation.amount');
+		echo $this->Form->hidden('Donation.body');
 
 	?>
 	</fieldset>
 <?php
+/*
 		echo $this->Html->link(
 			'Cancel',
 			array(
@@ -99,9 +103,10 @@
 				$this->request->data['RaceRegistration']['race_id'],
 			),
 			array(
-				'class' => 'linkButton'
+				'class' => 'cancelButton'
 			)
 		);
+  */
 ?>
 <script
     src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"

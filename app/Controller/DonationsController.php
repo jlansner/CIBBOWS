@@ -22,6 +22,7 @@ class DonationsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
+
 	
 /**
  * index method
@@ -115,6 +116,8 @@ class DonationsController extends AppController {
 	}
 
 	public function donate() {
+		$this->request->data['Donation']['date'] = date('Y-m-d');
+		
 		if ($this->request->is('post')) {
 			$this->request->data['Donation']['amount'] = round($this->request->data['Donation']['amount'],2);
 			$this->render('confirm');
@@ -122,6 +125,7 @@ class DonationsController extends AppController {
 	}
 
 	public function confirm() {		
+		$this->request->data['Donation']['date'] = date('Y-m-d');
 		if ($this->request->is('post')) {
 
 			$customerData = array(
@@ -130,11 +134,17 @@ class DonationsController extends AppController {
 			);
 
 			$customer = $this->Stripe->customerCreate($customerData);
+			
+			$description = 'Donation from ' . $this->request->data['Donation']['first_name'] . ' ' . $this->request->data['Donation']['last_name'] . '(' . $this->request->data['Donation']['email'] . ')';
+
+			if ($this->request->data['Donation']['body'] != '') {
+				$description .=	" - " . $this->request->data['Donation']['body'];
+			}
 
 			$stripeData = array(
 			    'amount' => $this->request->data['Donation']['amount'],
 			    'stripeCustomer' => $customer['stripe_id'],
-				'description' => 'Donation from ' . $this->request->data['Donation']['first_name'] . ' ' . $this->request->data['Donation']['last_name'] . '(' . $this->request->data['Donation']['email'] . ')'
+				'description' => $description
 			);
 
 			$emailvars['User']['name'] = $this->request->data['Donation']['first_name'] . ' ' . $this->request->data['Donation']['last_name'];

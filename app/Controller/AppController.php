@@ -51,7 +51,7 @@ class AppController extends Controller {
 		'Stripe.Stripe'
 	);
 
-	public $helpers = array('Html', 'Form', 'Session');
+	public $helpers = array('Html', 'Form', 'Session', 'Time');
 
     public function beforeFilter() {
         //Configure AuthComponent
@@ -140,7 +140,7 @@ class AppController extends Controller {
 		}
     }
 
-	private function send_membership_email($user,$membershipFee) {
+	public function send_membership_email($user,$membershipFee) {
 		$Email = new CakeEmail('default');
 		$Email->to($user['email']);
 		$Email->subject('Thank you for joining CIBBOWS');
@@ -150,7 +150,7 @@ class AppController extends Controller {
 		$Email->send();		
 	}
 
-	private function send_donation_email($emailvars) {
+	public function send_donation_email($emailvars) {
 		$Email = new CakeEmail('default');
 		$Email->to($emailvars['User']['email']);
 		$Email->subject('Thank you for your donation');

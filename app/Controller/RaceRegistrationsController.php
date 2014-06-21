@@ -186,8 +186,8 @@ class RaceRegistrationsController extends AppController {
 			
 			$this->RaceRegistration->set($this->request->data);
 
-			$dob = $this->request->data['User']['dob']['year'] . '-' . $this->request->data['User']['dob']['month'] . '-' . $this->request->data['User']['dob']['day'];
-			$birthDate = new DateTime($dob);
+			$this->request->data['User']['dob'] = $this->request->data['User']['dob']['year'] . '-' . $this->request->data['User']['dob']['month'] . '-' . $this->request->data['User']['dob']['day'];
+			$birthDate = new DateTime($this->request->data['User']['dob']);
 			$raceDate = new DateTime($race['Race']['date']);
 			$interval = $birthDate->diff($raceDate);
 			$this->request->data['RaceRegistration']['age'] = $interval->y;
@@ -198,6 +198,7 @@ class RaceRegistrationsController extends AppController {
 			$this->Session->write('Auth.User.gender_id',$this->request->data['User']['gender_id']);
 			$this->Session->write('Auth.User.shirt_size_id',$this->request->data['User']['shirt_size_id']);
 			$this->Session->write('Auth.User.medical',$this->request->data['User']['medical']);
+			$this->Session->write('Auth.User.dob',$this->request->data['User']['dob']);
 
 			$this->request->data['Address']['user_id'] = $this->Auth->user('id');
  			
@@ -274,11 +275,11 @@ class RaceRegistrationsController extends AppController {
 					}					
 				}
 
-				if ($this->request->data['Donate']['amount']) {
-					$this->request->data['Donate']['amount'] = number_format($this->request->data['Donate']['amount'], 2);
+				if ($this->request->data['Donation']['amount']) {
+					$this->request->data['Donation']['amount'] = number_format($this->request->data['Donation']['amount'], 2);
 				} 
 
-				$this->request->data['RaceRegistration']['total_payment'] = number_format($this->request->data['RaceRegistration']['payment'] + $this->request->data['Donate']['amount'], 2);
+				$this->request->data['RaceRegistration']['total_payment'] = number_format($this->request->data['RaceRegistration']['payment'] + $this->request->data['Donation']['amount'], 2);
 				
 				if ($this->request->data['RaceRegistration']['join'] == 1) {
 					$this->request->data['RaceRegistration']['total_payment'] += $this->request->data['MembershipFee']['price'];
@@ -362,6 +363,33 @@ class RaceRegistrationsController extends AppController {
 			)
 		);
 
+		$this->loadModel('MembershipFee');
+		$membershipFee = $this->MembershipFee->find(
+			'first',
+			array(
+				'conditions' =>array(
+					'MembershipFee.start_date <= CURDATE()',
+					'MembershipFee.end_date >= CURDATE()'
+				),
+				'contain' => array(
+					'MembershipLevel'
+				),
+				'order' => array('MembershipFee.priority'),
+				'recursive' => -1
+			)
+		);
+		
+		$ageGroups = $this->RaceRegistration->AgeGroup->find(
+			'first',
+			array(
+				'conditions' => array(
+					'AgeGroup.gender_id' => $this->Auth->user('gender_id'),
+					'AgeGroup.minimum_age <=' => $this->request->data['RaceRegistration']['age'],
+					'AgeGroup.maximum_age >=' => $this->request->data['RaceRegistration']['age']
+				)
+			)
+		);
+
 		if ($this->request->is('post')) {
 			
 			$stripe_description = $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('name');
@@ -370,10 +398,14 @@ class RaceRegistrationsController extends AppController {
 				$stripe_description .= " | Membership Fee";
 			}
 			
-			if (($this->request->data['Donate']['amount']) > 0) {
-				$stripe_description .= " | Donation: $" . $this->request->data['Donate']['amount'];
+			if (($this->request->data['Donation']['amount']) > 0) {
+				$stripe_description .= " | Donation: $" . $this->request->data['Donation']['amount'];
 			}
 
+			$this->request->data['RaceRegistration']['first_name'] = $this->Auth->user('first_name');
+			$this->request->data['RaceRegistration']['last_name'] = $this->Auth->user('last_name');
+			$this->request->data['RaceRegistration']['gender_id'] = $this->Auth->user('gender_id');
+			$this->request->data['RaceRegistration']['age_group_id'] = $ageGroups['AgeGroup']['id'];
 			$this->request->data['RaceRegistration']['date'] = $race['Race']['date'];
 			
 			if ($race['Race']['experience_id']) {
@@ -503,16 +535,38 @@ class RaceRegistrationsController extends AppController {
 					}
 					
 					if ($this->request->data['RaceRegistration']['join'] > 0) {
-						$this->RaceRegistration->Membership->create();
+						$this->loadModel('Membership');
+						$this->Membership->create();
+						
+						$this->request->data['Membership']['membership_level_id'] = $membershipFee['MembershipFee']['membership_level_id']; 
+						$this->request->data['Membership']['user_id'] = $this->Auth->user('id');
+						$this->request->data['Membership']['start_date'] = date('Y-m-d');
+						$this->request->data['Membership']['end_date'] = $membershipFee['MembershipFee']['year'] . '-12-31';
+
 						if ($this->Membership->save($this->request->data)) {
 							$this->Session->write('Membership.membership_level',$membershipFee['MembershipLevel']['id']);
+							$user['name'] = $this->Auth->user('name');
+							$user['email'] = $this->Auth->user('email');
+
 							$this->send_membership_email($user,$membershipFee);
 						}
 						
 					}
 					
-					if ($this->request->data['Donate']['amount'] > 0) {
+					if ($this->request->data['Donation']['amount'] > 0) {
+						$this->loadModel('Donation');
 						$this->Donation->create();
+						
+						$this->request->data['Donation']['first_name'] = $this->Auth->user('first_name');
+						$this->request->data['Donation']['last_name'] = $this->Auth->user('last_name');
+						$this->request->data['Donation']['user_id'] = $this->Auth->user('id');
+						$this->request->data['Donation']['email'] = $this->Auth->user('email');
+						$this->request->data['Donation']['date'] = date('Y-m-d');;
+			
+						$emailvars['User']['name'] = $this->request->data['Donation']['first_name'] . ' ' . $this->request->data['Donation']['last_name'];
+						$emailvars['User']['email'] = $this->request->data['Donation']['email'];
+						$emailvars['Donation']['amount'] = $this->request->data['Donation']['amount'];
+
 						if ($this->Donation->save($this->request->data)) {
 							$this->send_donation_email($emailvars);
 						}						

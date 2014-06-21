@@ -137,11 +137,23 @@ class MembershipsController extends AppController {
 			);
 
 			$customer = $this->Stripe->customerCreate($customerData);
+			
+			$total_price = $membershipFee['MembershipFee']['price'] + $this->request->data['Donation']['amount'];
+			
+			$description = "CIBBOWS Membership";
+			
+			if ($this->request->data['Donation']['amount'] > 0) {
+				$description .= " | Donation: " . $this->request->data['Donation']['amount'];
+				
+				if ($this->request->data['Donation']['body'] != '') {
+					$description .=	" - " . $this->request->data['Donation']['body'];
+				}
+			}
 
 			$stripeData = array(
-			    'amount' => $membershipFee['MembershipFee']['price'],
+			    'amount' => $total_price,
 			    'stripeCustomer' => $customer['stripe_id'],
-				'description' => 'CIBBOWS Membership'
+				'description' => $description
 			);
 
 			$user['name'] = $this->Auth->user('name');
@@ -149,6 +161,14 @@ class MembershipsController extends AppController {
 
 			$result = $this->Stripe->charge($stripeData);
 			if (is_array($result)) {
+				if ($this->request->data['Donation']['amount'] > 0) {
+					$this->loadModel('Donation');					
+					$this->Donation->create();
+					if ($this->Donation->save($this->request->data)) {
+						$this->send_donation_email($emailvars);
+					}						
+				}
+
 				$this->Membership->create();
 				if ($this->Membership->save($this->request->data)) {
 					$this->Session->write('Membership.membership_level',$membershipFee['MembershipLevel']['id']);
