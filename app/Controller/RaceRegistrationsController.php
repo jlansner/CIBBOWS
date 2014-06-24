@@ -324,6 +324,9 @@ class RaceRegistrationsController extends AppController {
 		$this->request->data['User']['dob'] = $this->Auth->user('dob');
 		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
 		$this->request->data['User']['medical'] = $this->Auth->user('medical');
+		if ($this->request->data['User']['medical'] == "missing") {
+			$this->request->data['User']['medical'] == "";
+		}
 		$this->request->data['User']['shirt_size_id'] = $this->Auth->user('shirt_size_id');
 		
 	

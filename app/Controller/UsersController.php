@@ -9,7 +9,7 @@ class UsersController extends AppController {
 		$this->forceSecure();
 	}
 
-	public function index() {
+	public function admin_index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
 	}
@@ -18,11 +18,21 @@ class UsersController extends AppController {
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
-		$options = array(
-			'conditions' => array('User.' . $this->User->primaryKey => $id),
-			'recursive' => 2
+		$user = $this->User->find(
+			'first',
+			array(
+				'conditions' => array(
+					'User.id' => $id
+				),
+				'recursive' => 2
+			)
 		);
-		$this->set('user', $this->User->find('first', $options));		
+		
+		if ($user['User']['medical'] == "missing") {
+			$user['User']['medical'] == "";
+		}
+
+		$this->set(compact('user'));		
 	}
 
 	public function add() {
@@ -99,8 +109,19 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
+			$this->request->data = $this->User->find(
+				'first',
+				array(
+					'conditions' => array(
+					'User.id' => $id
+					)
+				)
+			);
+
+			if ($this->request->data['User']['medical'] == "missing") {
+				$this->request->data['User']['medical'] == "";
+			}
+
 		}
 		$genders = $this->User->Gender->find('list');
 		$shirtSizes = $this->User->ShirtSize->find('list');
@@ -363,6 +384,10 @@ class UsersController extends AppController {
 				)
 			)
 		);
+
+		if ($user['User']['medical'] == "missing") {
+			$user['User']['medical'] == "";
+		}
 		
 		$this->set('user', $user);
 	}
@@ -376,8 +401,19 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('Your changes could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $this->Auth->user('id')), 'recursive' => -1);
-			$this->request->data = $this->User->find('first', $options);
+			$this->request->data = $this->User->find(
+				'first',
+				array(
+					'conditions' => array(
+						'User.id' => $this->Auth->user('id')
+					)
+				)
+			);
+
+			if ($this->request->data['User']['medical'] == "missing") {
+				$this->request->data['User']['medical'] == "";
+			}
+
 		}
 		$genders = $this->User->Gender->find('list');
 		$shirtSizes = $this->User->ShirtSize->find('list');
@@ -405,5 +441,110 @@ class UsersController extends AppController {
 		);
 
 		$this->request->data = $user;
+	}
+	
+	public function add_members() {
+		if ($this->request->is('post')) {
+			$lines = explode("\n", $this->request->data['User']['members']);
+			$head = str_getcsv(array_shift($lines));
+
+			$array = array();
+			foreach ($lines as $line) {
+			    $array[] = array_combine($head, str_getcsv($line));
+			}
+			
+			$i = 0;
+			foreach ($array as $line) {
+				$members[$i]['User']['first_name'] = $line['first_name'];
+				$members[$i]['User']['last_name'] = $line['last_name'];
+				$members[$i]['User']['email'] = $line['from_email'];
+				$members[$i]['User']['medical'] = $line['list-medical-conditions-medications'];
+				if ($members[$i]['User']['medical'] == "") {
+					$members[$i]['User']['medical'] = "missing";
+				}
+				$members[$i]['User']['group_id'] = 1;
+				
+				if ($line['t-shirt-size'] == "XL") {
+					$members[$i]['User']['shirt_size_id'] = 4;
+				} else if ($line['t-shirt-size'] == "L") {
+					$members[$i]['User']['shirt_size_id'] = 3;
+				} else if ($line['t-shirt-size'] == "M") {
+					$members[$i]['User']['shirt_size_id'] = 2;
+				} else if ($line['t-shirt-size'] == "Sm") {
+					$members[$i]['User']['shirt_size_id'] = 1;
+				}
+				$line['city-state-zip'] = trim($line['city-state-zip']);
+				if (preg_match('/\d{5}/',substr($line['city-state-zip'],-5))) {
+					$members[$i]['Address']['postcode'] = substr($line['city-state-zip'],-5);
+					$line['city-state-zip'] = substr($line['city-state-zip'],0,-5);
+				}
+				
+				$address = split(',',$line['city-state-zip']);
+				
+				$members[$i]['Address']['city'] = trim($address[0]);
+				if (count($address) > 1) {
+					$members[$i]['Address']['county_province'] = trim($address[1]);
+				}
+				
+				$members[$i]['Address']['line1'] = $line['street-address'];
+				$members[$i]['Address']['phone'] = preg_replace("/\D/","",$line['cell-phone']);
+				
+				$contact = split(',',$line['emergency-contact-name-and-relationship']);
+
+				$members[$i]['EmergencyContact']['name'] = trim($contact[0]);
+				if (count($contact) > 1) {
+					$members[$i]['EmergencyContact']['relationship'] = trim($contact[1]);
+				}
+
+				$members[$i]['EmergencyContact']['phone'] = preg_replace("/\D/","",$line['emergency-contact-number']);
+				
+				$members[$i]['Membership']['start_date'] = date('Y-m-d',strtotime($line['date_time']));
+				$members[$i]['Membership']['end_date'] = "2014-12-31";
+				$members[$i]['Membership']['membership_level_id'] = 1;
+				$i++;
+			}
+
+			foreach ($members as $member) {
+				$check_id = $this->User->find(
+					'first',
+					array(
+						'fields' => array('User.id'),
+						'conditions' => array(
+							'OR' => array(
+								'User.email' => $member['User']['email'],
+								'User.email' => "_____" . $member['User']['email']
+							)
+						),
+						'recursive' => -1
+					)
+				);
+				
+				if (isset($check_id['User']['id'])) {
+					$id = $check_id['User']['id'];
+ 				} else {
+					$member['User']['email'] = "_____" . $member['User']['email'];
+					$this->User->create();
+					$this->User->save($member);
+					$id = $this->User->id;
+				}
+
+				$member['Address']['user_id'] = $id;
+				$member['EmergencyContact']['user_id'] = $id;
+				$member['Membership']['user_id'] = $id;
+
+				$this->User->Address->create();
+				$this->User->Address->save($member);
+
+				$this->User->EmergencyContact->create();
+				$this->User->EmergencyContact->save($member);
+
+				$this->User->Membership->create();
+				$this->User->Membership->save($member);
+				
+			}
+
+		}
+		
+		
 	}
 }

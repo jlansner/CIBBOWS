@@ -4,4 +4,4 @@
 
 <p>Thank you for joining CIBBOWS. Your membership will expire on December 31, <?php echo $year; ?>.</p>
 
-<p>Your membership dues of $<?php echo $price; ?> are fully tax-deductible.</p>
+<?php /* <p>Your membership dues of $<?php echo $price; ?> are fully tax-deductible.</p> */ ?>

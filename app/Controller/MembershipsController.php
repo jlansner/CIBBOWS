@@ -20,7 +20,7 @@ class MembershipsController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->Membership->recursive = 0;
 		$this->set('memberships', $this->paginate());
 	}
