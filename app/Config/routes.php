@@ -41,7 +41,15 @@
 			'admin'
 		)
 	);
-	
+
+	Router::connect(
+		'/join',
+		array(
+			'controller' => 'memberships',
+			'action' => 'join'
+		)
+	);	
+
 	$indexControllers = array('races','users','events','test_swims','clinics');
 
 	foreach ($indexControllers as $controller) {
@@ -183,7 +191,7 @@
 			'year' => '[0-9]{4}',
 			'month' => '[0-9]{2}',
 			'day' => '[0-9]{2}',
-			'url_title' => '[a-z_\-]*'			
+			'url_title' => '[a-z0-9_\-]*'			
 		)
 	);
 	

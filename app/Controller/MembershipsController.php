@@ -21,8 +21,24 @@ class MembershipsController extends AppController {
  * @return void
  */
 	public function admin_index() {
-		$this->Membership->recursive = 0;
-		$this->set('memberships', $this->paginate());
+//		$this->Membership->recursive = 0;
+//		$this->set('memberships', $this->paginate());
+		$memberships = $this->Membership->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Membership.start_date <= DATE(NOW())',
+					'Membership.end_date >= DATE(NOW())'
+				),
+				'contain' => array(
+					'User' => array(
+						'fields' => array('User.id','User.name','User.email')
+					)
+				),
+				'order' => array('User.last_name')
+			)
+		);
+		$this->set(compact('memberships'));
 	}
 
 /**
@@ -46,6 +62,7 @@ class MembershipsController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->request->data['Membership']['waiver'] = 1;
 		if ($this->request->is('post')) {
 			$this->Membership->create();
 			if ($this->Membership->save($this->request->data)) {
@@ -125,62 +142,70 @@ class MembershipsController extends AppController {
 		);
 
 		if ($this->request->is('post')) {
+			$validationArray = array(
+				'fieldList' => array(
+					'waiver'
+				)
+			);				
+
+			if ($this->Membership->validates($validationArray)) {
 	
-			$this->request->data['Membership']['membership_level_id'] = $membershipFee['MembershipFee']['membership_level_id']; 
-			$this->request->data['Membership']['user_id'] = $this->Auth->user('id');
-			$this->request->data['Membership']['start_date'] = date('Y-m-d');
-			$this->request->data['Membership']['end_date'] = $membershipFee['MembershipFee']['year'] . '-12-31';
-
-			$customerData = array(
-				'stripeToken'  => $this->request->data['stripeToken'],
-				'email' => $this->Auth->user('email')
-			);
-
-			$customer = $this->Stripe->customerCreate($customerData);
-			
-			$total_price = $membershipFee['MembershipFee']['price'] + $this->request->data['Donation']['amount'];
-			
-			$description = "CIBBOWS Membership";
-			
-			if ($this->request->data['Donation']['amount'] > 0) {
-				$description .= " | Donation: " . $this->request->data['Donation']['amount'];
+				$this->request->data['Membership']['membership_level_id'] = $membershipFee['MembershipFee']['membership_level_id']; 
+				$this->request->data['Membership']['user_id'] = $this->Auth->user('id');
+				$this->request->data['Membership']['start_date'] = date('Y-m-d');
+				$this->request->data['Membership']['end_date'] = $membershipFee['MembershipFee']['year'] . '-12-31';
+	
+				$customerData = array(
+					'stripeToken'  => $this->request->data['stripeToken'],
+					'email' => $this->Auth->user('email')
+				);
+	
+				$customer = $this->Stripe->customerCreate($customerData);
 				
-				if ($this->request->data['Donation']['body'] != '') {
-					$description .=	" - " . $this->request->data['Donation']['body'];
-				}
-			}
-
-			$stripeData = array(
-			    'amount' => $total_price,
-			    'stripeCustomer' => $customer['stripe_id'],
-				'description' => $description
-			);
-
-			$user['name'] = $this->Auth->user('name');
-			$user['email'] = $this->Auth->user('email');
-
-			$result = $this->Stripe->charge($stripeData);
-			if (is_array($result)) {
+				$total_price = $membershipFee['MembershipFee']['price'] + $this->request->data['Donation']['amount'];
+				
+				$description = "CIBBOWS Membership - " . $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
+				
 				if ($this->request->data['Donation']['amount'] > 0) {
-					$this->loadModel('Donation');					
-					$this->Donation->create();
-					if ($this->Donation->save($this->request->data)) {
-						$this->send_donation_email($emailvars);
-					}						
+					$description .= " | Donation: " . $this->request->data['Donation']['amount'];
+					
+					if ($this->request->data['Donation']['body'] != '') {
+						$description .=	" - " . $this->request->data['Donation']['body'];
+					}
 				}
-
-				$this->Membership->create();
-				if ($this->Membership->save($this->request->data)) {
-					$this->Session->write('Membership.membership_level',$membershipFee['MembershipLevel']['id']);
-					$this->Session->setFlash(__('Thank you for joining CIBBOWS'));
-					$this->send_membership_email($user,$membershipFee);
-					$this->redirect(array('controller' => 'users', 'action' => 'my_profile'));
+	
+				$stripeData = array(
+				    'amount' => $total_price,
+				    'stripeCustomer' => $customer['stripe_id'],
+					'description' => $description
+				);
+	
+				$user['name'] = $this->Auth->user('name');
+				$user['email'] = $this->Auth->user('email');
+	
+				$result = $this->Stripe->charge($stripeData);
+				if (is_array($result)) {
+					if ($this->request->data['Donation']['amount'] > 0) {
+						$this->loadModel('Donation');					
+						$this->Donation->create();
+						if ($this->Donation->save($this->request->data)) {
+							$this->send_donation_email($emailvars);
+						}						
+					}
+	
+					$this->Membership->create();
+					if ($this->Membership->save($this->request->data)) {
+						$this->Session->write('Membership.membership_level',$membershipFee['MembershipLevel']['id']);
+						$this->Session->setFlash(__('Thank you for joining CIBBOWS'));
+						$this->send_membership_email($user,$membershipFee);
+						$this->redirect(array('controller' => 'users', 'action' => 'my_profile'));
+					} else {
+						$this->Session->setFlash(__('The membership could not be saved. Please, try again.'));
+					}		
 				} else {
 					$this->Session->setFlash(__('The membership could not be saved. Please, try again.'));
-				}		
-			} else {
-				$this->Session->setFlash(__('The membership could not be saved. Please, try again.'));
-				$this->set('result',$result); //error message from Stripe
+					$this->set('result',$result); //error message from Stripe
+				}
 			}
 		}
 

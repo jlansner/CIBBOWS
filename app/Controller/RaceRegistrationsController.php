@@ -132,7 +132,7 @@ class RaceRegistrationsController extends AppController {
 						'order' => 'ChildRace.id ASC'
 					)
 				),
-				'fields' => array('Race.id','Race.title','Race.experience_id','Race.date','Race.exclusive','Race.url_title','Race.max_swimmers') 
+				'fields' => array('Race.id', 'Race.title',' Race.experience_id', 'Race.date', 'Race.exclusive', 'Race.url_title', 'Race.max_swimmers', 'Race.minimum_age') 
 			)
 		);
 
@@ -228,7 +228,7 @@ class RaceRegistrationsController extends AppController {
 			} else {
 				$validationArray = array(
 					'fieldList' => array(
-						'waiver'
+						'waiver','age'
 					)
 				);				
 			}
@@ -320,7 +320,7 @@ class RaceRegistrationsController extends AppController {
 
 		if (count($emergencyContact) > 0) {
 			$this->request->data['EmergencyContact'] = $emergencyContact['EmergencyContact'];
-			}
+		}
 		$this->request->data['User']['dob'] = $this->Auth->user('dob');
 		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
 		$this->request->data['User']['medical'] = $this->Auth->user('medical');
@@ -395,7 +395,7 @@ class RaceRegistrationsController extends AppController {
 
 		if ($this->request->is('post')) {
 			
-			$stripe_description = $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('name');
+			$stripe_description = $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
 			
 			if ($this->request->data['RaceRegistration']['join'] == 1) {
 				$stripe_description .= " | Membership Fee";
@@ -638,15 +638,22 @@ class RaceRegistrationsController extends AppController {
 	    	    ),
 	    	    'contain' => array(
 	    	    	'RaceRegistration' => array(
-			    	    'Gender',
-						'AgeGroup'
+	    	    		'fields' => array('RaceRegistration.user_id','RaceRegistration.first_name','RaceRegistration.last_name','RaceRegistration.age','RaceRegistration.child_race_id','RaceRegistration.approved'),
+			    	    'Gender' => array(
+			    	    	'fields' => array('Gender.title')
+						),
+						'AgeGroup' => array(
+							'fields' => array('AgeGroup.title')
+						),
+						'order' => array('RaceRegistration.last_name', 'RaceRegistration.first_name')	
+						
 					),
 	    	    	'ChildRace' => array(
 		    	    	'RaceRegistration' => array(
-							'User'
+							'User',
+							'order' => array('RaceRegistration.last_name', 'RaceRegistration.first_name')	
 						)
 		    	    ),
-		    	    'User',
 		    	    'Series'
 				)
 			)

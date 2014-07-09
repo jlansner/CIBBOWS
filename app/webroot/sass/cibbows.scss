@@ -799,9 +799,15 @@ input[type=submit], .linkButton {
     width: 90%;
     
     input {
+      font-size: 11px;
       padding-left: 0;
       border: 0;
+      
+      &:first-child {
+        padding-left: .5em;
+      }
     }
   }
   
 }
+

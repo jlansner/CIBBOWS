@@ -52,7 +52,7 @@ class RaceRegistration extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'name' => array(
+		'first_name' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
@@ -63,9 +63,9 @@ class RaceRegistration extends AppModel {
 			),
 		),
 		'age' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+			'required' => array(
+				'rule' => array('checkAge'),
+				'message' => 'You are not old enough to register for this race',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -214,5 +214,13 @@ class RaceRegistration extends AppModel {
 			$this->data[$this->alias]['age_group_id'] = $this->getAgeGroup($this->data[$this->alias]['age'],$this->data[$this->alias]['gender_id']);
 		}
 		
+	}
+
+	public function checkAge() {
+		if ($this->data['RaceRegistration']['age'] >= $this->data['Race']['minimum_age']) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

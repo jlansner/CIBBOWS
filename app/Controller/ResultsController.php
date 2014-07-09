@@ -226,4 +226,88 @@ class ResultsController extends AppController {
 		$this->Session->setFlash(__('Result was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+	public function admin_add_results() {
+		$races = $this->Result->Race->find('list');
+
+		if ($this->request->is('post')) {
+			$result = array();
+			$race = $this->Result->Race->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Race.id' => $this->request->data['Result']['race_id']
+					)
+				)
+			);
+
+			$lines = explode("\n", $this->request->data['Result']['results']);
+			$head = str_getcsv(array_shift($lines));
+
+			$array = array();
+			foreach ($lines as $line) {
+			    $array[] = array_combine($head, str_getcsv($line));
+			}
+			
+			$i = 0;
+			foreach ($array as $line) {
+				$name = split(',',$line['Name']);
+				$result[$i]['Result']['first_name'] = trim($name[1]);
+				$result[$i]['Result']['last_name'] = trim($name[0]);
+				
+				$user_id = $this->Result->User->find(
+					'first',
+					array(
+						'conditions' => array(
+							'User.first_name' => trim($name[1]),
+							'User.last_name' => trim($name[0])
+						)
+					)
+				);
+				
+				$result[$i]['Result']['user_id'] = $user_id['User']['id'];
+				$result[$i]['Result']['age'] = trim($line['Age']);
+
+				if (trim($line['Gender']) == 'M') {
+					$result[$i]['Result']['gender_id'] = 1;
+				} else {
+					$result[$i]['Result']['gender_id'] = 2;
+				}
+				
+				$age_group_id = $this->Result->AgeGroup->find(
+					'first',
+					array(
+						'conditions' => array(
+							'AgeGroup.gender_id' => $result[$i]['Result']['gender_id'],
+							'AgeGroup.minimum_age <=' => $result[$i]['Result']['age'],
+							'AgeGroup.maximum_age >=' => $result[$i]['Result']['age']
+						)
+					)
+				);
+
+				$result[$i]['Result']['age_group_id'] = $age_group_id['AgeGroup']['id'];
+				if (strlen($line['Time']) < 6) {
+					$result[$i]['Result']['time'] = "00:" . $line['Time'];
+				} else {
+					$result[$i]['Result']['time'] = $line['Time'];
+				}
+				$result[$i]['Result']['place'] = $line['Pl'];
+				$result[$i]['Result']['age_place'] = $line['Div Pl'];
+				$result[$i]['Result']['race_id'] = $race['Race']['id'];
+				$result[$i]['Result']['meters'] = $race['Race']['meters'];
+				$result[$i]['Result']['wetsuit'] = $this->request->data['Result']['wetsuit'];
+				
+				$r = $result[$i];
+				$this->Result->create();
+				$this->Result->save($r);				
+				$i++;
+				
+			}
+
+		}
+
+		
+		$this->set(compact('races','result'));
+		
+	}
 }

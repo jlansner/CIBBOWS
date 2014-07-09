@@ -30,7 +30,9 @@
  <br class="clear" />
 
 <?php if (count($race['RaceRegistration']) > 0) { ?>
-	<table class="zebraTable">
+	<?php if (count($race['ChildRace']) == 0) {  ?>
+
+		<table class="zebraTable">
 		<thead>
 				<tr>
 					<th>Name</th>
@@ -45,7 +47,14 @@
 		<?php foreach ($race['RaceRegistration'] as $raceRegistration): ?>
 			<tr>
 				<td>
-					<?php echo $this->Html->link($raceRegistration['User']['name'], array('controller' => 'users', 'action' => 'view', $raceRegistration['User']['id'])); ?>
+					<?php echo $this->Html->link(
+					$raceRegistration['first_name'] . ' ' . $raceRegistration['last_name'],
+					array(
+						'controller' => 'users',
+						'action' => 'view',
+						$raceRegistration['user_id']
+					)
+				); ?>
 				</td>
 				<td><?php echo h($raceRegistration['age']); ?></td>
 				<td><?php echo $raceRegistration['Gender']['title']; ?></td>
@@ -56,28 +65,21 @@
 					<?php } else {
 						if (($race['Race']['experience_id'] !== null) && (($raceRegistration['result_id'] == null) && ($raceRegistration['qualifying_race_id'] == null) && ($raceRegistration['qualifying_swim_id'] == null))) { ?>
 							<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>
-						<?php }
-						
-						if (!$raceRegistration['has_address']) { ?>
-							<i class="fa fa-home orange" title="Address Needed"></i>
-						<?php }
-						
-						if (!$raceRegistration['has_emergency_contact']) { ?>
-							<i class="fa fa-user-md orange" title="Emergency Contact Needed"></i>
-						<?php }
+						<?php }	else { ?>
+              <i class="fa fa-check edit" title="Registration Approved"></i>
+            <?php }
 					} ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-<?php } ?>
+	<?php } else { ?>
 
-<?php if (count($race['ChildRace']) > 0) { 
-	foreach ($race['ChildRace'] as $childRace) { ?>
-		<h3><?php echo $childRace['title']; ?></h3>
+		<?php foreach ($race['ChildRace'] as $childRace) { ?>
+			<h3><?php echo $childRace['title']; ?></h3>
 
-<?php if (count($childRace['RaceRegistration']) > 0) { ?>
+			<?php // if (count($childRace['RaceRegistration']) > 0) { ?>
 	<table class="zebraTable">
 		<thead>
 				<tr>
@@ -90,7 +92,8 @@
 		</thead>
 		<tbody>
 
-		<?php foreach ($childRace['RaceRegistration'] as $raceRegistration): ?>
+		<?php foreach ($race['RaceRegistration'] as $raceRegistration): ?>
+			<?php if ($raceRegistration['child_race_id'] == $childRace['id']) { ?>
 			<tr>
 				<td>
 					<?php echo $this->Html->link($raceRegistration['User']['name'], array('controller' => 'users', 'action' => 'view', $raceRegistration['User']['id'])); ?>
@@ -106,23 +109,18 @@
 							<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>
 						<?php }
 						
-						if (!$raceRegistration['has_address']) { ?>
-							<i class="fa fa-home orange" title="Address Needed"></i>
-						<?php }
-						
-						if (!$raceRegistration['has_emergency_contact']) { ?>
-							<i class="fa fa-user-md orange" title="Emergency Contact Needed"></i>
-						<?php }
 					} ?>
 				</td>
 			</tr>
+			<?php } ?>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-<?php
+<?php // }
 		}
 	}
 }
+
 ?>
-</div>
+	</div>
 </div>

@@ -9,16 +9,27 @@
 		echo $this->Form->input('first_name');
 		echo $this->Form->input('middle_name');
 		echo $this->Form->input('last_name');
-		echo $this->Form->input('gender_id');
+		echo $this->Form->input(
+			'gender_id',
+			array(
+				'empty' => ''
+			)
+		);
 		echo $this->Form->input(
 			'dob',
 			array(
 				'minYear' => date('Y') - 100,
 				'maxYear' => date('Y'),
+				'empty' => ''
 			)
 		);
 		echo $this->Form->input('job_title');
-		echo $this->Form->input('shirt_size_id');
+		echo $this->Form->input(
+			'shirt_size_id',
+			array(
+				'empty' => ''
+			)
+		);
 		echo $this->Form->input(
 			'medical',
 			array(

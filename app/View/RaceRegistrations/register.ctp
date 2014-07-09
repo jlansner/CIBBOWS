@@ -94,20 +94,12 @@ echo $this->Form->create('null');
 //				'dateFormat' => 'MDY',
 				'minYear' => date('Y') - 100,
 				'maxYear' => date('Y'),
-				'empty' => ''
+				'empty' => '',
+				'default' => 0,
+				'class' => 'registerAge'
 			)
 		);
 ?>
-
-<p>Age on race day: <span class="ageRaceDay"><?php echo $this->request->data['RaceRegistration']['age']; ?></span>
-
-<?php
-
-	echo $this->Form->hidden(
-		'RaceRegistration.age'
-	);		
-				
-?></p>
 	</div>
 	<div class="column column2">
 <?php		echo $this->Form->input(
@@ -129,8 +121,35 @@ echo $this->Form->create('null');
 ?>		
 	</div>
 </div>
+
 <div class="row">
-	<div class="column column12"><?php
+	<div class="column column12">
+		<p>Age on race day: <span class="ageRaceDay"><?php echo $this->request->data['RaceRegistration']['age']; ?></span>
+
+<?php
+if ($this->Form->isFieldError('RaceRegistration.age')) {
+    echo $this->Form->error('RaceRegistration.age');
+};
+	echo $this->Form->hidden(
+		'RaceRegistration.age'
+	);
+
+	echo $this->Form->hidden(
+		'Race.date',
+		array(
+			'value' => $race['Race']['date']
+		)
+	);
+	
+	echo $this->Form->hidden(
+		'Race.minimum_age',
+		array(
+			'value' => $race['Race']['minimum_age']
+		)
+	);
+?></p>
+
+<?php
 		echo $this->Form->input(
 			'User.medical',
 			array(
@@ -255,16 +274,18 @@ echo $this->Form->input('EmergencyContact.id');
 			</div>
 		</div>
 	</div>
-	<div class="column column4">
-		<?php echo $this->Form->input(
+  <div class="column column4">
+    <?php echo $this->Form->label('Donation.body', 'Notes'); ?>
+    <div class="donationInputWrapper">
+      <div class="donationInput">
+        <?php echo $this->Form->text(
 			'Donation.body',
 			array(
-				'label' => 'Notes',
-				'type' => 'text'
 			)		
 		); ?>
-		
-	</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="row">

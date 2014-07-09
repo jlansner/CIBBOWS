@@ -35,13 +35,48 @@ class PostsController extends AppController {
 		}
 
 		try {
-			$this->Paginator->settings = $this->paginate;
-			$posts = $this->Paginator->paginate('Post');
-		} catch (NotFoundException $e) {
+//			$this->Paginator->settings = $this->paginate;
+//			$posts = $this->Paginator->paginate('Post');
+
+
+    	$posts = $this->Post->find(
+			'all',
+			array(
+	        	'conditions' => array(
+                    array(
+    	        		'OR' => array(
+    	        			array('Post.archived' => 0),
+    	        			array('Post.archived' => null)
+    					)
+                    ),
+    				array(
+	    	    		'OR' => array(
+	    	    			array('Post.membership_level_id' => null),
+		    	    		array('Post.membership_level_id <=' => $this->userMembershipLevel)
+		    	    	)					
+					)
+                ),
+	    	    'order' => array('Post.posted DESC')
+			)
+		);
+
+    	$this->paginate = array(
+        	'conditions' => array(
+        		'OR' => array(
+        			array('Post.archived' => 0),
+        			array('Post.archived' => null)
+    			),
+    		)	
+    	);
+
+
+
+        } catch (NotFoundException $e) {
 			$this->redirect('/posts/');
 		}
-	
-	    $this->set('posts', $posts);
+
+    	$this->set('posts', $this->paginate());
+		$this->set('posts', $posts);
 
 	}
 
@@ -94,7 +129,13 @@ class PostsController extends AppController {
 					'Post.url_title' => $url_title,
 					'Post.posted LIKE' => $year . '-' . $month . '-' . $day . '%',
 					'Post.active' => 1,
-					'Post.archived'=> 0
+					'Post.archived'=> 0,
+        			array(
+	    	    		'OR' => array(
+	    	    			array('Post.membership_level_id' => null),
+		    	    		array('Post.membership_level_id <=' => $this->userMembershipLevel)
+		    	    	)					
+					)                    
 				),
 				'contain' => array(
 					'User',
@@ -136,8 +177,9 @@ class PostsController extends AppController {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
 			}
 		}
+        $membershipLevels = $this->Post->MembershipLevel->find('list');
 		$users = $this->Post->User->find('list');
-		$this->set(compact('users'));
+		$this->set(compact('users','membershipLevels'));
 	}
 
 /**
@@ -173,8 +215,9 @@ class PostsController extends AppController {
 			$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
 			$this->request->data = $this->Post->find('first', $options);
 		}
-		$users = $this->Post->User->find('list');
-		$this->set(compact('users'));
+        $membershipLevels = $this->Post->MembershipLevel->find('list');
+    	$users = $this->Post->User->find('list');
+		$this->set(compact('users','membershipLevels'));
 	}
 
 /**
@@ -205,9 +248,15 @@ class PostsController extends AppController {
 				'fields' => array('Post.title', 'Post.url_title', 'Post.posted'),
 				'conditions' => array(
 					'Post.active' => 1,
-					'Post.archived' => 0
+					'Post.archived' => 0,
+        			array(
+	    	    		'OR' => array(
+	    	    			array('Post.membership_level_id' => null),
+		    	    		array('Post.membership_level_id <=' => $this->userMembershipLevel)
+		    	    	)					
+					)                    
 				),
-				'limit' => 3,
+				'limit' => 5,
 				'order' => 'Post.posted DESC',
 				'recursive' => -1
 			)

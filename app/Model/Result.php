@@ -262,7 +262,7 @@ class Result extends AppModel {
 		$this->data[$this->alias]['gender_id'] = $user['User']['gender_id'];
 		
 		if ((isset($this->data[$this->alias]['age'])) && (isset($this->data[$this->alias]['gender_id']))) {
-			$this->data[$this->alias]['age_group_id'] = $this->getAgeGroup($this->data[$this->alias]['age'],$this->data[$this->alias]['gender_id']);
+//			$this->data[$this->alias]['age_group_id'] = $this->getAgeGroup($this->data[$this->alias]['age'],$this->data[$this->alias]['gender_id']);
 		}
 		
 	}

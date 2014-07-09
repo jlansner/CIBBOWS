@@ -30,6 +30,26 @@ $(document).ready(function () {
 	$('body').on('tap', '.phoneMenuLink', function(event) {
 		$('.phoneMenu').toggle();
 	});
+	
+	$('body').on('change', '.registerAge', function(event) {
+		var age;
+		var raceYear = $('#RaceDate').val().substr(0,4);
+		var raceMonth = $('#RaceDate').val().substr(5,2);
+		var raceDay = $('#RaceDate').val().substr(8,2);
+		
+		if ($('#UserDobYear').val() > 0) {
+			age = raceYear - $('#UserDobYear').val();
+			
+			if (($('#UserDobMonth').val() > raceMonth) || (($('#UserDobMonth').val() == raceMonth) && ($('#UserDobDay').val() > raceDay))) {
+				age--;
+			} 
+		} else {
+			age = 0;
+		} 
+		
+		$('#RaceRegistrationAge').val(age);
+		$('.ageRaceDay').html(age);
+	});
 
 });
 

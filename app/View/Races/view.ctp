@@ -67,34 +67,36 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 
 <p>
 <?php
-if ($race['Race']['registration_link']) {
-	echo $this->Html->link(
-		'Register',
-		$race['Race']['registration_link'],
-		array(
-			'target' => '_blank'
-		)
-	);
-} else {
+
 	if ($reg) {
 		echo 'You are already registered for this race.';
 	} else {
 		if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
-			echo $this->Html->link(
-				'Register',
-				array(
-					'controller' => 'race_registrations',
-					'action' => 'register',
-					$race['Race']['id']
-				)
-			);
+			if ($race['Race']['registration_link']) {
+				echo $this->Html->link(
+					'Register',
+					$race['Race']['registration_link'],
+					array(
+						'target' => '_blank'
+					)
+				);
+			} else {
+				echo $this->Html->link(
+					'Register',
+					array(
+						'controller' => 'race_registrations',
+						'action' => 'register',
+						$race['Race']['id']
+					)
+				);
+			}
 		} else if ($memRegOpen) {
 			echo 'Registration is currently open only for members.';
 		} else {
 			echo 'Registraton for this race is not available at this time.';
 		}
 	}
-}
+
 ?>
 </p>
 
@@ -120,11 +122,33 @@ if ($race['Race']['registration_link']) {
 			); ?></td>
 		</tr>
 
-		<tr>
-			<td>Check-in Start Time:</td>
-			<td><?php echo $this -> Time -> format('g:i a', $race['Race']['checkin_start_time']); ?></td
-		</tr>
+		<?php $different = false;
+		 foreach ($race['ChildRace'] as $childrace) {
+			if ($childrace['checkin_start_time'] !== $race['Race']['checkin_start_time']) {
+		//		$different = true; restore when ready
+			}
+		} 
+		
+		if ($different) { ?>
+			<tr>
+				<td>Check-in Start Time:<?php
+				foreach ($race['ChildRace'] as $childrace) {
+					echo '<br />' . $childrace['title'];
+				}
 				
+				?></td>
+				<td><?php 
+				foreach ($race['ChildRace'] as $childrace) {
+					echo '<br />' . $this -> Time -> format('g:i a', $childrace['checkin_start_time']); 
+				}?></td>
+			</tr>
+		<?php } else { ?>
+			<tr>
+				<td>Check-in Start Time:</td>
+				<td><?php echo $this -> Time -> format('g:i a', $race['Race']['checkin_start_time']); ?></td
+			</tr>
+			
+		<?php } ?>
 		<tr>
 			<td>Check-in End Time:</td>
 			<td><?php echo $this -> Time -> format('g:i a', $race['Race']['checkin_end_time']); ?></td>
@@ -142,11 +166,33 @@ if ($race['Race']['registration_link']) {
 			); ?></td>
 		</tr>
 
+		<?php $different = false;
+		 foreach ($race['ChildRace'] as $childrace) {
+			if ($childrace['start_time'] !== $race['Race']['start_time']) {
+			//	$different = true; restore when ready
+			}
+		} 
+		
+		if ($different) { ?>
+			<tr>
+				<td>Start Time:<?php
+				foreach ($race['ChildRace'] as $childrace) {
+					echo '<br />' . $childrace['title'];
+				}
+				
+				?></td>
+				<td><?php 
+				foreach ($race['ChildRace'] as $childrace) {
+					echo '<br />' . $this -> Time -> format('g:i a', $childrace['start_time']); 
+				}?></td>
+			</tr>
+		<?php } else { ?>
 		<tr>
 			<td>Start Time:</td>
 			<td><?php echo $this -> Time -> format('g:i a', $race['Race']['start_time']); ?></td>
 		</tr>
 
+	<?php } ?>
 		<tr>
 			<td>End Location:</td>
 			<td><?php echo $race['EndLocation']['title'] . ' ' . $this -> Html -> link(
@@ -187,13 +233,11 @@ if ($race['Race']['registration_link']) {
 			<td>Distance:</td>
 			<td><?php echo $race['Race']['distance_number'] + 0; ?>
 
-			<?php
-			if ($race['Race']['distance_number'] == 1) {
+			<?php if ($race['Race']['distance_number'] == 1) {
 				echo $race['Distance']['name'];
 			} else {
 				echo $race['Distance']['plural'];
-			}
-			?>
+			} ?>
 			</td>
 		</tr>
 	<? } ?>
@@ -209,33 +253,33 @@ if ($race['Race']['registration_link']) {
 		<td><?php echo h($race['Race']['max_swimmers']); ?></td>
 	</tr>
 
-	<?php if ((!empty($race['NonMemberRaceFee'])) && (!empty($race['MemberRaceFee']))) { ?>
+	<?php if ((count($race['ChildRace']) == 0) && (!empty($race['NonMemberRaceFee'])) && (!empty($race['MemberRaceFee']))) { ?>
 
 	<tr>
 		<td>Fees</td>
 		<td>
 
 			<?php if (!empty($race['NonMemberRaceFee'])) { ?>
-		<em>All Swimmers</em><br />		
-	<?php foreach ($race['NonMemberRaceFee'] as $raceFee) { ?>
-			<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
-			<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
-			$<?php echo $raceFee['price']; ?>
-			<br />
-	<?php }
-			}
- ?>
+				<p><em>All Swimmers</em><br />
+				<?php foreach ($race['NonMemberRaceFee'] as $raceFee) { ?>
+					<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
+					<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
+					$<?php echo $raceFee['price']; ?>
+					<br />
+				<?php } ?>
+				</p>
+			<?php } ?>
 
 			<?php if (!empty($race['MemberRaceFee'])) { ?>
-		<em>Members</em><br />		
-	<?php	foreach ($race['MemberRaceFee'] as $raceFee) { ?>
-			<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
-			<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
-			$<?php echo $raceFee['price']; ?>
-			<br />
-	<?php }
-}
- ?>
+				<p><em>Members</em><br />
+				<?php foreach ($race['MemberRaceFee'] as $raceFee) { ?>
+					<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
+					<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
+					$<?php echo $raceFee['price']; ?>
+					<br />
+				<?php } ?>
+				</p>
+			<?php } ?>
 			
 		</td>
 		</tr>
@@ -394,36 +438,57 @@ if ($race['Race']['registration_link']) {
  ?></td>
 				</tr>
 
-		<?php if ((!empty($childRace['NonMemberRaceFee'])) && (!empty($childRace['MemberRaceFee']))) { ?>
+		<?php //if ((!empty($childRace['NonMemberRaceFee'])) && (!empty($childRace['MemberRaceFee']))) { ?>
 
 		<tr>
 			<td>Fees</td>
 	
 	<td>
-			<?php if (!empty($childRace['NonMemberRaceFee'])): ?>
-				<em>Non-Members</em><br />		
+			<?php if (!empty($childRace['NonMemberRaceFee'])) { ?>
+				<p><em>Non-Members</em><br />		
 		<?php foreach ($childRace['NonMemberRaceFee'] as $raceFee): ?>
 				<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
 				<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
 				$<?php echo $raceFee['price']; ?>
 				<br />
-		<?php endforeach;
-					endif;
-	 ?>
+		<?php endforeach; ?>
+		</p>
+			<?php } else { ?>
+				<p><em>Non-Members</em><br />		
+		<?php foreach ($race['NonMemberRaceFee'] as $raceFee): ?>
+				<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
+				<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
+				$<?php echo $raceFee['price']; ?>
+				<br />
+		<?php endforeach; ?>
+		</p>
+				
+				
+			<?php } ?>
 	
-				<?php if (!empty($childRace['MemberRaceFee'])): ?>
-			<em>Members</em><br />		
+				<?php if (!empty($childRace['MemberRaceFee'])) { ?>
+			<p><em>Members</em><br />		
 		<?php	foreach ($childRace['MemberRaceFee'] as $raceFee): ?>
 				<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
 				<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
 				$<?php echo $raceFee['price']; ?>
 				<br />
-		<?php endforeach;
-					endif;
-	 ?>
+		<?php endforeach; ?>
+		</p>
+			<?php } else { ?>
+			<p><em>Members</em><br />		
+		<?php	foreach ($race['MemberRaceFee'] as $raceFee): ?>
+				<?php echo $this -> Time -> format('F j, Y', $raceFee['start_date']); ?> - 
+				<?php echo $this -> Time -> format('F j, Y', $raceFee['end_date']); ?>:
+				$<?php echo $raceFee['price']; ?>
+				<br />
+		<?php endforeach; ?>
+		</p>
+				
+				<?php } ?>
 	</td>
 					</tr>
-	<?php } ?>
+	<?php //} ?>
 
 	<?php if (($childRace['experience_id'] != null) && ($childRace['experience_id'] != $race['Race']['experience_id'])) { ?>
 				<tr>

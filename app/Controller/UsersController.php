@@ -10,8 +10,15 @@ class UsersController extends AppController {
 	}
 
 	public function admin_index() {
-		$this->User->recursive = 0;
-		$this->set('users', $this->paginate());
+//		$this->User->recursive = 0;
+//		$this->set('users', $this->paginate());
+
+		$users = $this->User->find(
+			'all',
+			array(
+			)
+		);
+		$this->set(compact('users'));
 	}
 
 	public function view($id = null) {
@@ -87,6 +94,24 @@ class UsersController extends AppController {
 				$this->send_confirmation($user);
 				$this->Session->setFlash(__('Thank you for registering'));
 				$this->Auth->login($user);
+				$membershipLevel = $this->User->Membership->find(
+					'first',
+					array(
+						'conditions' => array(
+							'Membership.user_id' => $user['id'],
+							'Membership.end_date >=' => date('Y-m-d') 
+						),
+						'fields' => array('membership_level_id'),
+						'recursive' => -1
+					)
+				);
+				
+				if ($membershipLevel) {
+					$this->Session->write('Membership.membership_level', $membershipLevel['Membership']['membership_level_id']);
+				} else {
+					$this->Session->write('Membership.membership_level',0);
+				}
+
 				$this->redirect(array('action' => 'my_profile'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
@@ -444,6 +469,7 @@ class UsersController extends AppController {
 	}
 	
 	public function add_members() {
+		
 		if ($this->request->is('post')) {
 			$lines = explode("\n", $this->request->data['User']['members']);
 			$head = str_getcsv(array_shift($lines));
@@ -457,7 +483,7 @@ class UsersController extends AppController {
 			foreach ($array as $line) {
 				$members[$i]['User']['first_name'] = $line['first_name'];
 				$members[$i]['User']['last_name'] = $line['last_name'];
-				$members[$i]['User']['email'] = $line['from_email'];
+				$members[$i]['User']['email'] = strtolower($line['from_email']);
 				$members[$i]['User']['medical'] = $line['list-medical-conditions-medications'];
 				if ($members[$i]['User']['medical'] == "") {
 					$members[$i]['User']['medical'] = "missing";
@@ -547,4 +573,128 @@ class UsersController extends AppController {
 		
 		
 	}
+
+	public function add_users() {
+		$flagged = array();
+		if ($this->request->is('post')) {
+			$lines = explode("\n", $this->request->data['User']['members']);
+			$head = str_getcsv(array_shift($lines));
+
+			$array = array();
+			foreach ($lines as $line) {
+			    $array[] = array_combine($head, str_getcsv($line));
+			}
+			
+			$i = 0;
+			foreach ($array as $line) {
+				$members[$i]['User']['first_name'] = $line['first_name'];
+				$members[$i]['User']['last_name'] = $line['last_name'];
+				$members[$i]['User']['email'] = strtolower($line['from_email']);
+				$members[$i]['User']['medical'] = $line['indicate-important-medical-information-a'];
+				if ($members[$i]['User']['medical'] == "") {
+					$members[$i]['User']['medical'] = "missing";
+				}
+				$members[$i]['User']['group_id'] = 1;
+				
+				if ($line['sex'] == "Male") {
+					$members[$i]['User']['gender_id'] = 1;
+				} else {
+					$members[$i]['User']['gender_id'] = 2;
+				}
+				if ($line['t-shirt-size'] == "XL") {
+					$members[$i]['User']['shirt_size_id'] = 4;
+				} else if ($line['t-shirt-size'] == "L") {
+					$members[$i]['User']['shirt_size_id'] = 3;
+				} else if ($line['t-shirt-size'] == "M") {
+					$members[$i]['User']['shirt_size_id'] = 2;
+				} else if ($line['t-shirt-size'] == "Sm") {
+					$members[$i]['User']['shirt_size_id'] = 1;
+				}
+				
+				$members[$i]['User']['dob'] = date('Y-m-d',strtotime($line['date-of-birth-mmddyyyy']));
+				
+				/*
+				$line['city-state-zip'] = trim($line['city-state-zip']);
+				if (preg_match('/\d{5}/',substr($line['city-state-zip'],-5))) {
+					$members[$i]['Address']['postcode'] = substr($line['city-state-zip'],-5);
+					$line['city-state-zip'] = substr($line['city-state-zip'],0,-5);
+				}
+				
+				$address = split(',',$line['city-state-zip']);
+				
+				$members[$i]['Address']['city'] = trim($address[0]);
+				if (count($address) > 1) {
+					$members[$i]['Address']['county_province'] = trim($address[1]);
+				}
+				
+				$members[$i]['Address']['line1'] = $line['street-address'];
+				$members[$i]['Address']['phone'] = preg_replace("/\D/","",$line['cell-phone']);
+				
+				$contact = split(',',$line['emergency-contact-name-and-relationship']);
+
+				$members[$i]['EmergencyContact']['name'] = trim($contact[0]);
+				if (count($contact) > 1) {
+					$members[$i]['EmergencyContact']['relationship'] = trim($contact[1]);
+				}
+
+				$members[$i]['EmergencyContact']['phone'] = preg_replace("/\D/","",$line['emergency-contact-number']);
+				*/
+				$i++;
+			}
+
+			foreach ($members as $member) {
+				$check_id = $this->User->find(
+					'first',
+					array(
+						'fields' => array('User.id'),
+						'conditions' => array(
+							array(
+								'OR' => array(
+									array('User.email' => $member['User']['email']),
+									array('User.email' => "_____" . $member['User']['email'])
+								)
+							)
+						),
+						'recursive' => -1
+					)
+				);
+				
+				if ($check_id) {
+					$id = $check_id['User']['id'];
+ 				} else {
+					$member['User']['email'] = "_____" . $member['User']['email'];
+/*					
+					$new_check = $this->User->find(
+						'first',
+						array(
+							'fields' => array('User.id','User.name'),
+							'conditions' => array(
+								array(
+									'AND' => array(
+										array('User.first_name' => $member['User']['first_name']),
+										array('User.last_name' => $member['User']['last_name'])
+									)
+								)
+							),
+							'recursive' => -1
+						)
+					);
+					
+					if ($new_check) {
+						$flagged[] = $new_check['User']['id'] . ' - ' . $new_check['User']['name'];
+					} */
+					$this->User->create();
+					$this->User->save($member);
+//					$id = $this->User->id;
+				}
+				$this->set(compact('flagged'));
+
+			}
+
+		}
+		
+		
+	}
+
+
 }
