@@ -28,7 +28,12 @@
 				<?php echo $address['city'] . ', ' . $address['county_province'] . ' ' . $address['postcode']; ?><br />
 				<?php if ($address['country']) { echo $address['country'] . '<br />'; } ?>
 				<?php if ($address['other_details']) { echo $address['other_details'] . '<br />'; } ?>
-				<?php echo $address['phone']; ?>
+				<?php 
+				if (preg_match('/[0-9]{10}/',$address['phone'])) {
+						echo '(' . substr($address['phone'],0,3) . ') ' . substr($address['phone'],3,3) . '-' . substr($address['phone'],6);
+					} else {
+						echo $address['phone'];
+					}?>
 			</p>
 		<?php endforeach;
 	endif; ?>
