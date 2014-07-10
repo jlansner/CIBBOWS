@@ -54,7 +54,13 @@
 
 <?php
 
-echo $races['Race']['body'];
+	if ((strtotime('now') > strtotime($races['Race']['date'])) && (trim($races['Race']['postrace_body']) !== "")) {
+		echo $races['Race']['postrace_body'];
+	} else {
+		echo $races['Race']['body']; 
+	}
+
+
 if (count($races['ChildRace'])) {
 	$i = 0;
 	foreach ($results['Child'] as $section): ?>

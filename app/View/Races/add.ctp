@@ -52,6 +52,7 @@
 		echo $this->Form->input('max_volunteers');
 		echo $this->Form->input('logo');
 		echo $this->Form->input('course_map');
+
 		echo $this->Form->input(
 			'teaser',
 			array(
@@ -61,6 +62,13 @@
 		);
 		echo $this->Form->input(
 			'body',
+			array(
+//				'required' => false,
+				'class' => 'ckeditor'
+			)
+		);
+		echo $this->Form->input(
+			'postrace_body',
 			array(
 //				'required' => false,
 				'class' => 'ckeditor'

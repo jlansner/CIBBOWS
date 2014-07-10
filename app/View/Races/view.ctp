@@ -102,7 +102,13 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 ?>
 </p>
 
-	<?php echo $race['Race']['body']; ?>
+	<?php 
+	if ((strtotime('now') > strtotime($race['Race']['date'])) && (trim($race['Race']['postrace_body']) !== "")) {
+		echo $race['Race']['postrace_body'];
+	} else {
+		echo $race['Race']['body']; 
+	}
+	?>
 	
 	<table class="zebraTable">
 		<tr>

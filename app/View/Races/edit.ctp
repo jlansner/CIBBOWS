@@ -46,6 +46,14 @@
 				'class' => 'ckeditor'
 			)
 		);
+		echo $this->Form->input(
+			'postrace_body',
+			array(
+//				'required' => false,
+				'type' => 'textarea',
+				'class' => 'ckeditor'
+			)
+		);
 	?>
 		<div class="input text required">
 			<?php
