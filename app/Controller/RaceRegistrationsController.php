@@ -135,6 +135,18 @@ class RaceRegistrationsController extends AppController {
 				'fields' => array('Race.id', 'Race.title',' Race.experience_id', 'Race.date', 'Race.exclusive', 'Race.url_title', 'Race.max_swimmers', 'Race.minimum_age') 
 			)
 		);
+		
+		if (strtotime('now') > strtotime($race['Race']['date'])) {
+			$this->redirect(
+				array(
+					'controller' => 'races',
+					'action' => 'view',
+					'year' => substr($race['Race']['date'],0,4),
+					'url_title' => $race['Race']['url_title']
+				)
+			);
+			
+		}
 
 		$reg = $this->RaceRegistration->find(
 			'count',

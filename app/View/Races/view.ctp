@@ -68,7 +68,9 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 <p>
 <?php
 
-	if ($reg) {
+	if (strtotime('now') > strtotime($race['Race']['date'])) {
+
+	} else if ($reg) {
 		echo 'You are already registered for this race.';
 	} else {
 		if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
