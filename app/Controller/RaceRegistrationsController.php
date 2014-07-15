@@ -548,7 +548,7 @@ class RaceRegistrationsController extends AppController {
 						$this->Session->setFlash(__('Your registration has been submitted, but is not yet complete.'));
 						$this->send_registration_received_email($emailvars,$qualified);
 					}
-					
+
 					if ($this->request->data['RaceRegistration']['join'] > 0) {
 						$this->loadModel('Membership');
 						$this->Membership->create();
@@ -557,8 +557,10 @@ class RaceRegistrationsController extends AppController {
 						$this->request->data['Membership']['user_id'] = $this->Auth->user('id');
 						$this->request->data['Membership']['start_date'] = date('Y-m-d');
 						$this->request->data['Membership']['end_date'] = $membershipFee['MembershipFee']['year'] . '-12-31';
+						$this->request->data['Membership']['waiver'] = 1;
 
 						if ($this->Membership->save($this->request->data)) {
+							$this->Session->setFlash('Your registration and membership have been approved.');
 							$this->Session->write('Membership.membership_level',$membershipFee['MembershipLevel']['id']);
 							$user['name'] = $this->Auth->user('name');
 							$user['email'] = $this->Auth->user('email');
@@ -596,7 +598,7 @@ class RaceRegistrationsController extends AppController {
 						)
 					);
 				} else {
-					$this->Session->setFlash(__('Your registration could not be saved. Please, try again.'));
+					$this->Session->setFlash(__('Your registration was not saved. Please, try again.'));
 				}
 			} else {
 				$this->Session->setFlash(__('Your registration could not be saved. Please, try again.'));

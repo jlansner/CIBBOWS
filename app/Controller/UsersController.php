@@ -94,24 +94,7 @@ class UsersController extends AppController {
 				$this->send_confirmation($user);
 				$this->Session->setFlash(__('Thank you for registering'));
 				$this->Auth->login($user);
-				$membershipLevel = $this->User->Membership->find(
-					'first',
-					array(
-						'conditions' => array(
-							'Membership.user_id' => $user['id'],
-							'Membership.end_date >=' => date('Y-m-d') 
-						),
-						'fields' => array('membership_level_id'),
-						'recursive' => -1
-					)
-				);
-				
-				if ($membershipLevel) {
-					$this->Session->write('Membership.membership_level', $membershipLevel['Membership']['membership_level_id']);
-				} else {
-					$this->Session->write('Membership.membership_level',0);
-				}
-
+				$this->setMembershipLevel();
 				$this->redirect(array('action' => 'my_profile'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
@@ -171,23 +154,7 @@ class UsersController extends AppController {
 	public function login() {
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
-				$membershipLevel = $this->User->Membership->find(
-					'first',
-					array(
-						'conditions' => array(
-							'Membership.user_id' => $this->Auth->user('id'),
-							'Membership.end_date >=' => date('Y-m-d') 
-						),
-						'fields' => array('membership_level_id'),
-						'recursive' => -1
-					)
-				);
-				
-				if ($membershipLevel) {
-					$this->Session->write('Membership.membership_level', $membershipLevel['Membership']['membership_level_id']);
-				} else {
-					$this->Session->write('Membership.membership_level',0);
-				}
+				$this->setMembershipLevel();
 				$this->redirect($this->Auth->redirect());
 			} else {
 				$this->Session->setFlash(__('Invalid email or password, try again'));
@@ -296,6 +263,8 @@ class UsersController extends AppController {
 
 			$this->request->data['User']['activation_code'] = "0";
 			if ($this->User->save($this->request->data)) {
+				$this->Auth->login();
+				$this->setMembershipLevel();
 				$this->Session->setFlash(__('Your password has been reset'));
 				$this->redirect('/');
 			}
@@ -696,5 +665,24 @@ class UsersController extends AppController {
 		
 	}
 
+	private function setMembershipLevel() {
+		$membershipLevel = $this->User->Membership->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Membership.user_id' => $this->Auth->user('id'),
+					'Membership.end_date >=' => date('Y-m-d') 
+				),
+				'fields' => array('membership_level_id'),
+				'recursive' => -1
+			)
+		);
+		
+		if ($membershipLevel) {
+			$this->Session->write('Membership.membership_level', $membershipLevel['Membership']['membership_level_id']);
+		} else {
+			$this->Session->write('Membership.membership_level',0);
+		}
 
+	}
 }

@@ -83,6 +83,7 @@
 		echo $this->Form->hidden('RaceRegistration.first_name');
 		echo $this->Form->hidden('RaceRegistration.last_name');
 		echo $this->Form->hidden('RaceRegistration.age');
+		echo $this->Form->hidden('Race.minimum_age');
 		echo $this->Form->hidden('RaceRegistration.payment');
 		echo $this->Form->hidden('RaceRegistration.total_payment');
 		echo $this->Form->hidden('RaceRegistration.waiver');

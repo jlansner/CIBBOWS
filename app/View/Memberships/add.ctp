@@ -5,7 +5,12 @@
 	<?php
 		echo $this->Form->input('user_id');
 		echo $this->Form->input('start_date');
-		echo $this->Form->input('end_date');
+		echo $this->Form->input(
+			'end_date',
+			array(
+				'default' => $this->Time->format('y') . '-12-31'
+			)
+		);
 		echo $this->Form->input('membership_level_id');
 	?>
 	</fieldset>
