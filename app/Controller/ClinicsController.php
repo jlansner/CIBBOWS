@@ -24,8 +24,8 @@ class ClinicsController extends AppController {
  * @param string $id
  * @return void
  */
-
- 	public function view($year = null, $url_title = null) {
+	public function view($year = null, $month = null, $day = null, $url_title = null) {
+ 
         if (!$url_title) {
             throw new NotFoundException(__('Invalid race'));
         }
@@ -35,7 +35,7 @@ class ClinicsController extends AppController {
 
 	        	'conditions' => array(
     	    		'Clinic.url_title' => $url_title,
-    	    		'Clinic.date LIKE' => $year . '%'
+    	    		'Clinic.date' => $year . '-' . $month . '-' . $day
 	    	    ),
 	    	    'recursive' => 2
 			)

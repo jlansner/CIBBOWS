@@ -426,11 +426,19 @@
 	<tbody>
 	<?php
 		$i = 0;
-		foreach ($user['ClinicRegistration'] as $clinicRegistration): ?>
+		foreach ($user['ClinicRegistration'] as $clinic): ?>
 		<tr>
-			<td><?php echo $this->Html->link($clinicRegistration['Clinic']['title'], array('controller' => 'clinics', 'action' => 'view', $clinicRegistration['Clinic']['id'])); ?></td>
-			<td><?php echo $this->Time->format('n/j/y',$clinicRegistration['Clinic']['date']); ?></td>
-			<td><?php if ($clinicRegistration['approved']) { ?>
+			<td><?php echo $this->Html->link(
+		$clinic['Clinic']['title'],
+		array(
+			'controller' => 'clinics',
+			'action' => 'view',
+			'year' => substr($clinic['Clinic']['date'],0,4),
+			'month' => substr($clinic['Clinic']['date'],5,2),
+			'day' => substr($clinic['Clinic']['date'],8,2),
+			'url_title' => $clinic['Clinic']['url_title'])); ?></td>
+			<td><?php echo $this->Time->format('n/j/y',$clinic['Clinic']['date']); ?></td>
+			<td><?php if ($clinic['approved']) { ?>
 				<i class="fa fa-check edit" title="Approved"></i>
 			<?php } ?></td>
 		</tr>

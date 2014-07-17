@@ -6,15 +6,31 @@ $posts = $this->requestAction('races/homepage_calendar/');
 
 foreach ($posts as $post): ?>
     <li>
-<?php echo $this->Html->link(
-	$post[0]['title'],
-	array(
-		'controller' => $post[0]['type'],
-		'action' => 'view',
-		'year' => substr($post[0]['date'],0,4),
-		'url_title' => $post[0]['url_title']
-	)
-); ?><br />
+<?php
+	if ($post[0]['type'] == 'clinics') {
+		echo $this->Html->link(
+			$post['Clinic']['title'],
+			array(
+				'controller' => 'clinics',
+				'action' => 'view',
+				'year' => substr($post['Clinic']['date'],0,4),
+				'month' => substr($post['Clinic']['date'],5,2),
+				'day' => substr($post['Clinic']['date'],8,2),
+				'url_title' => $post['Clinic']['url_title']
+			)
+		);
+	} else {
+		 echo $this->Html->link(
+			$post[0]['title'],
+			array(
+				'controller' => $post[0]['type'],
+				'action' => 'view',
+				'year' => substr($post[0]['date'],0,4),
+				'url_title' => $post[0]['url_title']
+			)
+		);
+	}
+ ?><br />
 
 	<span class="dateLine"><?php echo $this->Time->format('F j, Y', $post[0]['date']); ?></span></li>
 
