@@ -27,12 +27,12 @@ class ClinicsController extends AppController {
 	public function view($year = null, $month = null, $day = null, $url_title = null) {
  
         if (!$url_title) {
-            throw new NotFoundException(__('Invalid race'));
+            throw new NotFoundException(__('Invalid clinic'));
         }
+
 		$clinic = $this->Clinic->find(
 			'first',
 			array(
-
 	        	'conditions' => array(
     	    		'Clinic.url_title' => $url_title,
     	    		'Clinic.date' => $year . '-' . $month . '-' . $day
@@ -40,7 +40,19 @@ class ClinicsController extends AppController {
 	    	    'recursive' => 2
 			)
 		); 
-		$this->set('clinic', $clinic);
+		
+		$reg = $this->Clinic->ClinicRegistration->find(
+			'count',
+			array(
+				'conditions' => array(
+					'ClinicRegistration.clinic_id' => $clinic['Clinic']['id'],
+					'ClinicRegistration.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1
+			)
+		);
+		
+		$this->set(compact('clinic','reg'));
 	}
 
 /**

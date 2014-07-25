@@ -106,7 +106,7 @@ class AddressesController extends AppController {
 			}
 
 			if ($this->Address->save($this->request->data)) {
-				$this->update_registrations('has_address');
+//				$this->update_registrations('has_address');
 				$this->Session->setFlash(__('Your address has been saved'));
 				$this->redirect(array('controller' => 'users', 'action' => 'my_profile'));
 			} else {

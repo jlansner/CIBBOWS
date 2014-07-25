@@ -49,9 +49,9 @@ class ClinicRegistration extends AppModel {
 			),
 		),
 		'age' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+			'required' => array(
+				'rule' => array('checkAge'),
+				'message' => 'You are not old enough to register for this clinic',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -68,12 +68,12 @@ class ClinicRegistration extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'approved' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
+		'waiver' => array(
+			'checked' => array(
+				'rule' => array('comparison', '==', 1),
+				'message' => 'You must agree to the waiver',
 				//'allowEmpty' => false,
-				//'required' => false,
+				'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -131,4 +131,13 @@ class ClinicRegistration extends AppModel {
 			'order' => ''
 		)
 	);
+
+	public function checkAge() {
+		if ($this->data['ClinicRegistration']['age'] >= $this->data['Clinic']['minimum_age']) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

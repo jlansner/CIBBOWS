@@ -316,11 +316,34 @@
 			?></td>
 			<td><?php echo $this->Time->format('n/j/y',$result['Race']['date']); ?></td>
 			<td><?php echo ($result['Race']['distance_number'] + 0) . $result['Race']['Distance']['abbreviation']; ?></td>
-			<td><?php echo ltrim($result['time'],'0:'); ?></td>
-			<td><?php echo $result['place']; ?></td>
+			<td>
+				
+				<?php 			if (($result['time'] == "00:00:00") || ($result['Result'] == null)) {
+			} else if ($this->Time->format('H',$result['time']) == 0) {
+	 			echo $this->Time->format('i:s',$result['time']);
+			} else {
+				echo $this->Time->format('G:i:s',$result['time']);				
+			}
+			
+						if (!empty($result['Code'])) {
+				foreach ($result['Code'] as $code) {
+					echo '<span class="resultCode" title ="' . $code['title'] . '">' . $code['abbreviation'] . '</span>';
+				}
+			}
+ ?></td>
+			<td><?php if ($result['age_place'] < 10000) {
+					echo h($result['place']);
+				} else {
+					echo '&ndash;';
+				} ?></td>
 			<td><?php echo $result['age']; ?></td>
 			<td><?php echo $result['AgeGroup']['title']; ?></td>
-			<td><?php echo $result['age_place']; ?></td>
+			<td><?php 				if ($result['age_place'] < 10000) {
+					echo h($result['age_place']);
+				} else {
+					echo '&ndash;';
+				}
+ ?></td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
@@ -412,7 +435,6 @@
 	<p>You are not registered for any races.</p>
 <?php } ?>
 
-<?php /*
 <h4>Clinic Registrations</h4>
 	<?php if (!empty($user['ClinicRegistration'])) { ?>
 	<table class="zebraTable">
@@ -449,6 +471,7 @@
 	<p>You are not registered for any clinics.</p>
 <?php } ?>
 
+<?php /*
 	<h4>Test Swim Registrations</h4>
 	<?php if (!empty($user['TestSwimRegistration'])) { ?>
 	<table class="zebraTable">

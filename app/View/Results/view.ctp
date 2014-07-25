@@ -82,7 +82,7 @@ if (count($races['ChildRace'])) {
 	<?php foreach ($section as $result): ?>
 	<tr>
 		<td><?php 
-		if ($result['Result']['place'] < 10000) {
+		if ($result['Result']['age_place'] < 10000) {
 			echo h($result['Result']['place']);
 		} else {
 			echo '&ndash;';
@@ -118,7 +118,7 @@ if (count($races['ChildRace'])) {
 			
 			if (!empty($result['Code'])) {
 				foreach ($result['Code'] as $code) {
-					echo '<a href="#" class="resultCode" title ="' . $code['title'] . '">' . $code['abbreviation'] . '</span>';
+					echo '<span class="resultCode" title ="' . $code['title'] . '">' . $code['abbreviation'] . '</span>';
 				}
 			}
  		?>
@@ -187,7 +187,7 @@ endforeach; ?>
 			
 			if (!empty($result['Code'])) {
 				foreach ($result['Code'] as $code) {
-					echo '<a href="#" class="resultCode" title ="' . $code['title'] . '">' . $code['abbreviation'] . '</span>';
+					echo '<span class="resultCode" title ="' . $code['title'] . '">' . $code['abbreviation'] . '</span>';
 				}
 			}
  		?>
@@ -202,3 +202,4 @@ endforeach; ?>
 	} ?>
 	</div>
 </div>
+

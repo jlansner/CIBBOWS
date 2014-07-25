@@ -42,6 +42,10 @@ class AppModel extends Model {
 			$this->data[$this->alias]['meters'] = $this->convertToMeters($this->data[$this->alias]['distance_number'],$this->data[$this->alias]['distance_id']);
 		}
 		
+		if (isset($this->data[$this->alias]['phone'])) {
+			$this->data[$this->alias]['phone'] = preg_replace('/[^0-9]/','',$this->data[$this->alias]['phone']);
+		}
+		
 		if (AuthComponent::user('id')) {
 			$this->data[$this->alias]['creator'] = AuthComponent::user('id');
 		}

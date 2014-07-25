@@ -314,7 +314,11 @@ class RaceRegistrationsController extends AppController {
 				'recursive' => -1
 			)
 		);
-		
+
+		if (preg_match('/[0-9]{10}/',$address['Address']['phone'])) {
+			$address['Address']['phone'] = '(' . substr($address['Address']['phone'],0,3) . ') ' . substr($address['Address']['phone'],3,3) . '-' . substr($address['Address']['phone'],6);
+		}
+				
 		$emergencyContact = $this->RaceRegistration->User->EmergencyContact->find(
 			'first',
 			array(
@@ -325,7 +329,11 @@ class RaceRegistrationsController extends AppController {
 				'recursive' => -1
 			)
 		);
-		
+
+		if (preg_match('/[0-9]{10}/',$emergencyContact['EmergencyContact']['phone'])) {
+			$emergencyContact['EmergencyContact']['phone'] = '(' . substr($emergencyContact['EmergencyContact']['phone'],0,3) . ') ' . substr($emergencyContact['EmergencyContact']['phone'],3,3) . '-' . substr($emergencyContact['EmergencyContact']['phone'],6);
+		}
+				
 		if (count($address)) {
 			$this->request->data['Address'] = $address['Address'];
 		}

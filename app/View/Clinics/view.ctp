@@ -7,6 +7,42 @@
 
 	<?php if ($userMembershipLevel >= $clinic['Clinic']['membership_level_id']) { ?>
 
+ <ul class="raceNav">
+ 	<li class="active">Overview</li>
+ 	<li>
+ 		<?php echo $this->Html->link(
+			'Registered Swimmers',
+			array(
+				'controller' => 'clinic_registrations',
+				'action' => 'view',
+				'year' => substr($clinic['Clinic']['date'],0,4),
+				'month' => substr($clinic['Clinic']['date'],5,2),
+				'day' => substr($clinic['Clinic']['date'],8,2),
+				'url_title' => $clinic['Clinic']['url_title']
+			)
+		); ?>
+ 	</li>
+</ul>
+<br class="clear" />
+<?php
+	if ($clinic['Clinic']['registration_required']) {
+		if (strtotime('now') > strtotime($clinic['Clinic']['date'])) {
+
+		} else if ($reg) {
+			echo 'You are already registered for this clinic.';
+		} else {
+			echo $this->Html->link(
+				'Register',
+				array(
+					'controller' => 'clinic_registrations',
+					'action' => 'register',
+					$clinic['Clinic']['id']
+				)
+			);
+		}
+	}
+?>
+
 		<p>Start Time: <?php echo $this->Time->format('g:i a', $clinic['Clinic']['start_time']); ?></p>
 
 		<p>End Time: <?php echo $this->Time->format('g:i a', $clinic['Clinic']['end_time']); ?></p>

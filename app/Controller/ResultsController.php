@@ -111,7 +111,10 @@ class ResultsController extends AppController {
 					'AgeGroup' => array(
 						'fields' => array('title')
 					),
-					'Code'
+					'Code' => array(
+						'fields' => array('title','abbreviation','body'),
+						'order' => array('Code.rank')
+					)
 				)
 			)
 		);
@@ -137,7 +140,10 @@ class ResultsController extends AppController {
 						'AgeGroup' => array(
 							'fields' => array('title')
 						),
-						'Code'
+						'Code' => array(
+							'fields' => array('title','abbreviation','body'),
+							'order' => array('Code.rank')
+						)
 					)
 				)
 			);
@@ -251,22 +257,27 @@ class ResultsController extends AppController {
 			
 			$i = 0;
 			foreach ($array as $line) {
-				$name = split(',',$line['Name']);
-				$result[$i]['Result']['first_name'] = trim($name[1]);
-				$result[$i]['Result']['last_name'] = trim($name[0]);
-				
+				if (strpos($line['Name'],',')) {
+					$name = split(',',$line['Name']);
+					$result[$i]['Result']['first_name'] = trim($name[1]);
+					$result[$i]['Result']['last_name'] = trim($name[0]);
+				} else {
+					$name = split(' ',$line['Name'],2);
+					$result[$i]['Result']['first_name'] = trim($name[0]);
+					$result[$i]['Result']['last_name'] = trim($name[1]);					
+				}
 				$user_id = $this->Result->User->find(
 					'first',
 					array(
 						'conditions' => array(
-							'User.first_name' => trim($name[1]),
-							'User.last_name' => trim($name[0])
+							'User.first_name' => $result[$i]['Result']['first_name'],
+							'User.last_name' => $result[$i]['Result']['last_name']
 						)
 					)
 				);
 				
 				$result[$i]['Result']['user_id'] = $user_id['User']['id'];
-				$result[$i]['Result']['age'] = trim($line['Age']);
+				$result[$i]['Result']['age'] = $line['Age'];
 
 				if (trim($line['Gender']) == 'M') {
 					$result[$i]['Result']['gender_id'] = 1;
@@ -286,7 +297,11 @@ class ResultsController extends AppController {
 				);
 
 				$result[$i]['Result']['age_group_id'] = $age_group_id['AgeGroup']['id'];
-				if (strlen($line['Time']) < 6) {
+				
+				if ($line['Time'] == 'DNF') {
+					$result[$i]['Result']['time'] = "00:00:00";
+					$result[$i]['CodesResult']['code_id'] = 1;				
+				} else if (strlen($line['Time']) < 6) {
 					$result[$i]['Result']['time'] = "00:" . $line['Time'];
 				} else {
 					$result[$i]['Result']['time'] = $line['Time'];
@@ -301,6 +316,13 @@ class ResultsController extends AppController {
 				$this->Result->create();
 				$this->Result->save($r);				
 				$i++;
+				
+				if ($line['Time'] == 'DNF') {
+					$result[$i]['CodesResult']['result_id'] = $this->Result->getLastInsertId();
+					$r = $result[$i];
+					$this->Result->CodesResult->create();
+					$this->Result->CodesResult->save($r);
+				}
 				
 			}
 

@@ -7,16 +7,17 @@ $posts = $this->requestAction('races/homepage_calendar/');
 foreach ($posts as $post): ?>
     <li>
 <?php
+
 	if ($post[0]['type'] == 'clinics') {
 		echo $this->Html->link(
-			$post['Clinic']['title'],
+			$post[0]['title'],
 			array(
 				'controller' => 'clinics',
 				'action' => 'view',
-				'year' => substr($post['Clinic']['date'],0,4),
-				'month' => substr($post['Clinic']['date'],5,2),
-				'day' => substr($post['Clinic']['date'],8,2),
-				'url_title' => $post['Clinic']['url_title']
+				'year' => substr($post[0]['date'],0,4),
+				'month' => substr($post[0]['date'],5,2),
+				'day' => substr($post[0]['date'],8,2),
+				'url_title' => $post[0]['url_title']
 			)
 		);
 	} else {

@@ -1,88 +1,29 @@
 <div class="row">
 	<div class="column column12">
-		<h1>Race Registration - <?php echo $race['Race']['title'] ?></h1>
-<?php
-
+		<h1>Clinic Registration - <?php 
+				if ($waitlist) {
+			echo 'Waitlist - ';
+		}
+		
+		echo $clinic['Clinic']['title'];
+		 ?></h1>
+	<?php
 		echo $this->Form->create('null');
 
 		echo $this->Form->hidden(
-			'RaceRegistration.user_id',
+			'ClinicRegistration.user_id',
 			array(
 				'value' => AuthComponent::user('id')
 			)
 		);
 
-		if ($userMembershipLevel) {
-			if (is_array($race['CurrentMemberRaceFee'])) {
-				echo '<p>Member Price: $' . $race['CurrentMemberRaceFee']['price'] . '</p>';
-			} else {
-				echo '<p>Price: $' . $race['CurrentNonMemberRaceFee']['price'] . '</p>';
-			}
-			
-			echo $this->Form->hidden(
-				'RaceRegistration.join',
-				array(
-					'value' => 0
-				)
-			);
-		} else {
-			echo $this->Form->hidden(
-				'RaceRegistration.payment',
-				array(
-					'value' => $race['CurrentNonMemberRaceFee']['price']
-				)
-			);
-			
-			echo $this->Form->input(
-				'RaceRegistration.join',
-				array(
-					'legend' => false,
-					'type' => 'radio',
-					'options' => array(
-						'0' => 'Non-Member Price: $' . $race['CurrentNonMemberRaceFee']['price'],
-						'1' => 'Become a member for $' . $membershipFee['MembershipFee']['price'] . ' and register for just $' . $race['CurrentMemberRaceFee']['price'] . '!'
-					),
-					'separator' => '<br />'
-				)
-			);
-			
-			echo $this->Form->hidden('MembershipFee.price');
-		}		
-
 		echo $this->Form->hidden(
-			'RaceRegistration.race_id',
+			'ClinicRegistration.clinic_id',
 			array(
-				'value' => $race['Race']['id']
+				'value' => $clinic['Clinic']['id']
 			)
 		);
-
-		if (count($race['ChildRace']) > 0) {
-			if ($race['Race']['exclusive']) {
-				// allow multiple section sign up
-			} else {
-				echo $this->Form->input(
-					'RaceRegistration.child_race_id',
-					array(
-						'type' => 'radio',
-						'legend' => false,
-						'before' => '<p>Section</p>',
-						'separator' => '<br />',
-						'escape' => false
-					)
-				);
-			}
-		} else {
-			echo $this->Form->hidden(
-				'child_race_id',
-				array(
-					'value' => $race['Race']['id']
-				)
-			);
-		}
 ?>
-	</div>
-</div>
-
 <div class="row">
 	<div class="column column4">
 <?php		echo $this->Form->input(
@@ -109,42 +50,32 @@
 		);
 ?>
 	</div>
-	<div class="column column4">
-<?php	echo $this->Form->input(
-			'User.shirt_size_id',
-			array(
-				'empty' => '',
-				'label' => 'T-Shirt Size'
-			)
-		);
-?>		
-	</div>
 </div>
-
 <div class="row">
 	<div class="column column12">
-		<p>Age on race day: <span class="ageRaceDay"><?php echo $this->request->data['RaceRegistration']['age']; ?></span>
+
+		<p>Age on event day: <span class="ageRaceDay"><?php echo $this->request->data['ClinicRegistration']['age']; ?></span>
 
 <?php
-if ($this->Form->isFieldError('RaceRegistration.age')) {
-    echo $this->Form->error('RaceRegistration.age');
+if ($this->Form->isFieldError('ClinicRegistration.age')) {
+    echo $this->Form->error('ClinicRegistration.age');
 };
 	echo $this->Form->hidden(
-		'RaceRegistration.age'
+		'ClinicRegistration.age'
 	);
 
 	echo $this->Form->hidden(
-		'Race.date',
+		'Clinic.date',
 		array(
-			'value' => $race['Race']['date'],
+			'value' => $clinic['Clinic']['date'],
 			'class' => 'dateField'
 		)
 	);
 	
 	echo $this->Form->hidden(
-		'Race.minimum_age',
+		'Clinic.minimum_age',
 		array(
-			'value' => $race['Race']['minimum_age']
+			'value' => $clinic['Clinic']['minimum_age']
 		)
 	);
 ?></p>
@@ -157,74 +88,9 @@ if ($this->Form->isFieldError('RaceRegistration.age')) {
 				'label' => 'Medical Conditions (if none, please enter "None")'
 			)
 		);
-		
-				echo $this->Form->input(
-			'RaceRegistration.wetsuit',
-			array(
-				'label' => 'I will be swimming in a wetsuit'
-			)
-		);
-		
+				
 		 ?>
 
-<h2>Address</h2>
-<?php		
-		echo $this->Form->input('Address.id');
-		echo $this->Form->input(
-			'Address.line1',
-			array(
-				'label' => 'Line 1'
-			)
-		);
-		echo $this->Form->input(
-			'Address.line2',
-			array(
-				'label' => 'Line 2'
-			)
-		);
-		echo $this->Form->input(
-			'Address.line3',
-			array(
-				'label' => 'Line 3'
-			)
-		);
-?>
-	</div>
-</div>
-<div class="row">
-	<div class="column column4">
-		<?php echo $this->Form->input('Address.city'); ?>
-	</div>
-	<div class="column column4">
-		<?php echo $this->Form->input(
-			'Address.county_province',
-			array(
-				'label' => 'State/Province'
-			)
-		); ?> 
-	</div>
-	<div class="column column4">
-		<?php echo $this->Form->input(
-			'Address.postcode',
-			array(
-				'label' => 'Zip code'
-			)
-		); ?>
-	</div>
-</div>	
-<div class="row">
-	<div class="column column12">
-
-			<?php
-		echo $this->Form->input('Address.country');
-		echo $this->Form->input('Address.other_details');
-		echo $this->Form->input(
-			'Address.phone',
-			array(
-				'label' => 'Phone Number'
-			)
-		);
-?>
 <h2>Emergency Contact</h2>
 	</div>
 </div>
@@ -248,6 +114,7 @@ echo $this->Form->input('EmergencyContact.id');
 		
 	</div>
 </div>
+<!--
 <div class="row">
 	<div class="column column12">
 		<h2>Additional Donation</h2>
@@ -287,12 +154,12 @@ echo $this->Form->input('EmergencyContact.id');
     </div>
   </div>
 </div>
-
+-->
 <div class="row">
 	<div class="column column12">
 <?php		
 		echo $this->Form->input(
-			'RaceRegistration.waiver',
+			'ClinicRegistration.waiver',
 			array(
 				'label' => 'I agree to the terms of the <span class="linkSpan liabilityLink">liability release</span>',
 				array(
@@ -315,7 +182,7 @@ echo $this->Form->input('EmergencyContact.id');
 <div class="liabilityWaiver">
 	<span class="liabilityClose"><i class="fa fa-times-circle"></i></span>
 	<h3>Liability Release</h3>
-	<p>As a condition of being accepted to <?php echo $race['Race']['title']; ?>, I agree to make timely payment of the registration fee. I will attend the mandatory briefing the morning before the start of each stage for which I am registered, and will abide by the event rules and regulations including water safety determinations.</p>
+	<p>As a condition of being accepted to <?php echo $clinic['Clinic']['title']; ?>, I agree to make timely payment of the registration fee. I will attend the mandatory briefing the morning before the start of each stage for which I am registered, and will abide by the event rules and regulations including water safety determinations.</p>
 	
 	<p>By acknowledging and assuming the risks involved in an endurance activity of this nature, and on behalf of myself and my heirs, I agree to</p>
 	<ol>

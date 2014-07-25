@@ -31,7 +31,86 @@ class UsersController extends AppController {
 				'conditions' => array(
 					'User.id' => $id
 				),
-				'recursive' => 2
+				'contain' => array(
+					'QualifyingRace' => array(
+						'Distance',
+					),
+					'Result' => array(
+						'Race' => array(
+							'Series' => array(
+								'fields' => array(
+									'Series.title',
+									'Series.url_title'
+								)
+							),
+							'ParentRace' => array(
+								'Series' => array(
+									'fields' => array(
+										'Series.title',
+										'Series.url_title'
+									)
+								)
+							),
+						),
+						'AgeGroup',
+						'Code' => array(
+							'fields' => array('title','abbreviation','body'),
+							'order' => array('Code.rank')
+						)
+					),
+					'RaceRegistration' => array(
+						'conditions' => array(
+							'RaceRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'RaceRegistration.date ASC',
+						'Race' => array(
+							'fields' => array(
+								'Race.title',
+								'Race.date',
+								'Race.distance_number',
+								'Race.experience_id',
+								'Race.url_title'
+							),
+							'Distance' => array(
+								'fields' => array(
+									'Distance.abbreviation'
+								),
+							)
+						),
+						'AgeGroup',
+					),
+					'Address',
+					'Donation' => array(
+						'order' => 'Donation.date ASC'
+					),
+					'Gender',
+					'ShirtSize',
+					'Membership',
+					'EmergencyContact',
+//					'EventRegistration',
+					'ClinicRegistration' => array(
+						'conditions' => array(
+							'ClinicRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'ClinicRegistration.date ASC',
+						'Clinic'
+					),
+					'TestSwimRegistration' => array(
+						'conditions' => array(
+							'TestSwimRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'TestSwimRegistration.date ASC',
+						'TestSwim'
+					
+					),
+					'VolunteerRegistration' => array(
+						'conditions' => array(
+							'VolunteerRegistration.date >=' => date('Y-m-d') 
+						),
+						'order' => 'VolunteerRegistration.date ASC',
+						'Race'
+					)
+				)
 			)
 		);
 		
@@ -321,7 +400,11 @@ class UsersController extends AppController {
 								)
 							),
 						),
-						'AgeGroup'
+						'AgeGroup',
+						'Code' => array(
+							'fields' => array('title','abbreviation','body'),
+							'order' => array('Code.rank')
+						)
 					),
 					'RaceRegistration' => array(
 						'conditions' => array(
