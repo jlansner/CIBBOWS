@@ -1,25 +1,16 @@
-<div class="locations index">
-	<h2><?php echo __('Locations'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+<div class="row">
+	<div class="column column12">
+	<h1>Edit Locations</h1>
+	<table class="zebraTable">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('title'); ?></th>
-			<th><?php echo $this->Paginator->sort('url_title'); ?></th>
-			<th><?php echo $this->Paginator->sort('body'); ?></th>
-			<th><?php echo $this->Paginator->sort('map_link'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
+			<th>Title</th>
+			<th>Body</th>
+			<th>Actions</th>
 	</tr>
 	<?php foreach ($locations as $location): ?>
 	<tr>
-		<td><?php echo h($location['Location']['id']); ?>&nbsp;</td>
-		<td><?php echo h($location['Location']['title']); ?>&nbsp;</td>
-		<td><?php echo h($location['Location']['url_title']); ?>&nbsp;</td>
-		<td><?php echo h($location['Location']['body']); ?>&nbsp;</td>
-		<td><?php echo h($location['Location']['map_link']); ?>&nbsp;</td>
-		<td><?php echo h($location['Location']['created']); ?>&nbsp;</td>
-		<td><?php echo h($location['Location']['modified']); ?>&nbsp;</td>
+		<td><?php echo h($location['Location']['title']); ?></td>
+		<td><?php echo h($location['Location']['body']); ?></td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $location['Location']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $location['Location']['id'])); ?>
@@ -28,27 +19,6 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
+
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Location'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Clinics'), array('controller' => 'clinics', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Clinic'), array('controller' => 'clinics', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Group Swims'), array('controller' => 'group_swims', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Group Swim'), array('controller' => 'group_swims', 'action' => 'add')); ?> </li>
-	</ul>
 </div>
