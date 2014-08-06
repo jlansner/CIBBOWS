@@ -1,8 +1,8 @@
 <div class="row">
 	<div class="column column12">
-		<h1>Clinic Registration - <?php 
+		<h1>Clinic Registration &ndash; <?php 
 				if ($waitlist) {
-			echo 'Waitlist - ';
+			echo 'Waitlist &ndash; ';
 		}
 		
 		echo $clinic['Clinic']['title'];

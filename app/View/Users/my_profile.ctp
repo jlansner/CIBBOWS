@@ -65,7 +65,7 @@
 				<?php if ($address['other_details']) { echo $address['other_details'] . '<br />'; } ?>
 				<?php 
 					if (preg_match('/[0-9]{10}/',$address['phone'])) {
-						echo '(' . substr($address['phone'],0,3) . ') ' . substr($address['phone'],3,3) . '-' . substr($address['phone'],6);
+						echo preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$address['phone']);
 					} else {
 						echo $address['phone'];
 					}
@@ -96,9 +96,9 @@
 					<td><?php echo $emergencyContact['name']; ?></td>
 					<td><?php 
 					if (preg_match('/[0-9]{10}/',$emergencyContact['phone'])) {
-						echo '(' . substr($emergencyContact['phone'],0,3) . ') ' . substr($emergencyContact['phone'],3,3) . '-' . substr($emergencyContact['phone'],6);
+						echo preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$emergencyContact['phone']);
 					} else {
-						echo $address['phone'];
+						echo $emergencyContact['phone'];
 					}
 					 ?></td>
 					<td><?php echo $emergencyContact['email']; ?></td>
@@ -318,7 +318,8 @@
 			<td><?php echo ($result['Race']['distance_number'] + 0) . $result['Race']['Distance']['abbreviation']; ?></td>
 			<td>
 				
-				<?php 			if (($result['time'] == "00:00:00") || ($result['Result'] == null)) {
+				<?php
+			if (($result['time'] == "00:00:00") || ($result['time'] == null)) {
 			} else if ($this->Time->format('H',$result['time']) == 0) {
 	 			echo $this->Time->format('i:s',$result['time']);
 			} else {
@@ -500,6 +501,7 @@
 	<p>You are not registered for any test swims.</p>
 <?php } ?>
 
+*/ ?>
 
 	<h4>Volunteer Registrations</h3>
 	<?php if (!empty($user['VolunteerRegistration'])) { ?>
@@ -508,8 +510,8 @@
 	<tr>
 		<th>Event</th>
 		<th>Date</th>
-		<th>Assignment</th>
-		<th>Status</th>
+<?php /*		<th>Assignment</th>
+		<th>Status</th> */ ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -517,17 +519,24 @@
 		$i = 0;
 		foreach ($user['VolunteerRegistration'] as $volunteerRegistration): ?>
 		<tr>
-			<td><?php echo $volunteerRegistration['volunteer_task_id']; ?></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td><?php
+			echo $this->Html->link(
+				$volunteerRegistration['Race']['title'],
+				array(
+					'controller' => 'volunteer_registrations',
+					'action' => 'view',
+					'year' => substr($volunteerRegistration['Race']['date'],0,4),
+					'url_title' => 	$volunteerRegistration['Race']['url_title']
+				)
+			); ?></td>
+			<td><?php echo $this->Time->format('n/j/y',$volunteerRegistration['date']); ?></td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
 	</table>
 <?php } else { ?>
 	<p>You are not registered for any volunteer assignments.</p>
-<?php } ?> */ ?>
+<?php } ?> 
 </div>
 
 <div id="donations">

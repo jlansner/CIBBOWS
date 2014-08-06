@@ -316,8 +316,9 @@ class RaceRegistrationsController extends AppController {
 		);
 
 		if (preg_match('/[0-9]{10}/',$address['Address']['phone'])) {
-			$address['Address']['phone'] = '(' . substr($address['Address']['phone'],0,3) . ') ' . substr($address['Address']['phone'],3,3) . '-' . substr($address['Address']['phone'],6);
+			$address['Address']['phone'] = preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$address['Address']['phone']);
 		}
+		
 				
 		$emergencyContact = $this->RaceRegistration->User->EmergencyContact->find(
 			'first',
@@ -330,8 +331,9 @@ class RaceRegistrationsController extends AppController {
 			)
 		);
 
+
 		if (preg_match('/[0-9]{10}/',$emergencyContact['EmergencyContact']['phone'])) {
-			$emergencyContact['EmergencyContact']['phone'] = '(' . substr($emergencyContact['EmergencyContact']['phone'],0,3) . ') ' . substr($emergencyContact['EmergencyContact']['phone'],3,3) . '-' . substr($emergencyContact['EmergencyContact']['phone'],6);
+			$emergencyContact['EmergencyContact']['phone'] = preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$emergencyContact['EmergencyContact']['phone']);
 		}
 				
 		if (count($address)) {

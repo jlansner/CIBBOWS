@@ -171,14 +171,15 @@
 			<td><?php echo ($result['Race']['distance_number'] + 0) . $result['Race']['Distance']['abbreviation']; ?></td>
 			<td>
 				
-				<?php 			if (($result['time'] == "00:00:00") || ($result['Result'] == null)) {
+				<?php
+			if (($result['time'] == "00:00:00") || ($result['time'] == null)) {
 			} else if ($this->Time->format('H',$result['time']) == 0) {
 	 			echo $this->Time->format('i:s',$result['time']);
 			} else {
 				echo $this->Time->format('G:i:s',$result['time']);				
 			}
 			
-						if (!empty($result['Code'])) {
+			if (!empty($result['Code'])) {
 				foreach ($result['Code'] as $code) {
 					echo '<span class="resultCode" title ="' . $code['title'] . '">' . $code['abbreviation'] . '</span>';
 				}

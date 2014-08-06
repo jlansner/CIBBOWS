@@ -24,12 +24,33 @@ class VolunteerRegistrationsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		if (!$this->VolunteerRegistration->exists($id)) {
-			throw new NotFoundException(__('Invalid volunteer registration'));
+	public function view($year = null, $url_title = null) {
+        if (!$url_title) {
+            throw new NotFoundException(__('Invalid race'));
+        }
+
+		$race = $this->VolunteerRegistration->Race->find(
+			'first',
+			array(
+	        	'conditions' => array(
+    	    		'Race.url_title' => $url_title,
+    	    		'Race.date LIKE' => $year . '%'
+	    	    ),
+	    	    'contain' => array(
+	    	    	'VolunteerRegistration' => array(
+	    	    		'fields' => array('VolunteerRegistration.user_id','VolunteerRegistration.first_name','VolunteerRegistration.last_name','VolunteerRegistration.approved'),
+						'order' => array('VolunteerRegistration.last_name', 'VolunteerRegistration.first_name')
+					),
+					'Series',
+				)
+			)
+		);
+
+		if (!$race) {
+			$this->redirect('/races/');
 		}
-		$options = array('conditions' => array('VolunteerRegistration.' . $this->VolunteerRegistration->primaryKey => $id));
-		$this->set('volunteerRegistration', $this->VolunteerRegistration->find('first', $options));
+
+        $this->set(compact('race'));
 	}
 
 /**
@@ -100,5 +121,76 @@ class VolunteerRegistrationsController extends AppController {
 		}
 		$this->Session->setFlash(__('Volunteer registration was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+	public function register($race_id) {
+		$race = $this->VolunteerRegistration->Race->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Race.id' => $race_id
+				),
+				'contain' => array(
+				),
+				'fields' => array(
+					'Race.id','Race.date','Race.title','Race.url_title'
+				)				
+			)
+		);
+		
+		if ($this->request->is('post')) {
+			$this->request->data['VolunteerRegistration']['user_id'] = $this->Auth->user('id');
+			$this->request->data['VolunteerRegistration']['race_id'] = $race_id;
+			$this->request->data['VolunteerRegistration']['first_name'] = $this->Auth->user('first_name');
+			$this->request->data['VolunteerRegistration']['last_name'] = $this->Auth->user('last_name');
+			
+			$this->VolunteerRegistration->User->Address->save($this->request->data);
+			$this->VolunteerRegistration->create();
+			if ($this->VolunteerRegistration->save($this->request->data)) {
+				$this->Session->setFlash(__('Thank you for registering as a volunteer'));
+				$this->redirect(
+					array(
+						'controller' => 'races',
+						'action' => 'view',
+						'year' => substr($race['Race']['date'],0,4),
+						'url_title' => $race['Race']['url_title']
+					)
+				);
+			} else {
+				$this->Session->setFlash(__('The volunteer registration could not be saved. Please, try again.'));
+			}
+		}
+
+		if (strtotime('now') > strtotime($race['Race']['date'])) {
+			$this->redirect(
+				array(
+					'controller' => 'races',
+					'action' => 'view',
+					'year' => substr($race['Race']['date'],0,4),
+					'url_title' => $race['Race']['url_title']
+				)
+			);	
+		}
+
+		$address = $this->VolunteerRegistration->User->Address->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Address.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1,
+				'fields' => array(
+					'Address.id, Address.phone'
+				)
+			)
+		);
+
+		if (preg_match('/[0-9]{10}/',$address['Address']['phone'])) {
+			$address['Address']['phone'] = preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$address['Address']['phone']);
+		}
+
+		$this->request->data['Address'] = $address['Address'];
+
+		$this->set(compact('race'));
 	}
 }

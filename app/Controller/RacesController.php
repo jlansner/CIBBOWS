@@ -131,8 +131,19 @@ class RacesController extends AppController {
 			)
 		);
 
+		$volReg = $this->Race->VolunteerRegistration->find(
+			'count',
+			array(
+				'conditions' => array(
+					'VolunteerRegistration.race_id' => $regIDs,
+					'VolunteerRegistration.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1
+			)
+		);
+
 //		$this->set('race', $this->paginate());
-        $this->set(compact('race','reg'));
+        $this->set(compact('race','reg','volReg'));
 
 	}
 

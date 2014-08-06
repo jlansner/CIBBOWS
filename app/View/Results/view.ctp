@@ -38,6 +38,18 @@
 		); ?>
  	</li>
  	 <li class="active">Results</li>	
+ 	  	<li>
+ 		<?php echo $this->Html->link(
+			'Registered Volunteers',
+			array(
+				'controller' => 'volunteer_registrations',
+				'action' => 'view',
+				'year' => substr($racesList[0]['Race']['date'],0,4),
+				'url_title' => $racesList[0]['Race']['url_title']
+			)
+		); ?>
+ 	</li>
+
  </ul>
  <br class="clear" />
 <p>Select Year:

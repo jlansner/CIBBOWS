@@ -113,8 +113,20 @@ class AddressesController extends AppController {
 				$this->Session->setFlash(__('The address could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Address.user_id' => $this->Auth->user('id')));
-			$this->request->data = $this->Address->find('first', $options);
+			$address = $this->Address->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Address.user_id' => $this->Auth->user('id')
+					)
+				)
+			);
+
+			if (preg_match('/[0-9]{10}/',$address['Address']['phone'])) {
+				$address['Address']['phone'] = preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$address['Address']['phone']);
+			}
+
+			$this->request->data = $address;
 		}
 
 	}

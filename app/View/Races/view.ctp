@@ -62,6 +62,17 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 			)
 		); ?>
  	</li>
+ 	<li>
+ 		<?php echo $this->Html->link(
+			'Registered Volunteers',
+			array(
+				'controller' => 'volunteer_registrations',
+				'action' => 'view',
+				'year' => substr($race['Race']['date'],0,4),
+				'url_title' => $race['Race']['url_title']
+			)
+		); ?>
+ 	</li>
 </ul>
 <br class="clear" />
 
@@ -71,12 +82,12 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 	if (strtotime('now') > strtotime($race['Race']['date'])) {
 
 	} else if ($reg) {
-		echo 'You are already registered for this race.';
+		echo 'You are already registered as a swimmer for this race.';
 	} else {
 		if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
 			if ($race['Race']['registration_link']) {
 				echo $this->Html->link(
-					'Register',
+					'Register as a Swimmer',
 					$race['Race']['registration_link'],
 					array(
 						'target' => '_blank'
@@ -100,6 +111,23 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 	}
 
 ?>
+</p>
+
+<p>
+<?php if (strtotime('now') > strtotime($race['Race']['date'])) {
+			} else if ($volReg) {
+				echo 'You are already registered as a volunteer.';
+			} else {
+				echo $this->Html->link(
+					'Register as a Volunter',
+					array(
+						'controller' => 'volunteer_registrations',
+						'action' => 'register',
+						$race['Race']['id']
+					)
+				);
+			}
+	?>
 </p>
 
 	<?php 

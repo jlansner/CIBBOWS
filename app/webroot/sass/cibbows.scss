@@ -583,7 +583,7 @@ label {
   display: inline;
 }
 
-input[type=text], input[type=password], input[type=email], input[type=tel], input[type=number] {
+input[type=text], input[type=password], input[type=email], input[type=tel], input[type=number], textarea {
   @include box-sizing(border-box);
   width: 100%;
   height: 3em;
@@ -591,6 +591,10 @@ input[type=text], input[type=password], input[type=email], input[type=tel], inpu
   border: 1px solid #ccc;
   outline: 0 none;
   @include border-radius(0);
+}
+
+textarea {
+  height: 9em;
 }
 
 input[type=submit], .linkButton {

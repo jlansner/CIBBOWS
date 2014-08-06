@@ -36,7 +36,20 @@ class UsersController extends AppController {
 						'Distance',
 					),
 					'Result' => array(
+						'fields' => array(
+							'Result.time',
+							'Result.age',
+							'Result.place',
+							'Result.age_place'
+						),
 						'Race' => array(
+							'fields' => array(
+								'Race.title',
+								'Race.url_title',
+								'Race.date',
+								'Race.parent_id',
+								'Race.distance_number'
+							),
 							'Series' => array(
 								'fields' => array(
 									'Series.title',
@@ -44,6 +57,11 @@ class UsersController extends AppController {
 								)
 							),
 							'ParentRace' => array(
+								'fields' => array(
+									'ParentRace.title',
+									'ParentRace.url_title',
+									'ParentRace.date'
+								),
 								'Series' => array(
 									'fields' => array(
 										'Series.title',
@@ -52,7 +70,11 @@ class UsersController extends AppController {
 								)
 							),
 						),
-						'AgeGroup',
+						'AgeGroup' => array(
+							'fields' => array(
+								'AgeGroup.title'
+							)
+						),
 						'Code' => array(
 							'fields' => array('title','abbreviation','body'),
 							'order' => array('Code.rank')
