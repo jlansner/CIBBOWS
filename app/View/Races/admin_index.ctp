@@ -13,7 +13,16 @@
 			<tbody>
 			<?php foreach ($races as $race): ?>
 				<tr>
-					<td><?php echo $this -> Html -> link($race['Race']['title'], array('controller' => 'races', 'action' => 'view', substr($race['Race']['date'], 0, 4), $race['Race']['url_title'])); ?></td>
+					<td><?php echo $this -> Html -> link(
+		$race['Race']['title'],
+		array(
+			'controller' => 'races',
+			'action' => 'view',
+			'year' => substr($race['Race']['date'], 0, 4),
+			'url_title' => $race['Race']['url_title'],
+			'admin' => false
+		)
+	); ?></td>
 			
 				<td>
 					<?php echo $this -> Time -> format('m/j/y', $race['Race']['date']);

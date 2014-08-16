@@ -339,7 +339,20 @@ class RacesController extends AppController {
 	}
 
 	public function homepage_calendar() {
-		$race = $this->Race->query('(SELECT `title`, `url_title`, `date`, "events" AS `type` FROM `events` WHERE `date` >="' . date('Y-m-d') . '") UNION (SELECT `title`, `url_title`, `date`, "races" AS `type` FROM `races` WHERE `parent_id` IS NULL AND `date` >="' . date('Y-m-d') . '") UNION (SELECT `title`, `url_title`, `date`, "clinics" AS `type` FROM `clinics` WHERE `date` >="' . date('Y-m-d') . '") ORDER BY date ASC LIMIT 5');
+		$race = $this->Race->query('(SELECT `title`, `url_title`, `date`, "events" AS `type` FROM `events` WHERE `date` >= CURDATE()) 
+		UNION 
+		(SELECT `races`.`title`, `races`.`url_title`, `races`.`date`,
+"races" AS `type` 
+FROM `races`
+LEFT JOIN `series` 
+ON `series`.`id` = `races`.`series_id` 
+WHERE `series`.`active` = 1 
+AND `races`.`parent_id` IS NULL
+AND `races`.`date` >= CURDATE() ) 
+		UNION 
+		(SELECT `title`, `url_title`, `date`, "clinics" AS `type` FROM `clinics` WHERE `date` >= CURDATE()) 
+		ORDER BY date ASC 
+		LIMIT 5');
 		return $race;
 	}
 

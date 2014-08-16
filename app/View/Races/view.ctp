@@ -21,22 +21,12 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 
 	$regOpen = false;
 	$memRegOpen = false;
-	if (count($race['NonMemberRaceFee']) > 0) {
-		foreach ($race['NonMemberRaceFee'] as $racefee) {
-			if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
-				$regOpen = true;
-				break;
-			}
-		}
+	if ($race['CurrentNonMemberRaceFee']['price']) {
+		$regOpen = true;
 	} 
 	
-	if (count($race['MemberRaceFee']) > 0) {
-		foreach ($race['MemberRaceFee'] as $racefee) {
-			if (($racefee['start_date'] <= date('Y-m-d')) && ($racefee['end_date'] >= date('Y-m-d'))) {
-				$memRegOpen = true;
-				break;
-			}
-		}
+	if ($race['CurrentMemberRaceFee']) {
+		$memRegOpen = true;
  	}
  ?>
  <ul class="raceNav">
@@ -288,8 +278,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 		<td>Maximum Number of Swimmers:</td>
 		<td><?php echo h($race['Race']['max_swimmers']); ?></td>
 	</tr>
-
-	<?php if ((count($race['ChildRace']) == 0) && (!empty($race['NonMemberRaceFee'])) && (!empty($race['MemberRaceFee']))) { ?>
+	<?php if ((count($race['ChildRace']) == 0) && (!empty($race['NonMemberRaceFee'])) || (!empty($race['MemberRaceFee']))) { ?>
 
 	<tr>
 		<td>Fees</td>
