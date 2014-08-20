@@ -144,9 +144,10 @@ class MembershipsController extends AppController {
 		if ($this->request->is('post')) {
 			$validationArray = array(
 				'fieldList' => array(
-					'waiver'
+					'Membership.waiver'
 				)
 			);				
+
 
 			if ($this->Membership->validates($validationArray)) {
 	

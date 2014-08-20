@@ -141,9 +141,18 @@ class RacesController extends AppController {
 				'recursive' => -1
 			)
 		);
+        
+        $totalReg = $this->Race->RaceRegistration->find(
+            'count',
+            array(
+                'conditions' => array(
+                    'RaceRegistration.race_id' => $race['Race']['id']
+                )
+            )
+        );
 
 //		$this->set('race', $this->paginate());
-        $this->set(compact('race','reg','volReg'));
+        $this->set(compact('race','reg','volReg','totalReg'));
 
 	}
 

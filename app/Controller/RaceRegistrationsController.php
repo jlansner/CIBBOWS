@@ -171,6 +171,28 @@ class RaceRegistrationsController extends AppController {
 				'url_title' => $race['Race']['url_title'])
 			);
 		}
+        
+        $totalReg = $this->RaceRegistration->find(
+            'count',
+            array(
+                'conditions' => array(
+                    'RaceRegistration.race_id' => $race['Race']['id']
+                )
+            )
+        );
+        
+        if ($totalReg >= $race['Race']['max_swimmers']) {
+    		$this->Session->setFlash('Registration for this race is full.');
+			$this->redirect(
+			array(
+				'controller' => 'race_registrations',
+				'action' => 'view',
+				'year' => substr($race['Race']['date'],0,4),
+				'url_title' => $race['Race']['url_title'])
+			);           
+            
+        }
+        
 
 		foreach ($race['ChildRace'] as $child) {
 			$childRaces[$child['id']] = $child['title'];
@@ -433,6 +455,10 @@ class RaceRegistrationsController extends AppController {
 			$this->request->data['RaceRegistration']['age_group_id'] = $ageGroups['AgeGroup']['id'];
 			$this->request->data['RaceRegistration']['date'] = $race['Race']['date'];
 			
+			if (!$this->request->data['RaceRegistration']['child_race_id']) {
+				$this->request->data['RaceRegistration']['child_race_id'] = $this->request->data['RaceRegistration']['race_id'];
+			}
+
 			if ($race['Race']['experience_id']) {
 				$qualified = false;
 	

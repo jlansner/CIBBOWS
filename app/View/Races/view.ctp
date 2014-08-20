@@ -71,6 +71,8 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 
 	if (strtotime('now') > strtotime($race['Race']['date'])) {
 
+	} else if ($totalReg >= $race['Race']['max_swimmers']) {
+		echo 'Registration for this race is full.';
 	} else if ($reg) {
 		echo 'You are already registered as a swimmer for this race.';
 	} else {

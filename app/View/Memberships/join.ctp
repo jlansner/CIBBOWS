@@ -64,7 +64,7 @@ if (count($membershipFee)) {
 
 <?php		
 		echo $this->Form->input(
-			'RaceRegistration.waiver',
+			'Membership.waiver',
 			array(
 				'label' => 'I agree to the terms of the <span class="linkSpan liabilityLink">liability release</span>',
 				array(
