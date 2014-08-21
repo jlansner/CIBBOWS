@@ -38,7 +38,7 @@ class VolunteerRegistrationsController extends AppController {
 	    	    ),
 	    	    'contain' => array(
 	    	    	'VolunteerRegistration' => array(
-	    	    		'fields' => array('VolunteerRegistration.user_id','VolunteerRegistration.first_name','VolunteerRegistration.last_name','VolunteerRegistration.approved'),
+	    	    		'fields' => array('VolunteerRegistration.user_id','VolunteerRegistration.first_name','VolunteerRegistration.last_name','VolunteerRegistration.approved','VolunteerRegistration.body'),
 						'order' => array('VolunteerRegistration.last_name', 'VolunteerRegistration.first_name')
 					),
 					'Series',

@@ -47,6 +47,9 @@
 		<thead>
 				<tr>
 					<th>Name</th>
+					<?php if ($admin) { ?>
+					 	<th>Notes</th>
+					<?php } ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -63,6 +66,9 @@
 					)
 				); ?>
 				</td>
+					<?php if ($admin) { ?>
+					 	<td><?php echo $volunteerRegistration['body']; ?></td>
+					<?php } ?>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

@@ -171,7 +171,8 @@ class RaceRegistrationsController extends AppController {
 				'url_title' => $race['Race']['url_title'])
 			);
 		}
-        
+		
+       
         $totalReg = $this->RaceRegistration->find(
             'count',
             array(
@@ -731,4 +732,27 @@ class RaceRegistrationsController extends AppController {
 		$race['Race']['registered_swimmers']++;
 		$this->RaceRegistration->Race->save($race);
 	}
+
+	public function swimmer_list($race_id) {
+ 		$this->response->download("swimmerList.csv");
+ 		$data = $this->RaceRegistration->find(
+ 			'all',
+ 			array(
+ 				'conditions' => array(
+					'RaceRegistration.race_id' => $race_id
+				),
+				'contain' => array(
+					'User' => array(
+						'Address',
+						'EmergencyContact'
+					),
+					'Gender',
+					'AgeGroup'
+				)
+			)
+		);
+		$this->set(compact('data'));
+ 		$this->layout = 'ajax';
+ 		return;
+ 	}
 }

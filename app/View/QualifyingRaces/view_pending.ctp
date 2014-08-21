@@ -19,7 +19,13 @@
 		<td>
 			<?php echo $this->Html->link($qualifyingRace['User']['name'], array('controller' => 'users', 'action' => 'view', $qualifyingRace['User']['id'])); ?>
 		</td>
-		<td><?php echo $this->Html->link($qualifyingRace['QualifyingRace']['title'], $qualifyingRace['QualifyingRace']['url'], array('target' => '_blank')); ?></td>
+		<td><?php echo $this->Html->link(
+			$qualifyingRace['QualifyingRace']['title'],
+			$qualifyingRace['QualifyingRace']['url'],
+			array(
+				'target' => '_blank'
+			)
+		); ?></td>
 		<td><?php echo $this->Time->Format('n/j/y',$qualifyingRace['QualifyingRace']['date']); ?></td>
 		<td><?php echo ($qualifyingRace['QualifyingRace']['distance_number'] + 0) . $qualifyingRace['Distance']['abbreviation']; ?>
 		</td>

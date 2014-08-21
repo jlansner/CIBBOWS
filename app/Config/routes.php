@@ -28,7 +28,9 @@
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+	Router::parseExtensions('csv');
+
+ 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 	include('redirects.php');
 	// redirects from old site
