@@ -48,6 +48,7 @@
 				<tr>
 					<th>Name</th>
 					<?php if ($admin) { ?>
+						<th>Email Address</th>
 					 	<th>Notes</th>
 					<?php } ?>
 			</tr>
@@ -67,6 +68,7 @@
 				); ?>
 				</td>
 					<?php if ($admin) { ?>
+						<td><?php echo $volunteerRegistration['User']['email']; ?></td>
 					 	<td><?php echo $volunteerRegistration['body']; ?></td>
 					<?php } ?>
 			</tr>
