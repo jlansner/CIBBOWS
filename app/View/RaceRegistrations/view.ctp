@@ -41,6 +41,17 @@
  </ul>
  <br class="clear" />
 
+<?php if ($admin) {
+	echo '<p>' . $this->Html->link(
+		'Download swimmer list in Excel',
+		array(
+			'controller' => 'race_registrations',
+			'action' => 'swimmer_list',
+			$race['Race']['id']
+		)
+	) . '</p>';
+	
+} ?>
 <?php if (count($race['RaceRegistration']) > 0) { ?>
 	<?php if (count($race['ChildRace']) == 0) {  ?>
 

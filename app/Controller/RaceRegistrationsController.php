@@ -734,23 +734,34 @@ class RaceRegistrationsController extends AppController {
 	}
 
 	public function swimmer_list($race_id) {
- 		$this->response->download("swimmerList.csv");
- 		$data = $this->RaceRegistration->find(
- 			'all',
- 			array(
- 				'conditions' => array(
-					'RaceRegistration.race_id' => $race_id
-				),
-				'contain' => array(
-					'User' => array(
-						'Address',
-						'EmergencyContact'
+
+		$data = $this->RaceRegistration->Race->find(
+			'first',
+			array(
+	        	'conditions' => array(
+    	    		'Race.id' => $race_id
+	    	    ),
+	    	    'contain' => array(
+	    	    	'RaceRegistration' => array(
+	    	    		'fields' => array('RaceRegistration.user_id','RaceRegistration.first_name','RaceRegistration.last_name','RaceRegistration.age','RaceRegistration.child_race_id','RaceRegistration.approved'),
+			    	    'Gender' => array(
+			    	    	'fields' => array('Gender.title')
+						),
+						'AgeGroup' => array(
+							'fields' => array('AgeGroup.title')
+						),
+						'User' => array(
+							'Address',
+							'EmergencyContact'
+						),
+						'order' => array('RaceRegistration.last_name', 'RaceRegistration.first_name')	
+						
 					),
-					'Gender',
-					'AgeGroup'
 				)
 			)
 		);
+
+ 		$this->response->download($data['Race']['url_title'] . '_' . substr($data['Race']['date'],0,4) . '.csv');
 		$this->set(compact('data'));
  		$this->layout = 'ajax';
  		return;
