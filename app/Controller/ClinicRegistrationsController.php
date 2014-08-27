@@ -222,15 +222,6 @@ class ClinicRegistrationsController extends AppController {
 			$waitlist = true;
 		}
 
-		if (AuthComponent::user('dob') == "0000-00-00") {
-			$this->request->data['ClinicRegistration']['age'] = "";
-		} else {
-			$birthDate = new DateTime(AuthComponent::user('dob'));
-			$clinicDate = new DateTime($clinic['Clinic']['date']);
-			$interval = $birthDate->diff($clinicDate);
-			$this->request->data['ClinicRegistration']['age'] = $interval->y;
-		}
-
 		if ($this->request->is('post')) {
 			
 			$this->ClinicRegistration->set($this->request->data);
@@ -332,6 +323,14 @@ class ClinicRegistrationsController extends AppController {
 			}	
 		}
 
+		if (AuthComponent::user('dob') == "0000-00-00") {
+			$this->request->data['ClinicRegistration']['age'] = "";
+		} else {
+			$birthDate = new DateTime(AuthComponent::user('dob'));
+			$clinicDate = new DateTime($clinic['Clinic']['date']);
+			$interval = $birthDate->diff($clinicDate);
+			$this->request->data['ClinicRegistration']['age'] = $interval->y;
+		}
 
 		$this->request->data['User']['dob'] = $this->Auth->user('dob');
 		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
