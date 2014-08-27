@@ -208,15 +208,6 @@ class RaceRegistrationsController extends AppController {
 			}
 		}
 		
-		if (AuthComponent::user('dob') == "0000-00-00") {
-			$this->request->data['RaceRegistration']['age'] = "";
-		} else {
-			$birthDate = new DateTime(AuthComponent::user('dob'));
-			$raceDate = new DateTime($race['Race']['date']);
-			$interval = $birthDate->diff($raceDate);
-			$this->request->data['RaceRegistration']['age'] = $interval->y;
-		}
-
 		if ($this->request->is('post')) {
 			
 			$this->RaceRegistration->set($this->request->data);
@@ -257,13 +248,15 @@ class RaceRegistrationsController extends AppController {
 				$validationArray = array(
 					'fieldList' => array(
 						'waiver',
+						'age',
 						'join'
 					)
 				);
 			} else {
 				$validationArray = array(
 					'fieldList' => array(
-						'waiver','age'
+						'waiver',
+						'age'
 					)
 				);				
 			}
@@ -326,6 +319,15 @@ class RaceRegistrationsController extends AppController {
 
 				$this->render('checkout');
 			}	
+		}
+
+		if (AuthComponent::user('dob') == "0000-00-00") {
+			$this->request->data['RaceRegistration']['age'] = "";
+		} else {
+			$birthDate = new DateTime(AuthComponent::user('dob'));
+			$raceDate = new DateTime($race['Race']['date']);
+			$interval = $birthDate->diff($raceDate);
+			$this->request->data['RaceRegistration']['age'] = $interval->y;
 		}
 
 		$address = $this->RaceRegistration->User->Address->find(
