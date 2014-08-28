@@ -29,9 +29,9 @@ class DonationsController extends AppController {
  *
  * @return void
  */
-	public function index() {
-		$this->Donation->recursive = 0;
-		$this->set('donations', $this->Paginator->paginate());
+	public function admin_index() {
+		$donations = $this->Donation->find('all');
+		$this->set(compact('donations'));
 	}
 
 /**
