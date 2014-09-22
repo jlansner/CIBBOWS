@@ -41,17 +41,30 @@
  </ul>
  <br class="clear" />
 
-<?php if ($admin) {
-	echo '<p>' . $this->Html->link(
+<?php if ($admin) { ?>
+	<p>
+	<?php echo $this->Html->link(
 		'Download swimmer list in Excel',
 		array(
 			'controller' => 'race_registrations',
 			'action' => 'swimmer_list',
 			$race['Race']['id']
 		)
-	) . '</p>';
+	); ?>
+	</p>
 	
-} ?>
+	<p>
+<?php echo $this->Html->link(
+		'Assign cap numbers',
+		array(
+			'controller' => 'race_registrations',
+			'action' => 'assign_cap_numbers',
+			$race['Race']['id']
+		)
+	); ?>		
+	</p>
+	
+<?php } ?>
 <?php if (count($race['RaceRegistration']) > 0) { ?>
 	<?php if (count($race['ChildRace']) == 0) {  ?>
 
@@ -63,6 +76,9 @@
 					<th>Sex</th>
 					<th>Age Group</th>
 					<th>Status</th>
+				<?php if ($admin) { ?>
+					<th>Cap Number</th>
+				<?php } ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -93,6 +109,9 @@
             <?php }
 					} ?>
 				</td>
+			<?php if ($admin) { ?>
+				<td><?php echo $raceRegistration['race_number']; ?></td>
+			<?php } ?>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
@@ -111,6 +130,9 @@
 					<th>Sex</th>
 					<th>Age Group</th>
 					<th>Status</th>
+				<?php if ($admin) { ?>
+					<th>Cap Number</th>
+				<?php } ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -134,6 +156,9 @@
 						
 					} ?>
 				</td>
+			<?php if ($admin) { ?>
+				<td><?php echo $raceRegistration['race_number']; ?></td>
+			<?php } ?>
 			</tr>
 			<?php } ?>
 		<?php endforeach; ?>

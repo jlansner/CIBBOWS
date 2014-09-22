@@ -348,6 +348,19 @@ class Race extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		'ChildRaceRegistration' => array(
+			'className' => 'RaceRegistration',
+			'foreignKey' => 'child_race_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => 'last_name ASC',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
 		'ChildRace' => array(
 			'className' => 'Race',
 			'foreignKey' => 'parent_id',

@@ -691,7 +691,15 @@ class RaceRegistrationsController extends AppController {
 	    	    ),
 	    	    'contain' => array(
 	    	    	'RaceRegistration' => array(
-	    	    		'fields' => array('RaceRegistration.user_id','RaceRegistration.first_name','RaceRegistration.last_name','RaceRegistration.age','RaceRegistration.child_race_id','RaceRegistration.approved'),
+	    	    		'fields' => array(
+		    	    		'RaceRegistration.user_id',
+		    	    		'RaceRegistration.first_name',
+		    	    		'RaceRegistration.last_name',
+		    	    		'RaceRegistration.age',
+		    	    		'RaceRegistration.child_race_id',
+		    	    		'RaceRegistration.approved',
+		    	    		'RaceRegistration.race_number'
+						),
 			    	    'Gender' => array(
 			    	    	'fields' => array('Gender.title')
 						),
@@ -745,7 +753,15 @@ class RaceRegistrationsController extends AppController {
 	    	    ),
 	    	    'contain' => array(
 	    	    	'RaceRegistration' => array(
-	    	    		'fields' => array('RaceRegistration.user_id','RaceRegistration.first_name','RaceRegistration.last_name','RaceRegistration.age','RaceRegistration.child_race_id','RaceRegistration.approved'),
+	    	    		'fields' => array(
+	    	    			'RaceRegistration.user_id',
+	    	    			'RaceRegistration.first_name',
+	    	    			'RaceRegistration.last_name',
+	    	    			'RaceRegistration.age',
+	    	    			'RaceRegistration.child_race_id',
+	    	    			'RaceRegistration.approved',
+	    	    			'RaceRegistration.race_number'
+						),
 			    	    'Gender' => array(
 			    	    	'fields' => array('Gender.title')
 						),
@@ -756,8 +772,10 @@ class RaceRegistrationsController extends AppController {
 							'Address',
 							'EmergencyContact'
 						),
-						'order' => array('RaceRegistration.last_name', 'RaceRegistration.first_name')	
-						
+						'ChildRace' => array(
+							'fields' => array('ChildRace.title')
+						),
+						'order' => array('RaceRegistration.last_name', 'RaceRegistration.first_name')
 					),
 				)
 			)
@@ -768,4 +786,86 @@ class RaceRegistrationsController extends AppController {
  		$this->layout = 'ajax';
  		return;
  	}
+
+	public function assign_cap_numbers($race_id) {
+		
+		$race = $this->RaceRegistration->Race->find(
+			'first',
+			array(
+	        	'conditions' => array(
+    	    		'Race.id' => $race_id
+	    	    ),
+	    	    'fields' => array(
+	    	    	'Race.id',
+	    	    	'Race.date',
+	    	    	'Race.url_title'
+				),
+	    	    'contain' => array(
+	    	    	'ChildRace' => array(
+	    	    		'fields' => array(
+							'ChildRace.id',
+							'ChildRace.title'
+						),
+						'order' => array(
+							'ChildRace.menu_rank'
+						),
+		    	    	'ChildRaceRegistration' => array(
+		    	    		'fields' => array(
+		    	    			'ChildRaceRegistration.id',
+		    	    			'ChildRaceRegistration.waiver'		    	    			
+							),
+							'order' => array(
+								'ChildRaceRegistration.child_race_id',
+								'ChildRaceRegistration.last_name',
+								'ChildRaceRegistration.first_name',
+							)
+						)
+					),
+	    	    	'RaceRegistration' => array(
+	    	    		'fields' => array(
+	    	    			'RaceRegistration.id',
+		    	    		'RaceRegistration.waiver'
+						),
+						'order' => array(
+							'RaceRegistration.child_race_id',
+							'RaceRegistration.last_name',
+							'RaceRegistration.first_name'
+						)
+					)
+				)
+			)
+		);
+
+		$j = 1;		
+		if (count($race['ChildRace']) > 0) {
+
+			foreach ($race['ChildRace'] as $childRace) {
+				foreach ($childRace['ChildRaceRegistration'] as $childRaceRegistration) {
+					$childRaceRegistration['race_number'] = $j;
+					$this->RaceRegistration->save($childRaceRegistration);
+					$j++;
+				}
+				$j = (ceil($j / 100) * 100) + 1;
+			}
+
+		} else {
+			foreach ($race['RaceRegistration'] as $raceRegistration) {
+				$raceRegistration['race_number'] = $j;
+				$this->RaceRegistration->save($raceRegistration);
+				$j++;
+			}
+
+  		}
+
+		$this->set(compact('race'));
+
+		$this->Session->setFlash('Cap numbers have been added');
+		$this->redirect(
+			array(
+				'action' => 'view',
+				'year' => substr($race['Race']['date'],0,4),
+				'url_title' => $race['Race']['url_title']
+			)
+		);
+	}
 }

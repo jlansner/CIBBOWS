@@ -1,9 +1,10 @@
 <?php
-echo "Race Number,First Name,Last Name,Email Address,Age,Gender,Age Group,Wetsuit,Address,Medical Conditions,Emergency Contact\n";
+echo "Race Number,Distance,First Name,Last Name,Email Address,Age,Gender,Age Group,Wetsuit,Address,Medical Conditions,Emergency Contact\n";
 
 foreach ($data['RaceRegistration'] as $row) {
 
 	echo $row['race_number'] . ',';
+	echo $row['ChildRace']['title'] . ',';
 	echo $row['User']['first_name'] . ',';
 	echo $row['User']['last_name'] . ',';
 	echo $row['User']['email'] . ',';
