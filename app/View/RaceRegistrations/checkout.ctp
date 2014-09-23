@@ -48,7 +48,7 @@
 			} else {
 				echo 'No';
 			}
-			echo $this->Form->hidden('wetsuit');
+			echo $this->Form->hidden('RaceRegistration.wetsuit');
 			?>
 		</p>
 		

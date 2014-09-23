@@ -1,5 +1,5 @@
 <?php
-echo "Race Number,Distance,First Name,Last Name,Email Address,Age,Gender,Age Group,Wetsuit,Address,Medical Conditions,Emergency Contact\n";
+echo "Race Number,Distance,First Name,Last Name,Email Address,Date of Birth,Age,Gender,Age Group,Wetsuit,Address,Medical Conditions,Emergency Contact\n";
 
 foreach ($data['RaceRegistration'] as $row) {
 
@@ -8,11 +8,12 @@ foreach ($data['RaceRegistration'] as $row) {
 	echo $row['User']['first_name'] . ',';
 	echo $row['User']['last_name'] . ',';
 	echo $row['User']['email'] . ',';
+	echo $this->Time->format('m/d/Y',$row['User']['dob']) . ',';
 	echo $row['age'] . ',';
 	echo $row['Gender']['title'] . ',';
 	echo $row['AgeGroup']['title'] . ',';
 	
-	if ($row['RaceRegistration']['wetsuit'] == 1) {
+	if ($row['RaceRegistration']['wetsuit'] == "1") {
 		echo 'Yes'; 
 	}
 	echo ',"';
@@ -44,12 +45,12 @@ foreach ($data['RaceRegistration'] as $row) {
 			echo "\n\n";
 		}
 		echo $contact['name'] . ', ' . $contact['relationship'] . "\n";
-		echo $contact['email'] . "\n";
 		if (preg_match('/[0-9]{10}/',$contact['phone'])) {
-			echo preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$contact['phone']);
+			echo preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$contact['phone']) . "\n";
 		} else {
-			echo $contact['phone'];
+			echo $contact['phone'] . "\n";
 		}
+		echo $contact['email'];
 		$notFirst = true;
 	} 
 

@@ -761,8 +761,9 @@ class RaceRegistrationsController extends AppController {
 	    	    			'RaceRegistration.age',
 	    	    			'RaceRegistration.child_race_id',
 	    	    			'RaceRegistration.approved',
-	    	    			'RaceRegistration.race_number'
-						),
+	    	    			'RaceRegistration.race_number',
+	    	    			'RaceRegistration.wetsuit'
+	    	    		),
 			    	    'Gender' => array(
 			    	    	'fields' => array('Gender.title')
 						),
@@ -771,7 +772,7 @@ class RaceRegistrationsController extends AppController {
 						),
 						'User' => array(
 							'Address',
-							'EmergencyContact'
+							'EmergencyContact',
 						),
 						'ChildRace' => array(
 							'fields' => array('ChildRace.title')
