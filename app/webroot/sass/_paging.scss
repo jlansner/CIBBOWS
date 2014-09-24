@@ -1,0 +1,44 @@
+.paging {
+    background: #fff;
+    color: #ccc;
+    margin-top: 1em;
+    clear: both;
+
+  .current, .disabled, a {
+    text-decoration: none;
+    padding: 5px 8px;
+    display: inline-block
+  }
+
+  > span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-left: 0;
+
+    &:hover {
+      background: #efefef;
+    }
+  }
+
+  .prev {
+    border-left: 1px solid #ccc;
+    @include border-left-radius(4px);
+  }
+
+  .next {
+    @include border-right-radius(4px);
+  }
+
+  .disabled {
+    color: #ddd;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  .current {
+    background: #efefef;
+    color: #c73e14;
+  }
+}

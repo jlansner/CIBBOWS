@@ -19,7 +19,7 @@ class RaceRegistrationsController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->RaceRegistration->recursive = 0;
 		$this->set('raceRegistrations', $this->paginate());
 	}

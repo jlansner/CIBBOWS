@@ -1,6 +1,7 @@
-<div class="raceRegistrations index">
-	<h2><?php echo __('Race Registrations'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+<div class="row">
+	<div class="column column12">
+	<h1>Race Registrations</h1>
+	<table class="zebraTable">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
@@ -73,26 +74,5 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Race Registration'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Races'), array('controller' => 'races', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Race'), array('controller' => 'races', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Genders'), array('controller' => 'genders', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Gender'), array('controller' => 'genders', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Age Groups'), array('controller' => 'age_groups', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Age Group'), array('controller' => 'age_groups', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Qualifying Swims'), array('controller' => 'qualifying_swims', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Qualifying Swim'), array('controller' => 'qualifying_swims', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Qualifying Races'), array('controller' => 'qualifying_races', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Qualifying Race'), array('controller' => 'qualifying_races', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Results'), array('controller' => 'results', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Result'), array('controller' => 'results', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Shirt Sizes'), array('controller' => 'shirt_sizes', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Shirt Size'), array('controller' => 'shirt_sizes', 'action' => 'add')); ?> </li>
-	</ul>
+	</div>
 </div>
