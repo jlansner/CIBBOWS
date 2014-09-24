@@ -25,7 +25,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 		$regOpen = true;
 	} 
 	
-	if ($race['CurrentMemberRaceFee']) {
+	if ($race['CurrentMemberRaceFee']['price']) {
 		$memRegOpen = true;
  	}
  ?>
