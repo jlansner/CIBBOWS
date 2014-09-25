@@ -1,3 +1,5 @@
+<div class="row">
+	<div class="column column12">
 <h1>Events</h1>
 
     <?php foreach ($events as $event): ?>
@@ -7,3 +9,5 @@ array('controller' => 'events', 'action' => 'view', substr($event['Event']['date
         <p><?php echo $this->Time->format('F j, Y', $event['Event']['date']); ?></p>
     <hr>
     <?php endforeach; ?>
+</div>
+</div>

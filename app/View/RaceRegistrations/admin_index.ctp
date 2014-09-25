@@ -54,9 +54,23 @@
 		<td><?php echo h($raceRegistration['RaceRegistration']['created']); ?>&nbsp;</td>
 		<td><?php echo h($raceRegistration['RaceRegistration']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $raceRegistration['RaceRegistration']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $raceRegistration['RaceRegistration']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $raceRegistration['RaceRegistration']['id']), null, __('Are you sure you want to delete # %s?', $raceRegistration['RaceRegistration']['id'])); ?>
+			<?php echo $this->Html->link(
+				'View',
+				array(
+					'admin' => false,
+					'action' => 'view',
+					$raceRegistration['RaceRegistration']['id']
+				)
+			); ?>
+			<?php echo $this->Html->link(
+				'Edit',
+				 array(
+					'admin' => false,'action' => 'edit',
+					$raceRegistration['RaceRegistration']['id']
+				)
+			); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array(
+				'admin' => false,'action' => 'delete', $raceRegistration['RaceRegistration']['id']), null, __('Are you sure you want to delete # %s?', $raceRegistration['RaceRegistration']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
