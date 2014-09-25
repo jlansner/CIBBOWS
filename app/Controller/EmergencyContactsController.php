@@ -102,7 +102,7 @@ class EmergencyContactsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->EmergencyContact->create();
 			if ($this->EmergencyContact->save($this->request->data)) {
-				$this->update_registrations('has_emergency_contact');
+//				$this->update_registrations('has_emergency_contact');
 				$this->Session->setFlash(__('Your emergency contact has been added'));
 				$this->redirect(array('controller' => 'users', 'action' => 'my_profile'));
 			} else {
