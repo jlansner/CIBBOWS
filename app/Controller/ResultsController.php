@@ -82,6 +82,9 @@ class ResultsController extends AppController {
 					'ChildRace' => array(
 						'fields' => array(
 							'ChildRace.id','ChildRace.title',''
+						),
+						'order' => array(
+							'ChildRace.menu_rank'
 						)
 					)
 				),
@@ -330,6 +333,99 @@ class ResultsController extends AppController {
 
 		
 		$this->set(compact('races','result'));
+		
+	}
+
+	public function admin_add_race_results($race_id) {
+
+		if ($this->request->is('post')) {
+			$lines = explode("\n", $this->request->data['Result']['results']);
+			$head = str_getcsv(array_shift($lines));
+
+			$array = array();
+			foreach ($lines as $line) {
+			    $array[] = array_combine($head, str_getcsv($line));
+			}
+			
+			$i = 0;
+			foreach ($array as $line) {
+				$result['Result']['race_id'] = $this->request->data['Result']['child_race_id'];
+				
+				$race = $this->Result->Race->find(
+					'first',
+					array(
+						'conditions' => array(
+							'Race.id' => $result['Result']['race_id']
+						),
+						'fields' => array(
+							'Race.meters'
+						)
+					)
+				);
+				
+				$swimmer = $this->Result->Race->RaceRegistration->find(
+					'first',
+					array(
+						'conditions' => array(
+							'RaceRegistration.race_id' => $race_id,
+							'RaceRegistration.race_number' => $line['race_number']
+						),
+						'fields' => array(
+							'RaceRegistration.user_id',
+							'RaceRegistration.age_group_id'
+						),
+						'recursive' => -1
+					)
+				);
+
+				$result['Result']['user_id'] = $swimmer['RaceRegistration']['user_id'];
+				$result['Result']['age_group_id'] = $swimmer['RaceRegistration']['age_group_id'];
+				$result['Result']['race_number'] = $line['race_number'];			
+				$result['Result']['first_name'] = $line['first_name'];
+				$result['Result']['last_name'] = $line['last_name'];
+				$result['Result']['age'] = $line['age'];
+				$result['Result']['place'] = $line['place'];
+				$result['Result']['age_place'] = $line['age_place'];
+				$result['Result']['meters'] = $race['Race']['meters'];
+				$result['Result']['wetsuit'] = $this->request->data['Result']['wetsuit'];
+
+				if (trim($line['gender']) == 'M') {
+					$result['Result']['gender_id'] = 1;
+				} else {
+					$result['Result']['gender_id'] = 2;
+				}
+
+				if ($line['time'] == 'DNF') {
+					$result['Result']['time'] = "00:00:00";
+					$result['Result']['age_place'] = $line['age_place'];
+					$result['CodesResult']['code_id'] = 1;				
+				} else if (strlen($line['time']) < 6) {
+					$result['Result']['time'] = "00:" . $line['Time'];
+				} else {
+					$result['Result']['time'] = $line['time'];
+				}
+
+				$this->Result->create();
+				$this->Result->save($result);
+				
+				if ($line['time'] == 'DNF') {
+					$result['CodesResult']['result_id'] = $this->Result->getLastInsertId();
+					$this->Result->CodesResult->create();
+					$this->Result->CodesResult->save($result);
+				}
+			}
+		}
+		
+		$childRaces = $this->Result->Race->find(
+			'list',
+			array(
+				'conditions' => array(
+					'parent_id' => $race_id
+				)
+			)
+		);
+		
+		$this->set(compact('childRaces'));
 		
 	}
 }
