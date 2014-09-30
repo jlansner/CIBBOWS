@@ -3,45 +3,17 @@
 <h1><?php echo $race['Race']['title']; ?></h1>
 <h2>Registered Volunteers</h2>
 
- <ul class="raceNav">
- 	<li>
-  		<?php echo $this->Html->link(
-			'Overview',
-			array(
-				'controller' => 'races',
-				'action' => 'view',
-				'year' => substr($race['Race']['date'],0,4),
-				'url_title' => $race['Race']['url_title']
-			)
-		); ?>
- 	</li>
- 	<li> 		<?php echo $this->Html->link(
-			'Registered Swimmers',
-			array(
-				'controller' => 'race_registrations',
-				'action' => 'view',
-				'year' => substr($race['Race']['date'],0,4),
-				'url_title' => $race['Race']['url_title']
-			)
-		); ?>
-	</li>
- 	 <li>
- 		<?php echo $this->Html->link(
-			'Results',
-			array(
-				'controller' => 'results',
-				'action' => 'view',
-				'url_title' => $race['Series']['url_title']
-			)
-		); ?>
- 	</li>
- 	<li class="active">
- 		Registered Volunteers
- 	</li>
- </ul>
- <br class="clear" />
 
-<?php if (count($race['VolunteerRegistration']) > 0) { ?>
+<?php
+
+ 	echo $this->element(
+ 		'race_menu',
+ 		array(
+			'race' => $race
+		)
+	);
+
+ if (count($race['VolunteerRegistration']) > 0) { ?>
 
 		<table class="zebraTable">
 		<thead>

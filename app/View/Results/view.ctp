@@ -14,44 +14,15 @@
 	
 	<h2>Results</h2>
 
- <ul class="raceNav">
- 	<li>
-  		<?php echo $this->Html->link(
-			'Overview',
-			array(
-				'controller' => 'races',
-				'action' => 'view',
-				'year' => substr($racesList[0]['Race']['date'],0,4),
-				'url_title' => $racesList[0]['Race']['url_title']
-			)
-		); ?>
- 	</li>
- 	<li>
- 		<?php echo $this->Html->link(
-			'Registered Swimmers',
-			array(
-				'controller' => 'race_registrations',
-				'action' => 'view',
-				'year' => substr($racesList[0]['Race']['date'],0,4),
-				'url_title' => $racesList[0]['Race']['url_title']
-			)
-		); ?>
- 	</li>
- 	 <li class="active">Results</li>	
- 	  	<li>
- 		<?php echo $this->Html->link(
-			'Registered Volunteers',
-			array(
-				'controller' => 'volunteer_registrations',
-				'action' => 'view',
-				'year' => substr($racesList[0]['Race']['date'],0,4),
-				'url_title' => $racesList[0]['Race']['url_title']
-			)
-		); ?>
- 	</li>
+<?php
+ 	echo $this->element(
+ 		'race_menu',
+ 		array(
+			'race' => $racesList[0]
+		)
+	);
+?>
 
- </ul>
- <br class="clear" />
 <p>Select Year:
 
 <select name="year" id="year">

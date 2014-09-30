@@ -28,44 +28,15 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 	if ($race['CurrentMemberRaceFee']['price']) {
 		$memRegOpen = true;
  	}
+ 
+ 	echo $this->element(
+ 		'race_menu',
+ 		array(
+			'race' => $race
+		)
+	);
  ?>
- <ul class="raceNav">
- 	<li class="active">Overview</li>
- 	<li>
- 		<?php echo $this->Html->link(
-			'Registered Swimmers',
-			array(
-				'controller' => 'race_registrations',
-				'action' => 'view',
-				'year' => substr($race['Race']['date'],0,4),
-				'url_title' => $race['Race']['url_title']
-			)
-		); ?>
- 	</li>
- 	<li>
- 		<?php echo $this->Html->link(
-			'Results',
-			array(
-				'controller' => 'results',
-				'action' => 'view',
-				'url_title' => $race['Series']['url_title']
-			)
-		); ?>
- 	</li>
- 	<li>
- 		<?php echo $this->Html->link(
-			'Registered Volunteers',
-			array(
-				'controller' => 'volunteer_registrations',
-				'action' => 'view',
-				'year' => substr($race['Race']['date'],0,4),
-				'url_title' => $race['Race']['url_title']
-			)
-		); ?>
- 	</li>
-</ul>
-<br class="clear" />
-
+ 
 <p>
 <?php
 
