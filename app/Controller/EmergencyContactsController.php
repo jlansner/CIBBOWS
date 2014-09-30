@@ -123,8 +123,19 @@ class EmergencyContactsController extends AppController {
 				$this->Session->setFlash(__('The emergency contact could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('EmergencyContact.' . $this->EmergencyContact->primaryKey => $id));
-			$this->request->data = $this->EmergencyContact->find('first', $options);
+			$this->request->data = $this->EmergencyContact->find(
+				'first',
+				array(
+					'conditions' => array(
+						'EmergencyContact.id' => $id
+					)
+				)
+			);
+			
+			if (preg_match('/[0-9]{10}/',$this->request->data['EmergencyContact']['phone'])) {
+				$this->request->data['EmergencyContact']['phone'] = preg_replace('/([0-9]{3})([0-9]{3})([0-9]{4})/','($1) $2-$3',$this->request->data['EmergencyContact']['phone']);
+			}
+			
 		}
 	}
 
