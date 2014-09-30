@@ -49,7 +49,14 @@
 
 		<p>Location: <?php echo $this->Html->link($clinic['Location']['title'], array('controller' => 'locations', 'action' => 'view', $clinic['Location']['id'])); ?></p>
 
-		<p>Coach: <?php echo $this->Html->link($clinic['User']['name'], array('controller' => 'users', 'action' => 'view', $clinic['User']['id'])); ?></p>
+		<p>Coach: <?php echo $this->Html->link(
+			$clinic['User']['name'],
+			array(
+				'controller' => 'users',
+				'action' => 'view',
+				$clinic['User']['id']
+			)
+		); ?></p>
 
 		<p>Max Swimmers: <?php echo h($clinic['Clinic']['max_swimmers']); ?></p>
 

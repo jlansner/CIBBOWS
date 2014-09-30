@@ -13,7 +13,7 @@ foreach ($data['RaceRegistration'] as $row) {
 	echo $row['Gender']['title'] . ',';
 	echo $row['AgeGroup']['title'] . ',';
 	
-	if ($row['RaceRegistration']['wetsuit'] == "1") {
+	if ($row['wetsuit'] == "1") {
 		echo 'Yes'; 
 	}
 	echo ',"';
