@@ -337,11 +337,15 @@ class UsersController extends AppController {
 						'fields' => array('id','email')
 					)
 				);
-	
-				$user['User']['activation_code'] = $this->rand_string(30);
-				$this->User->save($user);			
-				$this->send_password_reset($user);
-				$this->Session->setFlash(__('Email Sent.'));
+				
+				if ($user) {
+					$user['User']['activation_code'] = $this->rand_string(30);
+					$this->User->save($user);			
+					$this->send_password_reset($user);
+					$this->Session->setFlash(__('Email Sent.'));
+				} else {
+					$this->Session->setFlash('There is no account associated with that email address.');
+				}
 			}
 		}	
 	}
