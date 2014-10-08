@@ -12,7 +12,7 @@ class SeriesController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->Series->recursive = 0;
 		$this->set('series', $this->paginate());
 	}
@@ -71,7 +71,7 @@ class SeriesController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Series->create();
 			if ($this->Series->save($this->request->data)) {
@@ -90,7 +90,7 @@ class SeriesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Series->exists($id)) {
 			throw new NotFoundException(__('Invalid series'));
 		}
@@ -114,7 +114,7 @@ class SeriesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->Series->id = $id;
 		if (!$this->Series->exists()) {
 			throw new NotFoundException(__('Invalid series'));

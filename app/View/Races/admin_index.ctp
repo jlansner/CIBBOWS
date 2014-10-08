@@ -33,6 +33,15 @@
 				</td>
 				<td>
 					<?php echo $this->Html->link(
+					'Add Section',
+					array(
+						'admin' => false,
+						'action' => 'add_section',
+						$race['Race']['id']
+					)
+				); ?> | 
+					
+					<?php echo $this->Html->link(
 					'Edit',
 					array(
 						'admin' => false,
