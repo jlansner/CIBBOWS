@@ -430,6 +430,9 @@ class UsersController extends AppController {
 						'Code' => array(
 							'fields' => array('title','abbreviation','body'),
 							'order' => array('Code.rank')
+						),
+						'order' => array(
+							'Result.date'
 						)
 					),
 					'RaceRegistration' => array(
