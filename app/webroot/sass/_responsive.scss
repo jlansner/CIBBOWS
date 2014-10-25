@@ -1,0 +1,300 @@
+@media only screen and (min-width:1000px) {
+	.header {
+		width: 980px;
+		padding: 0;
+		margin: 0 auto 1% auto;
+	}
+
+.headerHome {
+    background: url("/img/header980.gif") no-repeat;
+    height: 283px;
+}
+
+    .container {
+        width: 1000px;
+    }
+    
+        .footer {
+      padding-left: 20%;
+    }
+
+}
+
+@media only screen and (min-width:768px) and (max-width:999px) {
+	.header {
+		width: 748px;
+		padding: 0;
+		margin: 0 auto 1% auto;
+	}
+	
+	.headerHome {
+    background: url("/img/header748.gif") no-repeat;
+    height: 217px;
+	}
+
+    .container {
+        width: 768px;
+    }
+
+    .footer {
+      padding-left: 20%;
+    }
+    
+    .leftNav {
+      font-size: 80%;
+    }
+
+}
+
+@media only screen and (min-width:600px) and (max-width:767px) {
+	.header {
+		width: 600px;
+		padding: 0;
+		margin: 0 auto 1% auto;
+	}
+	
+	.headerHome {
+    background: url("/img/header600.gif") no-repeat;
+    height: 174px;	  
+	}
+
+    .container {
+        width: 600px;
+    }
+    
+    .leftNav {
+      font-size: 60%;
+    }
+    
+    .raceNav {
+      font-size: .9em;
+      
+      li {
+        padding: .3em 1em;
+      }
+    }
+
+}
+
+@media only screen and (max-width:599px) {
+  
+  #debug-kit-toolbar {
+    display: none;
+  }
+  .container {
+    width: 100%;
+  }
+
+	.header {
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100;
+	}
+	
+	.headerHome {
+    background: url("/img/phone_logo_left_5.gif") no-repeat;
+    height: 50px;
+	}
+	
+	.headerLinks {
+	  display: none;
+	}
+	
+	.phoneMenuLink {
+	  display: block;
+	  position: absolute;
+	  right: 0;
+	  top: 0;
+	  @include box-sizing(border-box);
+	  width: 50px;
+	  height: 50px;
+	  padding-top: 7px;
+	  font-size: 30px;
+	  text-align: center;
+	  border-left: 1px solid #fff;
+	  color: #fff;
+	  cursor: pointer;
+	}
+	
+	.contentWrapper {
+	  margin-top: 55px;
+	}
+	
+	.raceNav {
+    border: 0;
+
+    li {
+      display: block;
+      border: 0;
+      padding: 0;
+      margin: .2em 0;
+      background-color: #fff;
+      
+      a {
+        color: $greyBlue;
+      }
+      
+      &.active {
+        color: #000;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      
+    }
+	}
+}
+
+@media only screen and (max-width:599px) and (min--moz-device-pixel-ratio: 2), only screen and (max-device-width:599px) and (-o-min-device-pixel-ratio: 2/1), only screen and (max-device-width:599px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-device-width:599px) and (min-device-pixel-ratio: 2) {
+	.header {
+	}
+
+  .headerHome {
+      background: url("/img/phone_logo_left_5_2X.gif") no-repeat;
+     background-size: auto 100%;
+  
+  }
+}
+
+
+@media only screen and (max-width:599px) {
+	.homepageSlideshow {
+		display: none;
+	}
+	
+	.column {
+		float: none;
+		margin: 0;
+		width: 100%;
+	}
+	
+	//reset all columns  
+  #{$allColumns} {
+    width: 100%;
+  }
+
+	.leftNav {
+	  display: none;
+	}
+	.content {
+		float: none;
+		width: 100%;
+		padding: 0;
+	}
+	
+	.leftNav ul li {
+		display: inline-block;
+		margin: 0 5px;
+	}
+	
+	.homepage {
+	  .column:first-child {
+    border: 0;
+   }
+  }
+}
+
+@media only screen and (min-width:600px) {
+
+	.navMenu {
+	  
+	   &::before, &::after {
+      content: '\f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005';
+      color: $greyBlue;
+      font-family: "FontAwesome";
+      font-size: 1.25em;
+      font-style: normal;
+      letter-spacing: .35em;
+      padding: .2em 0;
+      display: block;
+    }
+
+		> li {
+			border-bottom: 3px solid $greyBlue;
+			
+			&:last-child {
+			  border-bottom: 0;
+			}
+		}
+/*
+		> li:nth-child(3n) {
+			font-family: "blackoak-std";
+			font-size: 1.4em;
+		}
+
+		> li:nth-child(3n+1) {
+			font-family: "zebrawood-std";
+			font-size: 2.5em;
+		}
+
+		> li:nth-child(4) {
+			font-family: "rosewood-std";
+			font-size: 3em;
+		}
+
+		> li:nth-child(3n+2) {
+			font-family: "stud";
+			font-size: 0.8em;
+		}
+*/
+// hard code widths for now		
+		> li:nth-child(1) {
+		  font-family: $blackoak;
+		  font-size: 1.5em;
+		}
+
+    > li:nth-child(2) {
+      font-family: $pragmatica;
+      font-size: 4.0em;
+    }
+
+    > li:nth-child(3) {
+      font-family: $pragmatica;
+      font-size: 2.0em;
+    }
+
+    > li:nth-child(4) {
+      font-family: $poplar;
+      font-size: 2.8em;
+    }
+
+    > li:nth-child(5) {
+      font-family: $pragmatica;
+      font-size: 2.2em;
+    }
+
+    > li:nth-child(6) {
+      font-family: $blackoak;
+      font-size: 1.8em;
+    }
+
+    > li:nth-child(7) {
+      font-family: $poplar;
+      font-size: 2.4em;
+    }
+
+    > li:nth-child(8) {
+      font-family: $blackoak;
+      font-size: 1.9em;
+    }
+
+		ul li {
+		    white-space: normal;
+//			&:nth-child(odd) {
+/*				font-family: "french-clarendon-ornamented", "cowboyslang";
+				letter-spacing: 5px;
+			  font-size: 25px;
+*/
+      font-family: arial, helvetica;
+      font-size: 15px;
+//			}
+
+/*			&:nth-child(even) {
+				font-family: "fatboy";
+} */
+		}
+	}
+}
