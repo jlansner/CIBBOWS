@@ -5,6 +5,12 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('membership_level_id');
+		echo $this->Form->input(
+			'year',
+			array(
+				'type' => 'text'
+			)
+		);
 		echo $this->Form->input('start_date');
 		echo $this->Form->input('end_date');
 		echo $this->Form->input('price');
