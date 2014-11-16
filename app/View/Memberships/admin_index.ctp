@@ -1,6 +1,17 @@
 <div class="row">
 	<div class="column column12">
 	<h2>Memberships</h2>
+	
+	<p>
+		<?php echo $this->Html->link(
+			'Email all members',
+			array(
+				'controller' => 'memberships',
+				'action' => 'email_members',
+				'admin' => false
+			)
+		); ?>
+	</p>
 	<table class="zebraTable">
 	<tr>
 			<th>Member</th>

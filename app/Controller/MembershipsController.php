@@ -214,4 +214,47 @@ class MembershipsController extends AppController {
 		$this->set(compact('membershipFee','stripeKey'));
 	}
 
+	public function email_members() {
+		
+		if ($this->request->is('post')) {
+			
+			$contents['subject'] = $this->request->data['Membership']['subject'];
+			$contents['body'] = $this->request->data['Membership']['body'];
+	
+			$members = $this->Membership->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Membership.start_date <= DATE(NOW())',
+						'Membership.end_date >= DATE(NOW())'
+					),
+					'contain' => array(
+						'User' => array(
+							'fields' => array('User.id','User.first_name','User.email')
+						)
+					),
+					'order' => array('User.last_name')
+				)
+			);
+			
+			foreach ($members as $member) {
+				$this->send_email($member,$contents);
+			}
+			$this->Session->setFlash(
+				'Your emails have been sent',
+				'default',
+				array(
+					'class' => 'success'
+				)
+			);
+			$this->redirect(
+				array(
+					'controller' => 'memberships',
+					'action' => 'index',
+					'admin' => 'true'
+				)
+			);
+//			$this->set(compact('members','contents'));	
+		}
+	}
 }

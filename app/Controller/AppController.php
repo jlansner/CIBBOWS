@@ -139,12 +139,33 @@ class AppController extends Controller {
 	        $this->redirect( 'https://'.env('SERVER_NAME').env('REQUEST_URI') );
 		}
     }
+	
+	public function send_email($user,$contents) {
+		$Email = new CakeEmail('default');
+		$Email->to($user['User']['email']);
+		$Email->subject($contents['subject']);
+		$Email->viewVars(
+			array(
+				'name' => $user['User']['first_name'],
+				'content' => $contents['body']
+			)
+		);
+		$Email->template('mass_email','default');
+		$Email->emailFormat('both');
+		$Email->send();		
+	}
 
 	public function send_membership_email($user,$membershipFee) {
 		$Email = new CakeEmail('default');
 		$Email->to($user['email']);
 		$Email->subject('Thank you for joining CIBBOWS');
-		$Email->viewVars(array('name' => $user['name'], 'year' => $membershipFee['MembershipFee']['year'], 'price' => $membershipFee['MembershipFee']['price']));
+		$Email->viewVars(
+			array(
+				'name' => $user['name'],
+				'year' => $membershipFee['MembershipFee']['year'],
+				'price' => $membershipFee['MembershipFee']['price']
+			)
+		);
 		$Email->template('join', 'default');
 		$Email->emailFormat('both');
 		$Email->send();		
