@@ -197,7 +197,13 @@ class MembershipsController extends AppController {
 					$this->Membership->create();
 					if ($this->Membership->save($this->request->data)) {
 						$this->Session->write('Membership.membership_level',$membershipFee['MembershipLevel']['id']);
-						$this->Session->setFlash(__('Thank you for joining CIBBOWS'));
+						$this->Session->setFlash(
+							'Thank you for joining CIBBOWS',
+							'default',
+							array(
+								'class' => 'success'
+							)
+						);
 						$this->send_membership_email($user,$membershipFee);
 						$this->redirect(array('controller' => 'users', 'action' => 'my_profile'));
 					} else {

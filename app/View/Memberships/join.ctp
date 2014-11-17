@@ -24,14 +24,14 @@ if (count($membershipFee)) {
 			echo '<p>' . $membershipFee['MembershipFee']['year'] . ' ' . $membershipFee['MembershipLevel']['title'] . ' - $' . $membershipFee['MembershipFee']['price'] . '</p>';
 		?>
 
-		<h2>Additional Donation</h2>
+		<h2>Additional Donation (Optional)</h2>
 
 		<p>CIBBOWS is a not-for-profit, all-volunteer organization. Please consider making an additional donation along with your membership fee to support our work.</p>
 
 <div class="row">
 	<div class="column column3">
 		<div class="input number required">
-			<?php echo $this->Form->label('Donation.amount', 'Donation Amount'); ?>
+			<?php echo $this->Form->label('Donation.amount', 'Additional Donation Amount'); ?>
 			<div class="donationInputWrapper">
 				<span>$</span>
 				<div class="donationInput">
