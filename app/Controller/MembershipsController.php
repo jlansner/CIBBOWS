@@ -187,6 +187,12 @@ class MembershipsController extends AppController {
 				$result = $this->Stripe->charge($stripeData);
 				if (is_array($result)) {
 					if ($this->request->data['Donation']['amount'] > 0) {
+						$this->request->data['Donation']['user_id'] = $this->Auth->user('id');
+						$this->request->data['Donation']['first_name'] = $this->Auth->user('first_name');
+						$this->request->data['Donation']['last_name'] = $this->Auth->user('last_name'); 
+						$this->request->data['Donation']['email'] = $this->Auth->user('email');
+						$this->request->data['Donation']['date'] = date('Y-m-d');
+
 						$this->loadModel('Donation');					
 						$this->Donation->create();
 						if ($this->Donation->save($this->request->data)) {
