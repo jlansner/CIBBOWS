@@ -276,7 +276,12 @@ class UsersController extends AppController {
 		$Email->to($user['email']);
 //		$Email->cc('jlansner@gmail.com');
 		$Email->subject('Confirmation Email');
-		$Email->viewVars(array('encrypted' => $encrypted));
+		$Email->viewVars(
+			array(
+				'encrypted' => $encrypted,
+				'email' => $user['email']
+			)
+		);
 		$Email->template('confirmation', 'default');
 		$Email->emailFormat('both');
 		$Email->send();

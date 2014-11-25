@@ -1,3 +1,27 @@
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "EmailMessage",
+  "action": {
+    "@type": "ConfirmAction",
+    "name": "Verify Account",
+    "handler": {
+      "@type": "HttpActionHandler",
+      "url": "<?php echo $this->Html->link(
+	'Click here',
+	array(
+		'controller' => 'users',
+		'action' => 'confirm',
+		'string' => $encrypted,
+		'full_base' => true
+	)
+);
+?>"
+    }
+  },
+  "description": "Verify Account for <?php echo $email; ?>"
+}
+</script>
 <h1 style="font-size: 24px; font-family: Arial, Helvetica, sans-serif;">Confirm Your Email</h1>		
 
 <p>Please click on the link below to confirm your account:</p>
