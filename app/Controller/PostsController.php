@@ -44,6 +44,7 @@ class PostsController extends AppController {
 			array(
 	        	'conditions' => array(
                     array(
+                    	'Post.active' => 1,
     	        		'OR' => array(
     	        			array('Post.archived' => 0),
     	        			array('Post.archived' => null)
@@ -87,6 +88,7 @@ class PostsController extends AppController {
 			'all',
 			array(
 	        	'conditions' => array(
+	        		'Post.active' => 1,
 	        		'OR' => array(
 	        			array('Post.archived' => 0),
 	        			array('Post.archived' => null)
@@ -227,7 +229,8 @@ class PostsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+/*
+ 	public function delete($id = null) {
 		$this->Post->id = $id;
 		if (!$this->Post->exists()) {
 			throw new NotFoundException(__('Invalid post'));
@@ -240,6 +243,24 @@ class PostsController extends AppController {
 		$this->Session->setFlash(__('Post was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+*/
+	public function delete($id = null) {
+		$this->Post->id = $id;
+		if (!$this->Post->exists()) {
+			throw new NotFoundException(__('Invalid post'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		$this->Post->set('active',0);
+
+		if ($this->Post->save()) {
+			$this->Session->setFlash(__('Post deleted'));
+			$this->redirect(array('action' => 'index', 'admin' => true));
+		}
+		$this->Session->setFlash(__('Post was not deleted'));
+		
+		$this->redirect(array('action' => 'index', 'admin' => true));
+	}
+
 
 	public function homepage_news() {
 		$post = $this->Post->find(

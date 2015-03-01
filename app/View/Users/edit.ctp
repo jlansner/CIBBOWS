@@ -5,7 +5,6 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('email');
-		echo $this->Form->input('name');
 		echo $this->Form->input('first_name');
 		echo $this->Form->input('middle_name');
 		echo $this->Form->input('last_name');
@@ -19,11 +18,9 @@
 		);
 		echo $this->Form->input('job_title');
 		echo $this->Form->input('shirt_size_id');
-		echo $this->Form->input('password');
 		echo $this->Form->input('group_id');
 		echo $this->Form->input('activated');
 		echo $this->Form->input('synced');
-		echo $this->Form->input('activation_code');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

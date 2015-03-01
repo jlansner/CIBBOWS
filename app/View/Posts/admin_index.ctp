@@ -63,7 +63,18 @@
 						$post['Post']['id']
 					)
 				); ?>
-				<?php // echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $post['Post']['id']), null, __('Are you sure you want to delete # %s?', $post['Post']['id'])); ?>
+				<?php if (AuthComponent::user('group_id') == 2) {
+					echo " | " . $this->Form->postLink(
+					 	'Delete',
+					 	array(
+					 		'admin' => false,
+					 		'action' => 'delete',
+					 		$post['Post']['id']
+						),
+						null,
+						__('Are you sure you want to delete # %s?', $post['Post']['id'])
+					);
+				} ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
