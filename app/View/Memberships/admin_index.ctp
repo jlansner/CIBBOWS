@@ -39,8 +39,17 @@
 				echo $membership['User']['email'];
 			} ?>
 		</td>
-		<td><?php echo $this->Time->format('m/j/Y',$membership['Membership']['start_date']); ?></td>
-		<td><?php echo h($membership['Membership']['end_date']); ?></td>
+		<td><?php echo $this->Time->format(
+			'm/j/Y',
+			$membership['Membership']['start_date']
+		); ?></td>
+		<td><?php echo $this->Time->format(
+			'm/j/Y',
+			$membership['Membership']['end_date']
+		); ?></td>
+		<!--
+			<?php var_export($membership); ?>
+		-->
 		<?php /*<td>
 			
 			

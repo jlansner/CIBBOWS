@@ -21,21 +21,33 @@ class MembershipsController extends AppController {
  * @return void
  */
 	public function admin_index() {
-//		$this->Membership->recursive = 0;
-//		$this->set('memberships', $this->paginate());
+
 		$memberships = $this->Membership->find(
 			'all',
 			array(
+				'fields' => array(
+					'Membership.id',
+					'Membership.user_id',
+					'Membership.start_date',
+					'Membership.end_date'
+				),
+				'group' => 'Membership.user_id',
 				'conditions' => array(
 					'Membership.start_date <= DATE(NOW())',
 					'Membership.end_date >= DATE(NOW())'
 				),
 				'contain' => array(
 					'User' => array(
-						'fields' => array('User.id','User.name','User.email')
+						'fields' => array(
+							'User.id',
+							'User.name',
+							'User.email')
 					)
 				),
-				'order' => array('User.last_name')
+				'order' => array(
+					'User.last_name',
+					'Membership.end_date DESC'
+				)
 			)
 		);
 		$this->set(compact('memberships'));
@@ -245,6 +257,7 @@ class MembershipsController extends AppController {
 							'fields' => array('User.id','User.first_name','User.email')
 						)
 					),
+					'group' => 'Membership.user_id',
 					'order' => array('User.last_name')
 				)
 			);
