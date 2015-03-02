@@ -204,6 +204,9 @@ class MembershipsController extends AppController {
 						$this->request->data['Donation']['last_name'] = $this->Auth->user('last_name'); 
 						$this->request->data['Donation']['email'] = $this->Auth->user('email');
 						$this->request->data['Donation']['date'] = date('Y-m-d');
+						
+						$emailvars['User'] = $user;
+						$emailvars['Donation']['amount'] = $this->request->data['Donation']['amount'];
 
 						$this->loadModel('Donation');					
 						$this->Donation->create();
