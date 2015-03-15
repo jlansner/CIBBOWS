@@ -135,7 +135,7 @@ class AppController extends Controller {
 	}
 
     public function forceSecure() {
-    	if (!$this->request->is('ssl')) {
+    	if ((!$this->request->is('ssl')) && (env('SERVER_NAME') !== 'localhost') ) {
 	        $this->redirect( 'https://'.env('SERVER_NAME').env('REQUEST_URI') );
 		}
     }

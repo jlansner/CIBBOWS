@@ -158,22 +158,28 @@ h2 {
 		margin: 0;
 		padding: 0;
 		list-style-type: none;
-		text-align: center;
+		text-align: left;
 		font-size: 50%;
 		display: none;
 
-      &.open {
-         display: block;
-      }
+    li {
+        text-align: left;
+        font-family: $franklin;
 
-        li {
-            text-align: center;
-
-            a {
-                color: $greyBlue;
-            }
+        a {
+            color: $greyBlue;
+          }
 		}
 	}
+
+  .open {
+    > a {
+      color: #000;
+    }
+      ul {
+         display: block;
+      }
+    }
 
 	li {
 		margin: 0;
@@ -181,8 +187,6 @@ h2 {
     line-height: 1em;
     white-space: nowrap;
 	}
-	
-	
 }
 
 /** Notices and Errors **/

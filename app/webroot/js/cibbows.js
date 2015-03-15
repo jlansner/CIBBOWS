@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $('body').on('click', '.showMenu', function (event) {
         event.preventDefault();
-		if ($(this).siblings('ul').hasClass('open')) {
-	        $(this).siblings('ul').slideUp().removeClass('open');			
+		if ($(this).parent().hasClass('open')) {
+	        $(this).parent().removeClass('open');			
 		} else {
-	        $('.navMenu .open').slideUp().removeClass('open');
-	        $(this).siblings('ul').slideDown().addClass('open');
+	        $('.navMenu .open').removeClass('open');
+	        $(this).parent().addClass('open');
 	   }
     });
 

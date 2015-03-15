@@ -2,9 +2,24 @@
 <?php
 $menuItems = $this->requestAction('contents/menu/');
 
-foreach ($menuItems as $menuItem) { ?>
-	<li>
-	<?php if (isset($menuItem['SubContent']) && (is_array($menuItem['SubContent'])) && (count($menuItem['SubContent']) > 0)) {
+foreach ($menuItems as $menuItem) {
+	if (
+		(
+			(isset($content))
+			&&
+			(
+				($menuItem['Content']['permanent'] == $content['Content']['permanent'])
+				||
+				($menuItem['Content']['permanent'] == $content['Content']['menu_parent'])
+			)
+		) || ((isset($race)) && ($menuItem['Content']['url_title'] == "races"))
+	) {
+		echo '<li class="open">';
+	} else {
+		echo '<li>';
+	}
+
+	if (isset($menuItem['SubContent']) && (is_array($menuItem['SubContent'])) && (count($menuItem['SubContent']) > 0)) {
 		echo $this->Html->Link(
 			$menuItem['Content']['title'],
 			array(
@@ -16,22 +31,7 @@ foreach ($menuItems as $menuItem) { ?>
 			array('class' => 'showMenu')
 		);
 
-		if (
-			(
-				(isset($content))
-				&&
-				(
-					($menuItem['Content']['permanent'] == $content['Content']['permanent'])
-					||
-					($menuItem['Content']['permanent'] == $content['Content']['menu_parent'])
-				)
-			) || ((isset($race)) && ($menuItem['Content']['url_title'] == "races"))
-		) {
-			echo '<ul class="open">';
-		} else {
-			echo '<ul>';
-		}
-
+		echo '<ul>';
 
 		foreach ($menuItem['SubContent'] as $subMenuItem) {
 			if (($menuItem['Content']['controller'] == null) || ($menuItem['Content']['controller'] == "contents")) {

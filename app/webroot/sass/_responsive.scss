@@ -282,19 +282,8 @@
     }
 
 		ul li {
-		    white-space: normal;
-//			&:nth-child(odd) {
-/*				font-family: "french-clarendon-ornamented", "cowboyslang";
-				letter-spacing: 5px;
-			  font-size: 25px;
-*/
-      font-family: arial, helvetica;
+      white-space: normal;
       font-size: 15px;
-//			}
-
-/*			&:nth-child(even) {
-				font-family: "fatboy";
-} */
 		}
 	}
 }

@@ -130,6 +130,7 @@ class User extends AppModel {
 				'message' => "Incorrect Password"
 			)
 		),
+		'race_director'
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed

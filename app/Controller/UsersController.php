@@ -213,7 +213,12 @@ class UsersController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'admin' => false,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
@@ -222,10 +227,12 @@ class UsersController extends AppController {
 				'first',
 				array(
 					'conditions' => array(
-					'User.id' => $id
+						'User.id' => $id
 					)
 				)
 			);
+			
+			unset($this->request->data['User']['password']);
 
 			if ($this->request->data['User']['medical'] == "missing") {
 				$this->request->data['User']['medical'] == "";
