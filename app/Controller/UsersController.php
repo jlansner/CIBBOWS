@@ -215,7 +215,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user has been saved'));
 				$this->redirect(
 					array(
-						'admin' => false,
+						'admin' => true,
 						'action' => 'index'
 					)
 				);

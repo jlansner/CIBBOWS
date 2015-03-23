@@ -6,11 +6,22 @@
 <?php // echo h($race['Race']['logo']); ?>
 
 <p>
-<?php
-echo $this -> Time -> format('F j, Y', $race['Race']['date']);
+<?php 
 
-if (($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date'])) {
-	echo ' &ndash; ' . $this -> Time -> format('F j, Y', $race['Race']['end_date']);
+if ($race['Race']['tentative_date']) {
+	echo 'Date to be announced';
+} else {
+	echo $this->Time->format(
+		'F j, Y',
+		$race['Race']['date']
+	);
+	
+	if (($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date'])) {
+		echo ' &ndash; ' . $this->Time->format(
+			'F j, Y',
+			$race['Race']['end_date']
+		);
+	}
 }
 ?>
 </p>

@@ -172,7 +172,15 @@ class RacesController extends AppController {
 			}
 		}
 
-		$users = $this->Race->User->find('list');
+		$users = $this->Race->User->find(
+			'list',
+			array(
+				'conditions' => array(
+					'User.race_director'
+				),
+				'order' => 'last_name'
+			)			
+		);
 		$series = $this->Race->Series->find('list');
 		$membershipLevels = $this->Race->MembershipLevel->find('list');
 		$distances = $this->Race->Distance->find('list');
@@ -294,7 +302,15 @@ class RacesController extends AppController {
 			$this->request->data = $this->Race->find('first', $options);
 		}
 
-		$users = $this->Race->User->find('list');
+		$users = $this->Race->User->find(
+			'list',
+			array(
+				'conditions' => array(
+					'User.race_director'
+				),
+				'order' => 'last_name'
+			)			
+		);
 		$series = $this->Race->Series->find('list');
 		$membershipLevels = $this->Race->MembershipLevel->find('list');
 		$distances = $this->Race->Distance->find('list');
@@ -348,9 +364,9 @@ class RacesController extends AppController {
 	}
 
 	public function homepage_calendar() {
-		$race = $this->Race->query('(SELECT `title`, `url_title`, `date`, "events" AS `type` FROM `events` WHERE `date` >= CURDATE()) 
+		$race = $this->Race->query('(SELECT `title`, `url_title`, `date`, "0" AS `tentative_date`, "events" AS `type` FROM `events` WHERE `date` >= CURDATE()) 
 		UNION 
-		(SELECT `races`.`title`, `races`.`url_title`, `races`.`date`,
+		(SELECT `races`.`title`, `races`.`url_title`, `races`.`date`, `races`.`tentative_date`,
 "races" AS `type` 
 FROM `races`
 LEFT JOIN `series` 
@@ -359,7 +375,7 @@ WHERE `series`.`active` = 1
 AND `races`.`parent_id` IS NULL
 AND `races`.`date` >= CURDATE() ) 
 		UNION 
-		(SELECT `title`, `url_title`, `date`, "clinics" AS `type` FROM `clinics` WHERE `date` >= CURDATE()) 
+		(SELECT `title`, `url_title`, `date`,  "0" AS `tentative_date`, "clinics" AS `type` FROM `clinics` WHERE `date` >= CURDATE()) 
 		ORDER BY date ASC 
 		LIMIT 5');
 		return $race;

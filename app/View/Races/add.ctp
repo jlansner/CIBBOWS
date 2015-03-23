@@ -12,6 +12,7 @@
 		echo $this->Form->input('series_id');
 		echo $this->Form->input('date');
 		echo $this->Form->input('end_date');
+		echo $this->Form->input('tentative_date');
 		echo $this->Form->input(
 			'checkin_start_time',
 			array(

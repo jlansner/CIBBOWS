@@ -7,7 +7,6 @@ $posts = $this->requestAction('races/homepage_calendar/');
 foreach ($posts as $post): ?>
     <li>
 <?php
-
 	if ($post[0]['type'] == 'clinics') {
 		echo $this->Html->link(
 			$post[0]['title'],
@@ -33,7 +32,13 @@ foreach ($posts as $post): ?>
 	}
  ?><br />
 
-	<span class="dateLine"><?php echo $this->Time->format('F j, Y', $post[0]['date']); ?></span></li>
+	<span class="dateLine"><?php 
+	if ($post[0]['tentative_date']) {
+		echo 'TBA';
+	} else {
+		echo $this->Time->format('F j, Y', $post[0]['date']);
+	}
+	?></span></li>
 
 <?php endforeach; ?>
 <?php unset($post); ?>
