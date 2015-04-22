@@ -262,7 +262,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 		<td>Maximum Number of Swimmers:</td>
 		<td><?php echo h($race['Race']['max_swimmers']); ?> (<?php echo $totalReg; ?> swimmers currently registered)</td>
 	</tr>
-	<?php if ((count($race['ChildRace']) == 0) && (!empty($race['NonMemberRaceFee'])) || (!empty($race['MemberRaceFee']))) { ?>
+	<?php if ((count($race['ChildRace']) == 0) && ((!empty($race['NonMemberRaceFee'])) || (!empty($race['MemberRaceFee'])))) { ?>
 
 	<tr>
 		<td>Fees</td>

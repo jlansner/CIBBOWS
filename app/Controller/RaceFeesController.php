@@ -42,12 +42,24 @@ class RaceFeesController extends AppController {
 			$this->RaceFee->create();
 			if ($this->RaceFee->save($this->request->data)) {
 				$this->Session->setFlash(__('The race fee has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'controller' => 'race_fees',
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The race fee could not be saved. Please, try again.'));
 			}
 		}
-		$races = $this->RaceFee->Race->find('list');
+		$races = $this->RaceFee->Race->find(
+			'list',
+			array(
+				'conditions' => array(
+					'Race.date >=' => date('Y-m-d')
+				)
+			)
+		);
 		$membershipLevels = $this->RaceFee->MembershipLevel->find('list');
 		$this->set(compact('races', 'membershipLevels'));
 	}
