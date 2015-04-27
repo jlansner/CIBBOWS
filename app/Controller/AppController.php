@@ -54,6 +54,7 @@ class AppController extends Controller {
 	public $helpers = array('Html', 'Form', 'Session', 'Time');
 
     public function beforeFilter() {
+		$this->forceSecure();
         //Configure AuthComponent
         $this->Auth->loginAction = array(
         	'admin' => false,

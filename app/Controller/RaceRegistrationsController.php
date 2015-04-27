@@ -725,7 +725,12 @@ class RaceRegistrationsController extends AppController {
 		);
 
 		if (!$race) {
-			$this->redirect('/races/');
+			$this->redirect(
+				array(
+					'controller' => 'races',
+					'action' => 'view'
+				)
+			);
 		}
 
         $this->set(compact('race'));
