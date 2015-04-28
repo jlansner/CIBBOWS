@@ -216,7 +216,32 @@ class EventRegistrationsController extends AppController {
 				$genders = $this->EventRegistration->Gender->find('list');
 				$this->set(compact('event','genders'));
 
-				$this->render('checkout');
+
+				if ($this->request->data['EventRegistration']['total_payment'] > 0) {
+					$this->render('checkout');
+				} else {
+					// register
+					$emailvars['User']['name'] = $this->Auth->user('name');
+					$emailvars['User']['email'] = $this->Auth->user('email');
+					$emailvars['Event']['title'] = $event['Event']['title'];
+					$emailvars['Event']['date'] = $event['Event']['date'];
+
+					$this->EventRegistration->create();
+					if ($this->EventRegistration->save($this->request->data)) {
+						$this->Session->setFlash('Thank you for registering.');
+						$this->send_registration_approved_email($emailvars);
+
+						$this->redirect(
+							array(
+								'controller' => 'event_registrations',
+								'action' => 'view',
+								substr($event['Event']['date'],0,4),
+								$event['Event']['url_title']
+							)
+						);
+					} else {
+						$this->Session->setFlash('Your registration was not saved. Please try again.');								}
+				}
 			}	
 		}
 

@@ -1,10 +1,42 @@
 <div class="row">
 	<div class="column column12">
-<h2><?php echo h($event['Event']['title']); ?></h2>
+<h1><?php echo h($event['Event']['title']); ?></h1>
+<?php if ($event['Event']['registration_required']) { ?>
+	<h2>Overview</h2>
+<?php } ?>
 <p>Date: <?php echo $this->Time->format('F j, Y',$event['Event']['date']); ?></p>
 
-<?php if ($userMembershipLevel >= $event['Event']['membership_level_id']) { ?>
+<?php if ($userMembershipLevel >= $event['Event']['membership_level_id']) {
+	$regOpen = false;
+	$memRegOpen = false;
+	if ($race['CurrentNonMemberEventFee']['price']) {
+		$regOpen = true;
+	} 
+	
+	if ($race['CurrentMemberEventFee']['price']) {
+		$memRegOpen = true;
+ 	}
 
+	 if ($event['Event']['registration_required']) {
+	 	echo $this->element(
+	 		'event_menu',
+	 		array(
+				'event' => $event
+			)
+		);
+		
+		if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
+			echo $this->Html->link(
+				'Register',
+				array(
+					'controller' => 'event_registrations',
+					'action' => 'register',
+					$event['Event']['id']
+				)
+			);
+		}		
+	}
+?>
 	<p>Start: <?php echo $this->Time->format('g:i a',$event['Event']['start_time']); ?></p>
 
 	<?php if ($event['Event']['end_time']) { ?>

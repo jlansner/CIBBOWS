@@ -119,4 +119,93 @@ class Event extends AppModel {
 			'order' => ''
 		)
 	);
+
+	public $hasOne = array(
+		'CurrentMemberEventFee' => array(
+			'className' => 'EventFee',
+			'foreignKey' => 'event_id',
+			'dependent' => false,
+			'conditions' => array(
+				'CurrentMemberEventFee.membership_level_id' => 1,
+				'CurrentMemberEventFee.start_date <= DATE(NOW())',
+				'CurrentMemberEventFee.end_date >= DATE(NOW())'
+			),
+			'fields' => 'CurrentMemberEventFee.price',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),	
+		'CurrentNonMemberEventFee' => array(
+			'className' => 'EventFee',
+			'foreignKey' => 'event_id',
+			'dependent' => false,
+			'conditions' => array(
+				'OR' => array(
+					array('CurrentNonMemberEventFee.membership_level_id' => 0),
+					array('CurrentNonMemberEventFee.membership_level_id' => null),
+				),
+				'CurrentNonMemberEventFee.start_date <= DATE(NOW())',
+				'CurrentNonMemberEventFee.end_date >= DATE(NOW())'
+			),
+			'fields' => 'CurrentNonMemberEventFee.price',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),	
+	);
+
+	public $hasMany = array(
+		'NonMemberEventFee' => array(
+			'className' => 'EventFee',
+			'foreignKey' => 'event_id',
+			'dependent' => false,
+			'conditions' => array(
+				'OR' => array(
+					array('NonMemberEventFee.membership_level_id' => 0),
+					array('NonMemberEventFee.membership_level_id' => null),
+				)
+			),
+			'fields' => '',
+			'order' => 'start_date',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'MemberEventFee' => array(
+			'className' => 'EventFee',
+			'foreignKey' => 'event_id',
+			'dependent' => false,
+			'conditions' => array(
+				'MemberEventFee.membership_level_id' => 1
+			),
+			'fields' => '',
+			'order' => 'start_date',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'EventRegistration' => array(
+			'className' => 'EventRegistration',
+			'foreignKey' => 'event_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => 'last_name ASC',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
 }

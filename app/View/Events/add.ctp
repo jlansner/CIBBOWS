@@ -13,6 +13,7 @@
 				'empty' => 'Public'
 			)
 		);
+		echo $this->Form->input('registration_required');
 		echo $this->Form->input(
 			'teaser',
 			array(

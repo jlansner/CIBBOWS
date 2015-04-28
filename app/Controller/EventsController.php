@@ -18,8 +18,20 @@ class EventsController extends AppController {
 		
 		$this->set('events', $this->paginate());
         $this->set('events', $event);
+	}
 
+	public function admin_index() {
 
+		$events = $this->Event->find(
+			'all',
+			array(
+				'fields' => array('Event.id','Event.date','Event.title','Event.url_title'),
+				'order' => 'date DESC',
+				'recursive' => 0
+			)
+		);
+
+		$this->set(compact('events'));
 	}
 
 	public function view($year = null, $url_title = null) {
@@ -68,7 +80,12 @@ class EventsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Event->save($this->request->data)) {
 				$this->Session->setFlash(__('The event has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'action' => 'index',
+						'admin' => true
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The event could not be saved. Please, try again.'));
 			}

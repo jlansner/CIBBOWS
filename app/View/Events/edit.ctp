@@ -12,6 +12,7 @@
 				'empty' => 'Non-Member'
 			)
 		);
+		echo $this->Form->input('registration_required');
 		echo $this->Form->input(
 			'teaser',
 			array(
