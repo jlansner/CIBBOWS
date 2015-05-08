@@ -144,7 +144,7 @@ class Post extends AppModel {
 		)
 	);
 
-	public $hasMany = array(
+	public $hasAndBelongsToMany = array(
 		'Tag' => array(
 			'className' => 'Tag',
 			'foreignKey' => 'post_id',

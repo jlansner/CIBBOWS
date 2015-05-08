@@ -10,7 +10,7 @@ class PostsController extends AppController {
 	public $helpers = array('Time', 'Paginator');
 
 	public $paginate = array(
-		'limit' => 5,
+		'limit' => 	10,
 		'order' => array(
             'Post.posted' => 'DESC'
         ),
@@ -35,7 +35,7 @@ class PostsController extends AppController {
 		}
 
 		try {
-//			$this->Paginator->settings = $this->paginate;
+			$this->Paginator->settings = $this->paginate;
 //			$posts = $this->Paginator->paginate('Post');
 
 
@@ -61,7 +61,7 @@ class PostsController extends AppController {
 			)
 		);
 
-    	$this->paginate = array(
+/*    	$this->paginate = array(
         	'conditions' => array(
         		'OR' => array(
         			array('Post.archived' => 0),
@@ -69,7 +69,7 @@ class PostsController extends AppController {
     			),
     		)	
     	);
-
+*/
 
 
         } catch (NotFoundException $e) {
@@ -77,7 +77,7 @@ class PostsController extends AppController {
 		}
 
     	$this->set('posts', $this->paginate());
-		$this->set('posts', $posts);
+//		$this->set('posts', $posts);
 
 	}
 

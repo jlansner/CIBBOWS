@@ -2,7 +2,7 @@
 App::uses('AppModel', 'Model');
 
 class Tag extends AppModel {
-	public $belongsTo = array(
+	public $hasAndBelongsToMany = array(
 		'Post' => array(
 			'className' => 'Post',
 			'foreignKey' => 'post_id',
