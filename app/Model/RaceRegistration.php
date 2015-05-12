@@ -217,7 +217,27 @@ class RaceRegistration extends AppModel {
 	}
 
 	public function checkAge() {
-		if ($this->data['RaceRegistration']['age'] >= $this->data['Race']['minimum_age']) {
+		$ageWaiver = false;
+		
+		$race = $this->Race->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Race.id' => $this->data['RaceRegistration']['race_id']
+				),
+				'contain' => array(
+					'AgeWaiver'
+				), 
+			)
+		);
+
+		foreach ($race['AgeWaiver'] as $waiver) {
+			if ($waiver['user_id'] == $this->data['User']['user_id']) {
+				$ageWaiver = true;
+				break;
+			}
+		}
+		if (($this->data['RaceRegistration']['age'] >= $this->data['Race']['minimum_age']) || ($ageWaiver)) {
 			return true;
 		} else {
 			return false;

@@ -191,6 +191,10 @@ class User extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		'AgeWaiver' => array(
+			'className' => 'AgeWaiver',
+			'foreignKey' =>'race_id'
+		),
 		'BoardMember' => array(
 			'className' => 'BoardMember',
 			'foreignKey' => 'user_id',

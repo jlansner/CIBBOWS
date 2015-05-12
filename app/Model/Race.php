@@ -302,6 +302,10 @@ class Race extends AppModel {
  * @var array
  */
 	public $hasMany = array(
+		'AgeWaiver' => array(
+			'className' => 'AgeWaiver',
+			'foreignKey' =>'race_id'
+		),
 		'NonMemberRaceFee' => array(
 			'className' => 'RaceFee',
 			'foreignKey' => 'race_id',

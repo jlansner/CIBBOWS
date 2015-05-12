@@ -118,6 +118,7 @@ class RaceRegistrationsController extends AppController {
 					'Race.id' => $race_id
 				),
 				'contain' => array(
+					'AgeWaiver',
 					'CurrentMemberRaceFee',
 					'CurrentNonMemberRaceFee',
 					'Distance',						
