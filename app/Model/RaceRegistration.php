@@ -223,7 +223,10 @@ class RaceRegistration extends AppModel {
 			'first',
 			array(
 				'conditions' => array(
-					'Race.id' => $this->data['RaceRegistration']['race_id']
+		        	'OR' => array(
+						array('Race.id' => $this->data['RaceRegistration']['race_id']),
+						array('Race.id' => $this->data['RaceRegistration']['child_race_id'])
+					)
 				),
 				'contain' => array(
 					'AgeWaiver'
