@@ -1,11 +1,11 @@
 <?php
 App::uses('AppController', 'Controller');
 /**
- * BoardMembers Controller
+ * BoardLevels Controller
  *
- * @property BoardMember $BoardMember
+ * @property BoardLevel $BoardLevel
  */
-class BoardMembersController extends AppController {
+class BoardLevelsController extends AppController {
 
 /**
  * index method
@@ -13,8 +13,8 @@ class BoardMembersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->BoardMember->recursive = 0;
-		$this->set('boardMembers', $this->paginate());
+		$this->BoardLevel->recursive = 0;
+		$this->set('boardLevels', $this->paginate());
 	}
 
 /**
@@ -25,11 +25,11 @@ class BoardMembersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->BoardMember->exists($id)) {
+		if (!$this->BoardLevel->exists($id)) {
 			throw new NotFoundException(__('Invalid board member'));
 		}
-		$options = array('conditions' => array('BoardMember.' . $this->BoardMember->primaryKey => $id));
-		$this->set('boardMember', $this->BoardMember->find('first', $options));
+		$options = array('conditions' => array('BoardLevel.' . $this->BoardLevel->primaryKey => $id));
+		$this->set('boardLevel', $this->BoardLevel->find('first', $options));
 	}
 
 /**
@@ -39,18 +39,16 @@ class BoardMembersController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			$this->BoardMember->create();
-			if ($this->BoardMember->save($this->request->data)) {
+			$this->BoardLevel->create();
+			if ($this->BoardLevel->save($this->request->data)) {
 				$this->Session->setFlash(__('The board member has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The board member could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->BoardMember->User->find('list');
-		$boardLevels = $this->BoardMember->BoardLevel->find('list');
-		$boardTitles = $this->BoardMember->BoardTitle->find('list');
-		$this->set(compact('users','boardLevels','boardTitles'));
+		$users = $this->BoardLevel->User->find('list');
+		$this->set(compact('users'));
 	}
 
 /**
@@ -61,24 +59,22 @@ class BoardMembersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		if (!$this->BoardMember->exists($id)) {
+		if (!$this->BoardLevel->exists($id)) {
 			throw new NotFoundException(__('Invalid board member'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->BoardMember->save($this->request->data)) {
+			if ($this->BoardLevel->save($this->request->data)) {
 				$this->Session->setFlash(__('The board member has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The board member could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('BoardMember.' . $this->BoardMember->primaryKey => $id));
-			$this->request->data = $this->BoardMember->find('first', $options);
+			$options = array('conditions' => array('BoardLevel.' . $this->BoardLevel->primaryKey => $id));
+			$this->request->data = $this->BoardLevel->find('first', $options);
 		}
-		$users = $this->BoardMember->User->find('list');
-		$boardLevels = $this->BoardMember->BoardLevel->find('list');
-		$boardTitles = $this->BoardMember->BoardTitle->find('list');
-		$this->set(compact('users','boardLevels','boardTitles'));
+		$users = $this->BoardLevel->User->find('list');
+		$this->set(compact('users'));
 	}
 
 /**
@@ -89,16 +85,16 @@ class BoardMembersController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->BoardMember->id = $id;
-		if (!$this->BoardMember->exists()) {
+		$this->BoardLevel->id = $id;
+		if (!$this->BoardLevel->exists()) {
 			throw new NotFoundException(__('Invalid board member'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->BoardMember->delete()) {
-			$this->Session->setFlash(__('Board member deleted'));
+		if ($this->BoardLevel->delete()) {
+			$this->Session->setFlash(__('Board level deleted'));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->Session->setFlash(__('Board member was not deleted'));
+		$this->Session->setFlash(__('Board level was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
 }

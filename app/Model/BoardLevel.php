@@ -5,7 +5,7 @@ App::uses('AppModel', 'Model');
  *
  * @property User $User
  */
-class BoardMember extends AppModel {
+class BoardLevel extends AppModel {
 
 /**
  * Validation rules
@@ -13,9 +13,9 @@ class BoardMember extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+		'title' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -23,11 +23,16 @@ class BoardMember extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'board_level_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-			)
-		)
+		'url_title' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -37,21 +42,13 @@ class BoardMember extends AppModel {
  *
  * @var array
  */
-	public $belongsTo = array(
+	public $hasMany = array(
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'user_id',
+			'foreignKey' => 'board_level_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'BoardLevel' => array(
-			'className' => 'BoardLevel',
-			'foreignKey' => 'board_level_id'
-		),
-		'BoardTitle' => array(
-			'className' => 'BoardTitle',
-			'foreignKey' => 'board_title_id'
 		)
 	);
 }
