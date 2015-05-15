@@ -53,8 +53,8 @@ class BoardTitle extends AppModel {
  * @var array
  */
 	public $hasOne = array(
-		'User' => array(
-			'className' => 'User',
+		'BoardMember' => array(
+			'className' => 'BoardMember',
 			'foreignKey' => 'board_title_id',
 			'conditions' => '',
 			'fields' => '',

@@ -42,12 +42,24 @@ class BoardMembersController extends AppController {
 			$this->BoardMember->create();
 			if ($this->BoardMember->save($this->request->data)) {
 				$this->Session->setFlash(__('The board member has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'controller' => 'board_members',
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The board member could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->BoardMember->User->find('list');
+		$users = $this->BoardMember->User->find(
+			'list',
+			array(
+				'order' => array(
+					'last_name'
+				)
+			)
+		);
 		$boardLevels = $this->BoardMember->BoardLevel->find('list');
 		$boardTitles = $this->BoardMember->BoardTitle->find('list');
 		$this->set(compact('users','boardLevels','boardTitles'));

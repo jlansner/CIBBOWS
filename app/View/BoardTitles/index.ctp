@@ -3,27 +3,23 @@
 	<table class="zebraTable">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('board_level_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('board_title_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('title'); ?></th>
+			<th><?php echo $this->Paginator->sort('url_title'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
-	<?php foreach ($boardMembers as $boardMember): ?>
+	<?php foreach ($boardTitles as $boardTitle): ?>
 	<tr>
-		<td><?php echo h($boardMember['BoardMember']['id']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($boardMember['User']['name'], array('controller' => 'users', 'action' => 'view', $boardMember['User']['id'])); ?>
-		</td>
-		<td><?php echo h($boardMember['BoardLevel']['title']); ?>&nbsp;</td>
-		<td><?php echo h($boardMember['BoardTitle']['title']); ?>&nbsp;</td>
-		<td><?php echo h($boardMember['BoardMember']['created']); ?>&nbsp;</td>
-		<td><?php echo h($boardMember['BoardMember']['modified']); ?>&nbsp;</td>
+		<td><?php echo h($boardTitle['BoardTitle']['id']); ?>&nbsp;</td>
+		<td><?php echo h($boardTitle['BoardTitle']['title']); ?>&nbsp;</td>
+		<td><?php echo h($boardTitle['BoardTitle']['url_title']); ?>&nbsp;</td>
+		<td><?php echo h($boardTitle['BoardTitle']['created']); ?>&nbsp;</td>
+		<td><?php echo h($boardTitle['BoardTitle']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $boardMember['BoardMember']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $boardMember['BoardMember']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $boardMember['BoardMember']['id']), null, __('Are you sure you want to delete # %s?', $boardMember['BoardMember']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $boardTitle['BoardTitle']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $boardTitle['BoardTitle']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $boardTitle['BoardTitle']['id']), null, __('Are you sure you want to delete # %s?', $boardTitle['BoardTitle']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

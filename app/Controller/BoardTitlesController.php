@@ -47,8 +47,8 @@ class BoardTitlesController extends AppController {
 				$this->Session->setFlash(__('The board title could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->BoardTitle->User->find('list');
-		$this->set(compact('users'));
+		$boardMembers = $this->BoardTitle->BoardMember->find('list');
+		$this->set(compact('boardMembers'));
 	}
 
 /**
