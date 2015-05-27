@@ -52,7 +52,15 @@
 		)
 	);	
 
-	$indexControllers = array('races','users','events','test_swims','clinics');
+	Router::connect(
+		'/board-of-directors',
+		array(
+			'controller' => 'board_members',
+			'action' => 'index'
+		)
+	);	
+
+	$indexControllers = array('races','users','events','test_swims','clinics','board_members');
 
 	foreach ($indexControllers as $controller) {
 		Router::connect(

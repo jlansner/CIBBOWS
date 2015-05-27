@@ -42,13 +42,11 @@ class BoardLevel extends AppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'board_level_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+ 
+ 	public $hasMany = array(
+		'BoardMember' => array(
+			'className' => 'BoardMember',
+			'foreignKey' => 'board_level_id'
 		)
 	);
 }

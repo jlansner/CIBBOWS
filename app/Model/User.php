@@ -164,6 +164,13 @@ class User extends AppModel {
 		)
 	);
 	
+	 public $hasOne = array(
+		'BoardMember' => array(
+			'className' => 'BoardMember',
+			'foreignKey' => 'user_id'
+		)
+	);
+	
     public $actsAs = array(
     	'Acl' => array(
     		'type' => 'requester'

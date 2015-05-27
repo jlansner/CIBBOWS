@@ -15,6 +15,7 @@
 			array(
 				'minYear' => date('Y') - 100,
 				'maxYear' => date('Y'),
+				'empty' => ''
 			)
 		);
 		echo $this->Form->input('job_title');

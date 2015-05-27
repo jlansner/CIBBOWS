@@ -12,11 +12,52 @@ class BoardMembersController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->BoardMember->recursive = 0;
 		$this->set('boardMembers', $this->paginate());
 	}
 
+	public function index() {
+		$boards = $this->BoardMember->BoardLevel->find(
+			'all',
+			array(
+				'order' => array(
+					'BoardLevel.rank'
+				)
+			)
+		);
+		
+		$i = 0;
+		foreach ($boards as $board) {
+			$boardMembers[$i] = $this->BoardMember->find(
+				'all',
+				array(
+					'conditions' => array(
+						'BoardMember.board_level_id' => $board['BoardLevel']['id']
+					),
+					'contain' => array(
+						'BoardTitle' => array(
+							'fields' => array(
+								'IFNULL(BoardTitle.rank,1000) as board_rank', 'BoardTitle.title'
+							)
+						),
+						'User' => array(
+							'fields' => array(
+								'User.id', 'User.first_name', 'User.last_name', 'User.name'
+							)
+						)
+					),
+					'order' => array(
+						'board_rank',
+						'last_name'
+					)
+				)
+			);
+			$i++;
+		}
+		$this->set(compact('boards','boardMembers'));
+		
+	}
 /**
  * view method
  *
