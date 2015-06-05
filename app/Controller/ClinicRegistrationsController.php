@@ -143,6 +143,49 @@ class ClinicRegistrationsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 	
+	public function delete_registration($id = null) {
+		$this->ClinicRegistration->id = $id;
+		if (!$this->ClinicRegistration->exists()) {
+			throw new NotFoundException(__('Invalid clinic registration'));
+		}
+		$clinic = $this->ClinicRegistration->find(
+			'first',
+			array(
+				'conditions' => array(
+					'ClinicRegistration.id' => $id
+				),
+				'contain' => array(
+					'Clinic'
+				)
+			)
+		); 
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->ClinicRegistration->delete()) {
+			$this->Session->setFlash(__('Clinic registration deleted'));
+			$this->redirect(
+				array(
+					'controller' => 'clinics',
+					'action' => 'view',
+					'year' => substr($clinic['Clinic']['date'],0,4),
+					'month' => substr($clinic['Clinic']['date'],5,2),
+					'day' => substr($clinic['Clinic']['date'],8,2),
+					'url_title' => $clinic['Clinic']['url_title']					
+				)
+			);
+		}
+		$this->Session->setFlash(__('Clinic registration was not deleted'));
+		$this->redirect(
+			array(
+				'controller' => 'clinics',
+				'action' => 'view',
+				'year' => substr($clinic['Clinic']['date'],0,4),
+				'month' => substr($clinic['Clinic']['date'],5,2),
+				'day' => substr($clinic['Clinic']['date'],8,2),
+				'url_title' => $clinic['Clinic']['url_title']					
+			)
+		);
+	}
+	
 	public function register($clinic_id) {
 		$clinic = $this->ClinicRegistration->Clinic->find(
 			'first',

@@ -45,7 +45,7 @@ class AppController extends Controller {
 				)
 			)
         ),
-		'DebugKit.Toolbar',
+//		'DebugKit.Toolbar',
 		'Paginator',
 		'Session',
 		'Stripe.Stripe'

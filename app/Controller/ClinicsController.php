@@ -17,6 +17,11 @@ class ClinicsController extends AppController {
 		$this->set('clinics', $this->paginate());
 	}
 
+	public function admin_index() {
+		$this->Clinic->recursive = 0;
+		$this->set('clinics', $this->paginate());
+	}
+
 /**
  * view method
  *
@@ -42,7 +47,7 @@ class ClinicsController extends AppController {
 		); 
 		
 		$reg = $this->Clinic->ClinicRegistration->find(
-			'count',
+			'first',
 			array(
 				'conditions' => array(
 					'ClinicRegistration.clinic_id' => $clinic['Clinic']['id'],
@@ -90,7 +95,12 @@ class ClinicsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Clinic->save($this->request->data)) {
 				$this->Session->setFlash(__('The clinic has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'admin' => true,
+						'action' => 'index'					
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The clinic could not be saved. Please, try again.'));
 			}
@@ -124,4 +134,5 @@ class ClinicsController extends AppController {
 		$this->Session->setFlash(__('Clinic was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
 }

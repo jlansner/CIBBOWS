@@ -266,10 +266,12 @@ class MembershipsController extends AppController {
 			);
 			
 			foreach ($members as $member) {
-				if (substr($member['User']['email'],0,5) == "_____") {
-					$member['User']['email'] = substr($member['User']['email'],5);
+				if ((isset($member['User']['email'])) && (length($member['User']['email'] > 0))) {
+					if (substr($member['User']['email'],0,5) == "_____") {
+						$member['User']['email'] = substr($member['User']['email'],5);
+					}
+					$this->send_email($member,$contents);
 				}
-				$this->send_email($member,$contents);
 			}
 			$this->Session->setFlash(
 				'Your emails have been sent',

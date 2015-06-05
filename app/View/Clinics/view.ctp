@@ -24,12 +24,28 @@
  	</li>
 </ul>
 <br class="clear" />
+<p>
+	<!--
+		<?php var_export($clinic); ?>
+	-->
 <?php
 	if ($clinic['Clinic']['registration_required']) {
 		if (strtotime('now') > strtotime($clinic['Clinic']['date'])) {
 
 		} else if ($reg) {
 			echo 'You are already registered for this clinic.';
+			if (!$clinic['Clinic']['fee']) {
+				echo '<br />' . $this->Form->postLink(
+					'Delete your registration',
+					array(
+						'controller' => 'clinic_registrations',
+						'action' => 'delete_registration',
+						$reg['ClinicRegistration']['id']
+					),
+					null,
+					'Are you sure you want to delete your registration?'
+				);
+			}
 		} else {
 			echo $this->Html->link(
 				'Register',
@@ -42,6 +58,7 @@
 		}
 	}
 ?>
+</p>
 
 		<p>Start Time: <?php echo $this->Time->format('g:i a', $clinic['Clinic']['start_time']); ?></p>
 

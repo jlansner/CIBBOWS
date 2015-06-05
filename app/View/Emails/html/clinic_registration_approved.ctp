@@ -9,9 +9,9 @@
 <p><?php echo $email['User']['name']; ?>,</p>
 
 <?php if ($email['ClinicRegistration']['approved']) { ?>
-	<p>Thank you for registering for the waitlist <?php echo $email['Clinic']['title'] ?> on <?php echo $this->Time->format('F j, Y',$email['Clinic']['date']); ?>. We will email you if a spot becomes available in the clinic.</p>
+	<p>Thank you for registering for <?php echo $email['Clinic']['title'] ?> on <?php echo $this->Time->format('F j, Y',$email['Clinic']['date']); ?>.</p>
 	<?php } else { ?>
-<p>Thank you for registering for <?php echo $email['Clinic']['title'] ?> on <?php echo $this->Time->format('F j, Y',$email['Clinic']['date']); ?>.</p>
+	<p>Thank you for adding your name to the waitlist for <?php echo $email['Clinic']['title'] ?> on <?php echo $this->Time->format('F j, Y',$email['Clinic']['date']); ?>. We will email you if a spot becomes available in the clinic.</p>
 <?php } ?>
 
 <p>Please check the <?php 
@@ -28,5 +28,4 @@ echo $this->Html->link(
 	)
 ); 
 
-?>
-on the site for updated information as the clinic approaches.</p>
+?> on the site for updated information as the clinic approaches.</p>
