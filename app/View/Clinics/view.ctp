@@ -64,7 +64,14 @@
 
 		<p>End Time: <?php echo $this->Time->format('g:i a', $clinic['Clinic']['end_time']); ?></p>
 
-		<p>Location: <?php echo $this->Html->link($clinic['Location']['title'], array('controller' => 'locations', 'action' => 'view', $clinic['Location']['id'])); ?></p>
+		<p>Location: <?php echo $this->Html->link(
+			$clinic['Location']['title'],
+			array(
+				'controller' => 'locations',
+				'action' => 'view',
+				'url_title' => $clinic['Location']['url_title']
+			)
+		); ?></p>
 
 		<p>Coach: <?php echo $this->Html->link(
 			$clinic['User']['name'],
