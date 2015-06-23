@@ -43,6 +43,14 @@
 						$clinic['Clinic']['id']
 					)
 				); ?> | 
+				<?php echo $this->Html->link(
+					'Duplicate',
+					array(
+						'admin' => false,
+						'action' => 'add',
+						$clinic['Clinic']['id']
+					)
+				); ?> |
 				<?php echo $this->Form->postLink(
 					'Delete',
 					array(

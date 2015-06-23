@@ -1,5 +1,14 @@
 <div class="clinics form">
-<?php echo $this->Form->create('Clinic'); ?>
+<?php echo $this->Form->create(
+	'Clinic',
+	array(
+		'url' => array(
+			'controller' => 'clinics',
+			'action' => 'add',
+			'id' => null			
+		)
+	)	
+); ?>
 	<fieldset>
 		<legend><?php echo __('Add Clinic'); ?></legend>
 	<?php

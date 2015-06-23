@@ -266,7 +266,7 @@ class MembershipsController extends AppController {
 			);
 			
 			foreach ($members as $member) {
-				if ((isset($member['User']['email'])) && (length($member['User']['email'] > 0))) {
+				if ((isset($member['User']['email'])) && (strlen($member['User']['email'] > 0))) {
 					if (substr($member['User']['email'],0,5) == "_____") {
 						$member['User']['email'] = substr($member['User']['email'],5);
 					}

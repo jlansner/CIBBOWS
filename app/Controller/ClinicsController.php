@@ -65,16 +65,33 @@ class ClinicsController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function add($id = null) {
 		if ($this->request->is('post')) {
 			$this->Clinic->create();
 			if ($this->Clinic->save($this->request->data)) {
 				$this->Session->setFlash(__('The clinic has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'admin' => true,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The clinic could not be saved. Please, try again.'));
 			}
+		} else {
+/*			if ($id !== null) {
+				$this->request->data = $this->Clinic->find(
+					'first',
+					array(
+						'conditions' => array(
+							'Clinic.id' => $id
+						)
+					)
+				);
+			} */
 		}
+
 		$users = $this->Clinic->User->find('list');
 		$locations = $this->Clinic->Location->find('list');
 		$membershipLevels = $this->Clinic->MembershipLevel->find('list');
