@@ -42,12 +42,25 @@ class AgeWaiversController extends AppController {
 			$this->AgeWaiver->create();
 			if ($this->AgeWaiver->save($this->request->data)) {
 				$this->Session->setFlash(__('The age waiver has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'admin' => true,
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The age waiver could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->AgeWaiver->User->find('list');
+		$users = $this->AgeWaiver->User->find(
+			'list',
+			array(
+				'conditions' => array(
+					'User.dob >=' => date('Y-m-d', strtotime('-18 years')) 
+				)
+			)
+			
+		);
 		$races = $this->AgeWaiver->Race->find(
 			'list',
 			array(

@@ -1,35 +1,36 @@
 <div class="row">
 	<div class="column column12">
-	<h2><?php echo __('Waiver'); ?></h2>
+	<h2>Waivers</h2>
 	<table class="zebraTable">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('user'); ?></th>
-			<th><?php echo $this->Paginator->sort('race'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
+			<th>ID</th>
+			<th>Swimmer</th>
+			<th>Age</th>
+			<th>Race</th>
+			<th>Race Date</th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
-	<?php foreach ($ageWaivers as $ageWaiver): ?>
+	<?php 
+	$today = new DateTime('today');
+			
+	foreach ($ageWaivers as $ageWaiver): ?>
 	<tr>
-		<td><?php echo h($ageWaiver['AgeWaiver']['id']); ?>&nbsp;</td>
-		<td><?php echo h($ageWaiver['User']['name']); ?>&nbsp;</td>
-		<td><?php echo h($ageWaiver['Race']['title']); ?>&nbsp;</td>
-		<td><?php echo h($ageWaiver['AgeWaiver']['created']); ?>&nbsp;</td>
-		<td><?php echo h($ageWaiver['AgeWaiver']['modified']); ?>&nbsp;</td>
+		<td><?php echo h($ageWaiver['AgeWaiver']['id']); ?></td>
+		<td><?php echo h($ageWaiver['User']['name']); ?></td>
+		<td><?php 
+			$birthDate = new DateTime($ageWaiver['User']['dob']);
+			echo $birthDate->diff($today)->y;
+			?></td>
+		<td><?php echo h($ageWaiver['Race']['title']); ?></td>
+		<td><?php echo h($ageWaiver['Race']['date']); ?></td>
 		<td class="actions">
-			<?php echo $this->Html->link(
-				'View',
-				array(
-					'admin' => false,
-					'action' => 'view',
-					$ageWaiver['AgeWaiver']['id'])); ?>
 			<?php echo $this->Html->link(
 				'Edit',
 				array(
 					'admin' => false,
 					'action' => 'edit',
 					$ageWaiver['AgeWaiver']['id'])); ?>
+					| 
 			<?php echo $this->Form->postLink(
 				'Delete',
 				array(
@@ -42,6 +43,17 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
+	
+	<p>
+		<?php echo $this->Html->link(
+			'Add a new waiver',
+			array(
+				'admin' => false,
+				'action' => 'add'
+			)
+		); ?>
+		
+	</p>
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(

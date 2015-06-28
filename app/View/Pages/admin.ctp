@@ -29,7 +29,18 @@
 		?></p>
 		
 		
-		<h2>Qualifying Races</h2>
+		<h2>Races</h2>
+		<p><?php
+
+		echo $this->Html->link(
+			'Grant Waivers to Underage Swimmers',
+			array(
+				'controller' => 'age_waivers',
+				'action' => 'index',
+				'admin' => true
+			)
+		);
+		?></p>
 		<p><?php
 
 				echo $this->Html->link(
