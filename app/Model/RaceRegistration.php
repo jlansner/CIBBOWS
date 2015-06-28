@@ -235,7 +235,7 @@ class RaceRegistration extends AppModel {
 		);
 
 		foreach ($race['AgeWaiver'] as $waiver) {
-			if ($waiver['user_id'] == $this->data['User']['user_id']) {
+			if ($waiver['user_id'] == AuthComponent::user('id')) {
 				$ageWaiver = true;
 				break;
 			}

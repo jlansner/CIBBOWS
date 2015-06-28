@@ -73,7 +73,7 @@
 			}
 		} else {
 			echo $this->Form->hidden(
-				'child_race_id',
+				'RaceRegistration.child_race_id',
 				array(
 					'value' => $race['Race']['id']
 				)

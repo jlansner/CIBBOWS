@@ -18,9 +18,26 @@
 		<td><?php echo h($ageWaiver['AgeWaiver']['created']); ?>&nbsp;</td>
 		<td><?php echo h($ageWaiver['AgeWaiver']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $ageWaiver['AgeWaiver']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $ageWaiver['AgeWaiver']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $ageWaiver['AgeWaiver']['id']), null, __('Are you sure you want to delete # %s?', $ageWaiver['AgeWaiver']['id'])); ?>
+			<?php echo $this->Html->link(
+				'View',
+				array(
+					'admin' => false,
+					'action' => 'view',
+					$ageWaiver['AgeWaiver']['id'])); ?>
+			<?php echo $this->Html->link(
+				'Edit',
+				array(
+					'admin' => false,
+					'action' => 'edit',
+					$ageWaiver['AgeWaiver']['id'])); ?>
+			<?php echo $this->Form->postLink(
+				'Delete',
+				array(
+					'admin' => false,
+					'action' => 'delete',
+					$ageWaiver['AgeWaiver']['id']),
+					null,
+					__('Are you sure you want to delete # %s?', $ageWaiver['AgeWaiver']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
