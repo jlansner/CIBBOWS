@@ -340,29 +340,40 @@ class ResultsController extends AppController {
 
 		if ($this->request->is('post')) {
 			$lines = explode("\n", $this->request->data['Result']['results']);
-			$head = str_getcsv(array_shift($lines));
+			$head = str_getcsv(array_shift($lines)); // use first line to define keys
 
 			$array = array();
 			foreach ($lines as $line) {
-			    $array[] = array_combine($head, str_getcsv($line));
+			    $array[] = array_combine($head, str_getcsv($line)); // convert CSV to key => value array
 			}
 			
 			$i = 0;
-			foreach ($array as $line) {
-				$result['Result']['race_id'] = $this->request->data['Result']['child_race_id'];
-				
-				$race = $this->Result->Race->find(
-					'first',
-					array(
-						'conditions' => array(
-							'Race.id' => $result['Result']['race_id']
-						),
-						'fields' => array(
-							'Race.meters'
-						)
+
+			$result['Result']['race_id'] = $this->request->data['Result']['child_race_id'];
+			
+			$race = $this->Result->Race->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Race.id' => $result['Result']['race_id']
+					),
+					'fields' => array(
+						'Race.meters'
 					)
-				);
-				
+				)
+			);
+			
+			$ageGroups = $this->Result->AgeGroup->find(
+				'list'
+			);
+			
+			
+			foreach ($ageGroups as $key => $value) {
+				$agePlaces[$key] = 1; // create array for age group ranking
+			}
+			
+			foreach ($array as $line) {
+
 				$swimmer = $this->Result->Race->RaceRegistration->find(
 					'first',
 					array(
@@ -377,15 +388,18 @@ class ResultsController extends AppController {
 						'recursive' => -1
 					)
 				);
+				
+				$swimmerAgeGroup = $swimmer['RaceRegistration']['age_group_id'];
 
 				$result['Result']['user_id'] = $swimmer['RaceRegistration']['user_id'];
-				$result['Result']['age_group_id'] = $swimmer['RaceRegistration']['age_group_id'];
+				$result['Result']['age_group_id'] = $swimmerAgeGroup;
 				$result['Result']['race_number'] = $line['race_number'];			
 				$result['Result']['first_name'] = $line['first_name'];
 				$result['Result']['last_name'] = $line['last_name'];
 				$result['Result']['age'] = $line['age'];
 				$result['Result']['place'] = $line['place'];
-				$result['Result']['age_place'] = $line['age_place'];
+				$result['Result']['age_place'] = $agePlaces[$swimmerAgeGroup]; // get age group place
+				$agePlaces[$swimmerAgeGroup]++; //increment age group place
 				$result['Result']['meters'] = $race['Race']['meters'];
 				$result['Result']['wetsuit'] = $this->request->data['Result']['wetsuit'];
 
@@ -400,7 +414,7 @@ class ResultsController extends AppController {
 					$result['Result']['age_place'] = $line['age_place'];
 					$result['CodesResult']['code_id'] = 1;				
 				} else if (strlen($line['time']) < 6) {
-					$result['Result']['time'] = "00:" . $line['Time'];
+					$result['Result']['time'] = "00:" . $line['time']; // convert mm:ss to hh:mm:ss
 				} else {
 					$result['Result']['time'] = $line['time'];
 				}
