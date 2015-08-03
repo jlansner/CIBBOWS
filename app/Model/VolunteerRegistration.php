@@ -55,6 +55,16 @@ class VolunteerRegistration extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'waiver' => array(
+			'checked' => array(
+				'rule' => array('comparison', '==', 1),
+				'message' => 'You must agree to the waiver',
+				//'allowEmpty' => false,
+				'required' => true,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 		'approved' => array(
 			'boolean' => array(
 				'rule' => array('boolean'),
