@@ -46,13 +46,14 @@ class RaceRegistrationsController extends AppController {
 		}
 		$users = $this->RaceRegistration->User->find('list');
 		$races = $this->RaceRegistration->Race->find('list');
+		$childRaces = $this->RaceRegistration->ChildRace->find('list');
 		$genders = $this->RaceRegistration->Gender->find('list');
 		$ageGroups = $this->RaceRegistration->AgeGroup->find('list');
 		$qualifyingSwims = $this->RaceRegistration->QualifyingSwim->find('list');
 		$qualifyingRaces = $this->RaceRegistration->QualifyingRace->find('list');
 		$results = $this->RaceRegistration->Result->find('list');
 		$shirtSizes = $this->RaceRegistration->ShirtSize->find('list');
-		$this->set(compact('users', 'races', 'genders', 'ageGroups', 'qualifyingSwims', 'qualifyingRaces', 'results', 'shirtSizes'));
+		$this->set(compact('users', 'races', 'childRaces', 'genders', 'ageGroups', 'qualifyingSwims', 'qualifyingRaces', 'results', 'shirtSizes'));
 	}
 
 /**

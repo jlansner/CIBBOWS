@@ -367,29 +367,41 @@ class ResultsController extends AppController {
 				'list'
 			);
 			
-			
 			foreach ($ageGroups as $key => $value) {
 				$agePlaces[$key] = 1; // create array for age group ranking
 			}
 			
 			foreach ($array as $line) {
-
-				$swimmer = $this->Result->Race->RaceRegistration->find(
-					'first',
-					array(
-						'conditions' => array(
-							'RaceRegistration.race_id' => $race_id,
-							'RaceRegistration.race_number' => $line['race_number']
-						),
-						'fields' => array(
-							'RaceRegistration.user_id',
-							'RaceRegistration.age_group_id'
-						),
-						'recursive' => -1
-					)
-				);
 				
-				$swimmerAgeGroup = $swimmer['RaceRegistration']['age_group_id'];
+				if (isset($line['user_id'])) {
+					$swimmer = $this->Result->User->find(
+						'first',
+						array(
+							'conditions' => array(
+								'User.id' => $line['user_id']
+							)
+						)
+					);
+					
+				} else {
+
+					$swimmer = $this->Result->Race->RaceRegistration->find(
+						'first',
+						array(
+							'conditions' => array(
+								'RaceRegistration.race_id' => $race_id,
+								'RaceRegistration.race_number' => $line['race_number']
+							),
+							'fields' => array(
+								'RaceRegistration.user_id',
+								'RaceRegistration.age_group_id'
+							),
+							'recursive' => -1
+						)
+					);
+
+					$swimmerAgeGroup = $swimmer['RaceRegistration']['age_group_id'];
+				}
 
 				$result['Result']['user_id'] = $swimmer['RaceRegistration']['user_id'];
 				$result['Result']['age_group_id'] = $swimmerAgeGroup;

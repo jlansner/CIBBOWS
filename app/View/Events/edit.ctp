@@ -6,6 +6,8 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('date');
+		echo $this->Form->input('start_time');
+		echo $this->Form->input('end_time');
 		echo $this->Form->input(
 			'membership_level_id',
 			array(

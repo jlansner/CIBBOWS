@@ -240,7 +240,7 @@ class RaceRegistration extends AppModel {
 				break;
 			}
 		}
-		if (($this->data['RaceRegistration']['age'] >= $this->data['Race']['minimum_age']) || ($ageWaiver)) {
+		if (($this->data['RaceRegistration']['age'] >= $race['Race']['minimum_age']) || ($ageWaiver)) {
 			return true;
 		} else {
 			return false;

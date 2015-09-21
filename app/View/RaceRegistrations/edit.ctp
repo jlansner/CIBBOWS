@@ -8,7 +8,8 @@
 		echo $this->Form->input('user_id');
 		echo $this->Form->input('race_id');
 		echo $this->Form->input('child_race_id');
-		echo $this->Form->input('name');
+		echo $this->Form->input('first_name');
+		echo $this->Form->input('last_name');
 		echo $this->Form->input('age');
 		echo $this->Form->input('gender_id');
 		echo $this->Form->input('age_group_id');
