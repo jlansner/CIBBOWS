@@ -33,7 +33,7 @@
 //		echo $this->Html->meta('icon');
 //		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('font-awesome/css/font-awesome.min');
-		echo $this->Html->css('//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css');
+		echo $this->Html->css('//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css');
 		echo $this->Html->css('cibbows');
 
 		echo $this->fetch('meta');
