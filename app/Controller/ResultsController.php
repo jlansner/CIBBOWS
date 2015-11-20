@@ -358,7 +358,8 @@ class ResultsController extends AppController {
 						'Race.id' => $result['Result']['race_id']
 					),
 					'fields' => array(
-						'Race.meters'
+						'Race.meters',
+						'Race.date'
 					)
 				)
 			);
@@ -394,7 +395,8 @@ class ResultsController extends AppController {
 							),
 							'fields' => array(
 								'RaceRegistration.user_id',
-								'RaceRegistration.age_group_id'
+								'RaceRegistration.age_group_id',
+								'RaceRegistration.gender_id'
 							),
 							'recursive' => -1
 						)
@@ -413,17 +415,19 @@ class ResultsController extends AppController {
 				$result['Result']['age_place'] = $agePlaces[$swimmerAgeGroup]; // get age group place
 				$agePlaces[$swimmerAgeGroup]++; //increment age group place
 				$result['Result']['meters'] = $race['Race']['meters'];
+				$result['Result']['date'] = $race['Race']['date'];
 				$result['Result']['wetsuit'] = $this->request->data['Result']['wetsuit'];
+				$result['Result']['gender_id'] = $swimmer['RaceRegistration']['gender_id'];
 
-				if (trim($line['gender']) == 'M') {
+/*				if (trim($line['gender']) == 'M') {
 					$result['Result']['gender_id'] = 1;
 				} else {
 					$result['Result']['gender_id'] = 2;
-				}
+				} */
 
 				if ($line['time'] == 'DNF') {
 					$result['Result']['time'] = "00:00:00";
-					$result['Result']['age_place'] = $line['age_place'];
+					$result['Result']['age_place'] = 99999; 
 					$result['CodesResult']['code_id'] = 1;				
 				} else if (strlen($line['time']) < 6) {
 					$result['Result']['time'] = "00:" . $line['time']; // convert mm:ss to hh:mm:ss

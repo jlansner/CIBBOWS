@@ -49,6 +49,7 @@ class BoardMembersController extends AppController {
 					),
 					'order' => array(
 						'board_rank',
+						'start_date',
 						'last_name'
 					)
 				)
@@ -86,7 +87,8 @@ class BoardMembersController extends AppController {
 				$this->redirect(
 					array(
 						'controller' => 'board_members',
-						'action' => 'index'
+						'action' => 'index',
+						'admin' => true
 					)
 				);
 			} else {
@@ -120,7 +122,12 @@ class BoardMembersController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->BoardMember->save($this->request->data)) {
 				$this->Session->setFlash(__('The board member has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'action' => 'index',
+						'admin' => true
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The board member could not be saved. Please, try again.'));
 			}
@@ -149,7 +156,12 @@ class BoardMembersController extends AppController {
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->BoardMember->delete()) {
 			$this->Session->setFlash(__('Board member deleted'));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect(
+				array(
+					'action' => 'index',
+					'admin' => true
+				)
+			);
 		}
 		$this->Session->setFlash(__('Board member was not deleted'));
 		$this->redirect(array('action' => 'index'));

@@ -47,6 +47,10 @@
 					if (isset($boardMember['BoardTitle']['title'])) { 
 						echo ", <strong>" . $boardMember['BoardTitle']['title'] . "</strong>";
 					}
+					
+					if (isset($boardMember['BoardMember']['start_date'])) {
+						echo ', ' . $boardMember['BoardMember']['start_date'] . " &ndash; " . $boardMember['BoardMember']['end_date'];
+					}
 				 ?>
 				 </li>
 			<?php 

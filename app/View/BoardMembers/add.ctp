@@ -11,6 +11,8 @@
 			)
 		);
 		echo $this->Form->input('board_level_id');
+		echo $this->Form->input('start_date');
+		echo $this->Form->input('end_date');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

@@ -1,13 +1,12 @@
-<div class="boardMembers index">
-	<h2><?php echo __('Board Members'); ?></h2>
+<div class="row">
+	<div class="column column12">
+	<h2>Board Members</h2>
 	<table class="zebraTable">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('board_level_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('board_title_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
+			<th>ID</th>
+			<th>User</th>
+			<th>Level</th>
+			<th>Title</th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($boardMembers as $boardMember): ?>
@@ -16,14 +15,27 @@
 		<td>
 			<?php echo $this->Html->link($boardMember['User']['name'], array('controller' => 'users', 'action' => 'view', $boardMember['User']['id'])); ?>
 		</td>
-		<td><?php echo h($boardMember['BoardLevel']['title']); ?>&nbsp;</td>
-		<td><?php echo h($boardMember['BoardTitle']['title']); ?>&nbsp;</td>
-		<td><?php echo h($boardMember['BoardMember']['created']); ?>&nbsp;</td>
-		<td><?php echo h($boardMember['BoardMember']['modified']); ?>&nbsp;</td>
+		<td><?php echo h($boardMember['BoardLevel']['title']); ?></td>
+		<td><?php echo h($boardMember['BoardTitle']['title']); ?></td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $boardMember['BoardMember']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $boardMember['BoardMember']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $boardMember['BoardMember']['id']), null, __('Are you sure you want to delete # %s?', $boardMember['BoardMember']['id'])); ?>
+			<?php echo $this->Html->link(
+				'Edit',
+				array(
+					'admin' => false,
+					'action' => 'edit',
+					$boardMember['BoardMember']['id']
+				)
+			); ?>
+			<?php echo $this->Form->postLink(
+				'Delete',
+				array(
+					'admin' => false,
+					'action' => 'delete',
+					$boardMember['BoardMember']['id']),
+					null,
+					 __('Are you sure you want to delete # %s?', $boardMember['BoardMember']['id']
+				)
+			); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -42,11 +54,4 @@
 	?>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Board Member'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
 </div>

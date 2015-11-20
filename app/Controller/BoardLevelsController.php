@@ -47,8 +47,8 @@ class BoardLevelsController extends AppController {
 				$this->Session->setFlash(__('The board member could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->BoardLevel->User->find('list');
-		$this->set(compact('users'));
+//		$users = $this->BoardLevel->User->find('list');
+//		$this->set(compact('users'));
 	}
 
 /**
