@@ -11,7 +11,7 @@
  	<li class="active">Overview</li>
  	<li>
  		<?php echo $this->Html->link(
-			'Registered Swimmers',
+			'Registered Participants',
 			array(
 				'controller' => 'clinic_registrations',
 				'action' => 'view',

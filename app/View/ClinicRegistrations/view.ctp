@@ -17,7 +17,7 @@
 			)
 		); ?>
  	</li>
- 	<li class="active">Registered Swimmers</li>
+ 	<li class="active">Registered Participants</li>
  </ul>
  <br class="clear" />
 
