@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="column column12">
 <h1><?php echo $clinic['Clinic']['title']; ?></h1>
-<h2>Registered Swimmers</h2>
+<h2>Registered Participants</h2>
 
  <ul class="raceNav">
  	<li>

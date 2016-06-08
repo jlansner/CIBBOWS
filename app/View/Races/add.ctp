@@ -94,6 +94,8 @@
 				'empty' => 'No Experience Necessary'
 			)
 		);
+		echo $this->Form->input('registration_link');
+
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

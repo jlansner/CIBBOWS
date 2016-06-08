@@ -4,13 +4,13 @@
 
 <?php foreach ($races as $race): ?>
 	<h2><?php echo $this -> Html -> link(
-		$race['Race']['title'],
-		array(
-			'controller' => 'races',
-			'action' => 'view',
-			'year' => substr($race['Race']['date'], 0, 4),
-			'url_title' => $race['Race']['url_title']
-		)
+	$race['Race']['title'],
+	array(
+		'controller' => 'races',
+		'action' => 'view',
+		'year' => substr($race['Race']['date'], 0, 4),
+		'url_title' => $race['Race']['url_title']
+	)
 	); ?></h2>
 
 	<p>

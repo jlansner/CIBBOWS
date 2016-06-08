@@ -6,22 +6,11 @@
 <?php // echo h($race['Race']['logo']); ?>
 
 <p>
-<?php 
+<?php
+echo $this -> Time -> format('F j, Y', $race['Race']['date']);
 
-if ($race['Race']['tentative_date']) {
-	echo 'Date to be announced';
-} else {
-	echo $this->Time->format(
-		'F j, Y',
-		$race['Race']['date']
-	);
-	
-	if (($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date'])) {
-		echo ' &ndash; ' . $this->Time->format(
-			'F j, Y',
-			$race['Race']['end_date']
-		);
-	}
+if (($race['Race']['end_date']) && ($race['Race']['date'] != $race['Race']['end_date'])) {
+	echo ' &ndash; ' . $this -> Time -> format('F j, Y', $race['Race']['end_date']);
 }
 ?>
 </p>
@@ -53,6 +42,8 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 
 	if (strtotime('now') > strtotime($race['Race']['date'])) {
 
+	} else if (trim($race['Race']['registration_link']) !== "") {
+		echo '<a href="' . $race['Race']['registration_link'] . '" target="_blank">Register as a swimmer</a>';
 	} else if ($totalReg >= $race['Race']['max_swimmers']) {
 		echo 'Registration for this race is full.';
 	} else if ($reg) {
@@ -88,12 +79,15 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 </p>
 
 <p>
-<?php if (strtotime('now') > strtotime($race['Race']['date'])) {
+<?php 
+ if ($race['Race']['registration_link'] == "") {
+
+if (strtotime('now') > strtotime($race['Race']['date'])) {
 			} else if ($volReg) {
 				echo 'You are already registered as a volunteer.';
 			} else {
 				echo $this->Html->link(
-					'Register as a Volunter',
+					'Register as a Volunteer',
 					array(
 						'controller' => 'volunteer_registrations',
 						'action' => 'register',
@@ -101,6 +95,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 					)
 				);
 			}
+}
 	?>
 </p>
 

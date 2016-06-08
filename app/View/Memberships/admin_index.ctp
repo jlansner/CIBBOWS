@@ -50,11 +50,13 @@
 		<!--
 			<?php var_export($membership); ?>
 		-->
-		<?php /*<td>
+		<?php  if ($admin) { ?>
+    <td>
 			
 			
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', 'admin' => false, $membership['Membership']['id']), null, __('Are you sure you want to delete # %s?', $membership['Membership']['id'])); ?>
-		</td> */ ?>	
+			<?php //echo $this->Form->postLink(__('Delete'), array('action' => 'delete', 'admin' => false, $membership['Membership']['id']), null, __('Are you sure you want to delete # %s?', $membership['Membership']['id'])); ?>
+		</td>
+    <?php } ?>	
 		
 		</tr>
 <?php endforeach; ?>
