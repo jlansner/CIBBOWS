@@ -306,6 +306,10 @@ class Race extends AppModel {
 			'className' => 'AgeWaiver',
 			'foreignKey' =>'race_id'
 		),
+		'Discount' => array(
+			'className' => 'Discount',
+			'foreignKey' => 'race_id',
+		),
 		'NonMemberRaceFee' => array(
 			'className' => 'RaceFee',
 			'foreignKey' => 'race_id',
@@ -425,3 +429,4 @@ class Race extends AppModel {
 	
 	public $displayField = 'displayName'; */
 }
+?>

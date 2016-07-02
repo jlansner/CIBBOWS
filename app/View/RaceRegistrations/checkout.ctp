@@ -96,18 +96,7 @@
 	?>
 	</fieldset>
 <?php
-/*
-		echo $this->Html->link(
-			'Cancel',
-			array(
-				'action' => 'register',
-				$this->request->data['RaceRegistration']['race_id'],
-			),
-			array(
-				'class' => 'cancelButton'
-			)
-		);
-  */
+ if ($this->request->data['RaceRegistration']['total_payment'] > 0) {
 ?>
 <script
     src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
@@ -118,7 +107,13 @@
     data-email="<?php echo AuthComponent::user('email'); ?>"
     data-image="/img/128x128.png">
   </script>
-
+<?php } else {
+		echo $this->Form->end(
+			array(
+				'label' => 'Register',
+				'id' => 'registerButton'
+			)
+		); } ?>
 
 </div>
 </div>

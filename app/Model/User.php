@@ -254,6 +254,10 @@ class User extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		'DiscountAssignement' => array(
+			'className' => 'DiscountAssignment',
+			'foreignKey' => 'user_id',
+		),
 		'Donation' => array(
 			'className' => 'Donation',
 			'foreignKey' => 'user_id'
@@ -416,6 +420,7 @@ class User extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
 
     public function parentNode() {
         if (!$this->id && empty($this->data)) {

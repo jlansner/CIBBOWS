@@ -122,7 +122,15 @@ class RaceRegistrationsController extends AppController {
 					'AgeWaiver',
 					'CurrentMemberRaceFee',
 					'CurrentNonMemberRaceFee',
-					'Distance',						
+					'Distance',
+					'Discount' => array(
+						'DiscountAssignment' => array(
+							'conditions' => array(
+								'DiscountAssignment.user_id' => $this->Auth->user('id'),
+								'DiscountAssignment.redeemed != ' => 1 
+							)
+						)
+					),
 					'ChildRace' => array(
 						'fields' => array(
 							'ChildRace.id','ChildRace.title','ChildRace.experience_id','ChildRace.date'),
@@ -308,6 +316,21 @@ class RaceRegistrationsController extends AppController {
 						$this->request->data['RaceRegistration']['payment'] = $race['CurrentNonMemberRaceFee']['price'];
 					}					
 				}
+			
+			foreach ($race['Discount'] as $discount) {
+				if ($discount['title'] == $this->request->data['Discount']['title']) {
+					foreach ($discount['DiscountAssignment'] as $discountAssignment) {
+						if ($discountAssignment['user_id'] == $this->Auth->user('id')) {
+							if ($discount['discount_type_id'] == 1) {
+								$this->request->data['RaceRegistration']['payment'] -= $this->request->data['RaceRegistration']['payment'] * $discount['amount'] / 100;
+							} elseif ($discount['discount_type_id'] == 2) {
+								$this->request->data['RaceRegistration']['payment'] -= $discount['amount'];
+							}
+						}
+					}
+				}
+			}
+
 
 				if ($this->request->data['Donation']['amount']) {
 					$this->request->data['Donation']['amount'] = number_format($this->request->data['Donation']['amount'], 2);
@@ -414,7 +437,15 @@ class RaceRegistrationsController extends AppController {
 				'contain' => array(
 					'Experience' => array(
 						'fields' => array('Experience.meters','Experience.time')
-					)
+					),
+					'Discount' => array(
+						'DiscountAssignment' => array(
+							'conditions' => array(
+								'DiscountAssignment.user_id' => $this->Auth->user('id'),
+								'DiscountAssignment.redeemed != ' => 1								
+							)
+						)
+					),
 				)
 			)
 		);
@@ -447,16 +478,6 @@ class RaceRegistrationsController extends AppController {
 		);
 
 		if ($this->request->is('post')) {
-			
-			$stripe_description = $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
-			
-			if ($this->request->data['RaceRegistration']['join'] == 1) {
-				$stripe_description .= " | Membership Fee";
-			}
-			
-			if (($this->request->data['Donation']['amount']) > 0) {
-				$stripe_description .= " | Donation: $" . $this->request->data['Donation']['amount'];
-			}
 
 			$this->request->data['RaceRegistration']['first_name'] = $this->Auth->user('first_name');
 			$this->request->data['RaceRegistration']['last_name'] = $this->Auth->user('last_name');
@@ -556,18 +577,6 @@ class RaceRegistrationsController extends AppController {
 				$this->request->data['RaceRegistration']['approved'] = 1;
 			}
 
-			$customerData = array(
-				'stripeToken'  => $this->request->data['stripeToken'],
-				'email' => $this->Auth->user('email')
-			);
-
-			$customer = $this->Stripe->customerCreate($customerData);
-
-			$stripeData = array(
-			    'amount' => $this->request->data['RaceRegistration']['total_payment'],
-			    'stripeCustomer' => $customer['stripe_id'],
-				'description' => $stripe_description
-			);
 
 			$emailvars['User']['name'] = $this->Auth->user('name');
 			$emailvars['User']['email'] = $this->Auth->user('email');
@@ -575,7 +584,36 @@ class RaceRegistrationsController extends AppController {
 			$emailvars['Race']['date'] = $race['Race']['date'];
 			$emailvars['Registration']['payment'] = $this->request->data['RaceRegistration']['payment'];
 
-			$result = $this->Stripe->charge($stripeData);
+			if ($this->request->data['RaceRegistration']['total_payment'] > 0) {
+				
+				$stripe_description = $race['Race']['title'] . ' - ' . substr($race['Race']['date'],0,4)  . ' Registration - ' . $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
+				
+				if ($this->request->data['RaceRegistration']['join'] == 1) {
+					$stripe_description .= " | Membership Fee";
+				}
+				
+				if (($this->request->data['Donation']['amount']) > 0) {
+					$stripe_description .= " | Donation: $" . $this->request->data['Donation']['amount'];
+				}				
+					
+				$customerData = array(
+					'stripeToken'  => $this->request->data['stripeToken'],
+					'email' => $this->Auth->user('email')
+				);
+	
+				$customer = $this->Stripe->customerCreate($customerData);
+	
+				$stripeData = array(
+				    'amount' => $this->request->data['RaceRegistration']['total_payment'],
+				    'stripeCustomer' => $customer['stripe_id'],
+					'description' => $stripe_description
+				);
+
+
+				$result = $this->Stripe->charge($stripeData);
+			} else {
+				$result = array();
+			}
 
 			if (is_array($result)) {
 				$this->RaceRegistration->create();

@@ -55,6 +55,13 @@
 				'value' => $race['Race']['id']
 			)
 		);
+		
+		echo $this->Form->input(
+			'Discount.title',
+			array(
+				'label' => "Discount Code"
+			)
+		);
 
 		if (count($race['ChildRace']) > 0) {
 			if ($race['Race']['exclusive']) {
