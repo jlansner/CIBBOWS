@@ -51,5 +51,19 @@
 			)
 		);
 		?></p>
+		
+		<h2>Users</h2>
+		<p>
+			<?php 
+			echo $this->Html->link(
+				'Membership List',
+				array(
+					'controller' => 'memberships',
+					'action' => 'index',
+					'admin' => true
+				)
+			);
+			?>
+		</p>
 	</div>
 </div>
