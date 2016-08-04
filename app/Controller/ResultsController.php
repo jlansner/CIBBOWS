@@ -237,6 +237,7 @@ class ResultsController extends AppController {
 	}
 
 	public function admin_add_results() {
+		//add results without knowing race number. Function needs updating
 		$races = $this->Result->Race->find('list');
 
 		if ($this->request->is('post')) {
@@ -337,7 +338,8 @@ class ResultsController extends AppController {
 	}
 
 	public function admin_add_race_results($race_id) {
-
+		// add result for specific race
+		
 		if ($this->request->is('post')) {
 			$lines = explode("\n", $this->request->data['Result']['results']);
 			$head = str_getcsv(array_shift($lines)); // use first line to define keys
