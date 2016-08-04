@@ -396,12 +396,17 @@ class ResultsController extends AppController {
 							'fields' => array(
 								'RaceRegistration.user_id',
 								'RaceRegistration.age_group_id',
-								'RaceRegistration.gender_id'
+								'RaceRegistration.gender_id',
+								'RaceRegistration.age'
 							),
 							'recursive' => -1
 						)
 					);
-
+					/***************************************************
+					 * 
+					 * Need to add alternative -- search for swimmer in user table -- if swimmer didn't register
+					 * 
+					 ***************************************************/
 					$swimmerAgeGroup = $swimmer['RaceRegistration']['age_group_id'];
 				}
 
@@ -410,7 +415,7 @@ class ResultsController extends AppController {
 				$result['Result']['race_number'] = $line['race_number'];			
 				$result['Result']['first_name'] = $line['first_name'];
 				$result['Result']['last_name'] = $line['last_name'];
-				$result['Result']['age'] = $line['age'];
+				$result['Result']['age'] = $swimmer['RaceRegistration']['age'];
 				$result['Result']['place'] = $line['place'];
 				$result['Result']['age_place'] = $agePlaces[$swimmerAgeGroup]; // get age group place
 				$agePlaces[$swimmerAgeGroup]++; //increment age group place
@@ -418,12 +423,6 @@ class ResultsController extends AppController {
 				$result['Result']['date'] = $race['Race']['date'];
 				$result['Result']['wetsuit'] = $this->request->data['Result']['wetsuit'];
 				$result['Result']['gender_id'] = $swimmer['RaceRegistration']['gender_id'];
-
-/*				if (trim($line['gender']) == 'M') {
-					$result['Result']['gender_id'] = 1;
-				} else {
-					$result['Result']['gender_id'] = 2;
-				} */
 
 				if ($line['time'] == 'DNF') {
 					$result['Result']['time'] = "00:00:00";
