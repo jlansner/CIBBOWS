@@ -424,9 +424,9 @@ class Race extends AppModel {
 	);
 
 	public $virtualFields = array(
-		'displayName' => "CONCAT(title, ' - ', date)"
+//		'displayName' => "CONCAT(Race.title, ' - ', Race.date)"
 	); 
 	
-	public $displayField = 'displayName';
+//	public $displayField = 'displayName';
 }
 ?>

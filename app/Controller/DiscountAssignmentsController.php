@@ -1,11 +1,11 @@
 <?php
 App::uses('AppController', 'Controller');
 /**
- * Discounts Controller
+ * DiscountAssignments Controller
  *
- * @property Discount $Discount
+ * @property DiscountAssignment $DiscountAssignment
  */
-class DiscountsController extends AppController {
+class DiscountAssignmentsController extends AppController {
 
 /**
  * index method
@@ -13,7 +13,7 @@ class DiscountsController extends AppController {
  * @return void
  */
 	public function admin_index() {
-		$this->Discount->recursive = 0;
+		$this->DiscountAssignment->recursive = 0;
 		$this->set('discounts', $this->paginate());
 	}
 
@@ -25,11 +25,11 @@ class DiscountsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->Discount->exists($id)) {
+		if (!$this->DiscountAssignment->exists($id)) {
 			throw new NotFoundException(__('Invalid discount'));
 		}
-		$options = array('conditions' => array('Discount.' . $this->Discount->primaryKey => $id));
-		$this->set('discount', $this->Discount->find('first', $options));
+		$options = array('conditions' => array('DiscountAssignment.' . $this->DiscountAssignment->primaryKey => $id));
+		$this->set('discount', $this->DiscountAssignment->find('first', $options));
 	}
 
 /**
@@ -39,24 +39,31 @@ class DiscountsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			$this->Discount->create();
-			if ($this->Discount->save($this->request->data)) {
+			$this->DiscountAssignment->create();
+			if ($this->DiscountAssignment->save($this->request->data)) {
 				$this->Session->setFlash(__('The discount has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The discount could not be saved. Please, try again.'));
 			}
 		}
-		$discountTypes = $this->Discount->DiscountType->find('list');
-		$races = $this->Discount->Race->find(
+		$users = $this->DiscountAssignment->User->find(
 			'list',
 			array(
-				'conditions' => array(
-					'Race.date >=' => date('Y-m-d')
+				'order' => array(
+					'User.last_name'
 				)
 			)
 		);
-		$this->set(compact('discountTypes','races'));
+		$discounts = $this->DiscountAssignment->Discount->find(
+			'list',
+			array(
+				'order' => array(
+					'Discount.title'
+				)
+			)
+		);
+		$this->set(compact('discounts','users'));
 	}
 
 /**
@@ -67,19 +74,19 @@ class DiscountsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		if (!$this->Discount->exists($id)) {
+		if (!$this->DiscountAssignment->exists($id)) {
 			throw new NotFoundException(__('Invalid discount'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Discount->save($this->request->data)) {
+			if ($this->DiscountAssignment->save($this->request->data)) {
 				$this->Session->setFlash(__('The discount has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The discount could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Discount.' . $this->Discount->primaryKey => $id));
-			$this->request->data = $this->Discount->find('first', $options);
+			$options = array('conditions' => array('DiscountAssignment.' . $this->DiscountAssignment->primaryKey => $id));
+			$this->request->data = $this->DiscountAssignment->find('first', $options);
 		}
 	}
 
@@ -91,16 +98,16 @@ class DiscountsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->Discount->id = $id;
-		if (!$this->Discount->exists()) {
+		$this->DiscountAssignment->id = $id;
+		if (!$this->DiscountAssignment->exists()) {
 			throw new NotFoundException(__('Invalid discount'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Discount->delete()) {
-			$this->Session->setFlash(__('Discount deleted'));
+		if ($this->DiscountAssignment->delete()) {
+			$this->Session->setFlash(__('DiscountAssignment deleted'));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->Session->setFlash(__('Discount was not deleted'));
+		$this->Session->setFlash(__('DiscountAssignment was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
 }

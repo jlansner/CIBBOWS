@@ -9,7 +9,7 @@ class Discount extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'title' => array(
+	/*	'title' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
@@ -18,7 +18,7 @@ class Discount extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-		),
+		), */
 		'discount_type_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
