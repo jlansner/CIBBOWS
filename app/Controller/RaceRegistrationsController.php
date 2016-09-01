@@ -736,14 +736,18 @@ class RaceRegistrationsController extends AppController {
 	    	    'contain' => array(
 	    	    	'RaceRegistration' => array(
 	    	    		'fields' => array(
+		    	    		'RaceRegistration.id',
 		    	    		'RaceRegistration.user_id',
 		    	    		'RaceRegistration.first_name',
 		    	    		'RaceRegistration.last_name',
 		    	    		'RaceRegistration.age',
 		    	    		'RaceRegistration.child_race_id',
 		    	    		'RaceRegistration.approved',
-		    	    		'RaceRegistration.race_number'
-						),
+		    	    		'RaceRegistration.race_number',
+		    	    		'RaceRegistration.result_id',
+	    		    		'RaceRegistration.qualifying_swim_id',
+    			    		'RaceRegistration.qualifying_race_id'
+		    			),
 			    	    'Gender' => array(
 			    	    	'fields' => array('Gender.title')
 						),
@@ -917,5 +921,24 @@ class RaceRegistrationsController extends AppController {
 				'url_title' => $race['Race']['url_title']
 			)
 		);
+	}
+
+	public function approve($id = null) {
+		$this->RaceRegistration->id = $id;
+		if (!$this->RaceRegistration->exists()) {
+			throw new NotFoundException(__('Invalid race registration'));
+		}
+		$this->request->onlyAllow('post');
+		if ($this->RaceRegistration->saveField('approved',1)) {
+			$this->Session->setFlash(__('Race registration approved'));
+			$this->redirect(
+				$this->referer()
+			);
+		} else {
+			$this->Session->setFlash(__('Race registration was not approved'));
+			$this->redirect(
+				$this->referer()
+			);
+		}
 	}
 }

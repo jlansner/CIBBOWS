@@ -213,7 +213,7 @@ class QualifyingRacesController extends AppController {
 					'RaceRegistration.qualifying_swim_id' => null,
 					'RaceRegistration.no_qualifier' => 0
 				),
-				'fields' => array('id','user_id','race_id','qualifying_swim_id','qualifying_race_id','result_id','has_address','has_emergency_contact'),
+				'fields' => array('id','user_id','race_id','qualifying_swim_id','qualifying_race_id','result_id'),
 /*				'contain' => array(
 					'Race' => array(
 						'Experience' => array(
@@ -238,9 +238,7 @@ class QualifyingRacesController extends AppController {
 			}
 
 			if (
-				($registration['RaceRegistration']['qualifying_race_id']) &&
-				($registration['RaceRegistration']['has_address']) &&
-				($registration['RaceRegistration']['has_emergency_contact'])
+				($registration['RaceRegistration']['qualifying_race_id'])
 			) {
 				$registration['RaceRegistration']['approved'] = 1;
 				$this->sendApprovedEmail($registration['RaceRegistration']['id']);				

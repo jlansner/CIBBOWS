@@ -9,11 +9,11 @@
 <?php if ($userMembershipLevel >= $event['Event']['membership_level_id']) {
 	$regOpen = false;
 	$memRegOpen = false;
-	if ($race['CurrentNonMemberEventFee']['price']) {
+	if ($event['CurrentNonMemberEventFee']['price']) {
 		$regOpen = true;
 	} 
 	
-	if ($race['CurrentMemberEventFee']['price']) {
+	if ($event['CurrentMemberEventFee']['price']) {
 		$memRegOpen = true;
  	}
 
@@ -25,17 +25,30 @@
 			)
 		);
 		
-		if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
-			echo $this->Html->link(
-				'Register',
-				array(
-					'controller' => 'event_registrations',
-					'action' => 'register',
-					$event['Event']['id']
-				)
-			);
-		}		
-	}
+		if (strtotime('now') > strtotime($event['Event']['date'])) {
+	
+		} else if ($totalReg >= $event['Event']['max_attendees']) {
+			echo 'Registration for this event is full.';
+		} else if ($reg) {
+			echo 'You are already registered for this event.';
+		} else {
+	
+			if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
+				echo $this->Html->link(
+					'Register',
+					array(
+						'controller' => 'event_registrations',
+						'action' => 'register',
+						$event['Event']['id']
+					)
+				);
+			} else if ($memRegOpen) {
+				echo 'Registration is currently open only for members.';
+			} else {
+				echo 'Registraton for this event is not available at this time.';
+			}
+		}
+	 }
 ?>
 	<p>Start: <?php echo $this->Time->format('g:i a',$event['Event']['start_time']); ?></p>
 
@@ -57,6 +70,9 @@
 	 echo $event['Event']['place'];
 	} ?></p>
 
+<?php if ($event['Event']['max_attendees']) { ?>
+	<p>Maximum Attendees: <?php echo $event['Event']['max_attendees']; ?></p>
+<?php } ?>
 	<p><?php echo $event['Event']['body']; ?></p>
 
 <?php } else { ?>

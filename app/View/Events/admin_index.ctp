@@ -36,8 +36,10 @@
 						'action' => 'edit',
 						$event['Event']['id']
 					)
-				); ?> | 
-				<?php echo $this->Form->postLink(
+				); ?> 
+				<?php 
+/* if ([add super admin requirement) {
+echo $this->Form->postLink(
 					'Delete',
 					array(
 						'admin' => false,
@@ -46,7 +48,8 @@
 					),
 					null,
 					'Are you sure you want to delete "' . $event['Event']['title'] . '"?'
-				); ?>
+				); 
+} */?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

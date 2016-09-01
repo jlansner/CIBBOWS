@@ -167,8 +167,8 @@ class EventRegistrationsController extends AppController {
   			$this->EventRegistration->User->save($this->request->data);
 			
 			$this->Session->write('Auth.User.gender_id',$this->request->data['User']['gender_id']);
-			$this->Session->write('Auth.User.shirt_size_id',$this->request->data['User']['shirt_size_id']);
-			$this->Session->write('Auth.User.medical',$this->request->data['User']['medical']);
+			//$this->Session->write('Auth.User.shirt_size_id',$this->request->data['User']['shirt_size_id']);
+			//$this->Session->write('Auth.User.medical',$this->request->data['User']['medical']);
 			$this->Session->write('Auth.User.dob',$this->request->data['User']['dob']);
 
 			$this->request->data['Address']['user_id'] = $this->Auth->user('id');
@@ -272,9 +272,9 @@ class EventRegistrationsController extends AppController {
 			$this->request->data['Address'] = $address['Address'];
 		}
 
-		if (count($emergencyContact) > 0) {
+/*		if (count($emergencyContact) > 0) {
 			$this->request->data['EmergencyContact'] = $emergencyContact['EmergencyContact'];
-		}
+		} */
 		$this->request->data['User']['dob'] = $this->Auth->user('dob');
 		$this->request->data['User']['gender_id'] = $this->Auth->user('gender_id');
 		
@@ -462,9 +462,6 @@ class EventRegistrationsController extends AppController {
 						),
 			    	    'Gender' => array(
 			    	    	'fields' => array('Gender.title')
-						),
-						'AgeGroup' => array(
-							'fields' => array('AgeGroup.title')
 						),
 						'order' => array('EventRegistration.last_name', 'EventRegistration.first_name')
 					)

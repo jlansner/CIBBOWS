@@ -76,6 +76,16 @@ if ($admin) { ?>
 					<?php } else {
 						if (($race['Race']['experience_id'] !== null) && (($raceRegistration['result_id'] == null) && ($raceRegistration['qualifying_race_id'] == null) && ($raceRegistration['qualifying_swim_id'] == null))) { ?>
 							<i class="fa fa-clock-o orange" title="Qualfying Swim Needed"></i>
+							<?php if ($admin) {
+							echo $this->Form->postLink(
+								'Approve',
+								array(
+									'admin' => false,
+									'action' => 'approve',
+									$raceRegistration['id']
+								)
+							);	
+							 } ?>
 						<?php }	else { ?>
               <i class="fa fa-check edit" title="Registration Approved"></i>
             <?php }

@@ -54,7 +54,27 @@ class EventsController extends AppController {
 			$this->redirect('/events/');
 		}
 
+		$reg = $this->Event->EventRegistration->find(
+			'count',
+			array(
+				'conditions' => array(
+					'EventRegistration.event_id' => $event['Event']['id'],
+					'EventRegistration.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1
+			)
+		);
+        $totalReg = $this->Event->EventRegistration->find(
+            'count',
+            array(
+                'conditions' => array(
+                    'EventRegistration.event_id' => $event['Event']['id']
+                )
+            )
+        );
+
         $this->set('event', $event);
+        $this->set(compact('event','reg','totalReg'));
 
 	}
 

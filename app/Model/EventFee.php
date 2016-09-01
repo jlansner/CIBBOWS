@@ -1,12 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * EventRegistration Model
+ * Event Model
  *
+ * @property MembershipLevel $MembershipLevel
  */
-class EventRegistration extends AppModel {
-
-    public $actsAs = array('Containable');
+class EventFee extends AppModel {
 
 /**
  * Validation rules
@@ -14,16 +13,6 @@ class EventRegistration extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'event_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -34,9 +23,14 @@ class EventRegistration extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+		'start_date' => array(
+			'date' => array(
+				'rule' => array('date'),
+			)
+		),
+		'end_date' => array(
+			'date' => array(
+				'rule' => array('date'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -44,17 +38,7 @@ class EventRegistration extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-/*		'age' => array(
-			'required' => array(
-				'rule' => array('checkAge'),
-				'message' => 'You are not old enough to register for this race',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		), */
-		'gender_id' => array(
+		'priority' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -64,11 +48,11 @@ class EventRegistration extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'approved' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
+		'membership_level_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -84,9 +68,9 @@ class EventRegistration extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
+		'MembershipLevel' => array(
+			'className' => 'MembershipLevel',
+			'foreignKey' => 'membership_level_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -97,19 +81,10 @@ class EventRegistration extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Gender' => array(
-			'className' => 'Gender',
-			'foreignKey' => 'gender_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
-	
-/*	public function beforeSave() {
-		parent::beforeSave();
-		
-	}
-*/
+
+	public $hasOne = array();
+
+	public $hasMany = array();
 }
