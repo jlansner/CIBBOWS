@@ -29,8 +29,14 @@
 		<td><?php echo h($eventFee['EventFee']['min_age']); ?>&nbsp;</td>
 		<td><?php echo h($eventFee['EventFee']['max_age']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $eventFee['EventFee']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $eventFee['EventFee']['id'])); ?>
+			<?php echo $this->Html->link(
+				__('Edit'),
+				array(
+					'action' => 'edit',
+					'admin' => false,
+					$eventFee['EventFee']['id']
+				)
+			); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $eventFee['EventFee']['id']), null, __('Are you sure you want to delete # %s?', $eventFee['EventFee']['id'])); ?>
 		</td>
 	</tr>
