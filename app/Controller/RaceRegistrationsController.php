@@ -796,15 +796,31 @@ class RaceRegistrationsController extends AppController {
 		$this->RaceRegistration->Race->save($race);
 	}
 
-	public function swimmer_list($race_id) {
+	public function swimmer_list($race_id, $child_race_id = null) {
+		$conditions = array();
+
+		if ($child_race_id) {
+			$conditions = array(
+				'RaceRegistration.race_id' => $race_id,
+				'RaceRegistration.child_race_id' => $child_race_id
+			);
+		}
 
 		$data = $this->RaceRegistration->Race->find(
 			'first',
 			array(
 	        	'conditions' => array(
-    	    		'Race.id' => $race_id
-	    	    ),
+					'Race.id' => $race_id
+				),
 	    	    'contain' => array(
+					'ChildRace' => array(
+						'conditions' => array(
+							'ChildRace.id' => $child_race_id
+						),
+						'fields' => array(
+							'ChildRace.url_title'
+						)
+					),
 	    	    	'RaceRegistration' => array(
 	    	    		'fields' => array(
 	    	    			'RaceRegistration.user_id',
@@ -816,6 +832,7 @@ class RaceRegistrationsController extends AppController {
 	    	    			'RaceRegistration.race_number',
 	    	    			'RaceRegistration.wetsuit'
 	    	    		),
+						'conditions' => $conditions,
 			    	    'Gender' => array(
 			    	    	'fields' => array('Gender.title')
 						),
@@ -834,8 +851,12 @@ class RaceRegistrationsController extends AppController {
 				)
 			)
 		);
+		if ($child_race_id) {
+	 		$this->response->download($data['Race']['url_title'] . '_' . $data['ChildRace'][0]['url_title'] . '_' . substr($data['Race']['date'],0,4) . '.csv');
+		} else {
+			$this->response->download($data['Race']['url_title'] . '_' . substr($data['Race']['date'],0,4) . '.csv');
+		}
 
- 		$this->response->download($data['Race']['url_title'] . '_' . substr($data['Race']['date'],0,4) . '.csv');
 		$this->set(compact('data'));
  		$this->layout = 'ajax';
  		return;
