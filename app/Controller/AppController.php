@@ -70,7 +70,7 @@ class AppController extends Controller {
 //        $this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
 
 		$this->Auth->allow('display', 'view', 'index', 'homepage_news', 'homepage_calendar','create_account','confirm','forgot_password','reset_password','menu','donate','confirm','thankyou','homepage_slideshow');
-		
+
 		if ($this->Session->read('Membership.membership_level')) {
 			$this->userMembershipLevel = $this->Session->read('Membership.membership_level');
 		} else {
@@ -83,7 +83,7 @@ class AppController extends Controller {
 		$this->set('admin',$admin);
 
     }
-	
+
 	public function rand_string($length = "20") {
 		$pass = "";
 		for ($i = 0; $i < $length; $i++) {
@@ -95,7 +95,7 @@ class AppController extends Controller {
 		}
 		return $pass;
 	}
-	
+
 	public function sendApprovedEmail($registration_id) {
 		$emailvars = $this->RaceRegistration->find(
 			'first',
@@ -120,7 +120,7 @@ class AppController extends Controller {
 		$Email->to($emailvars['User']['email']);
 		if ($emailvars['Race']['parent_id']) {
 			$Email->subject('Your registration for ' . $emailvars['Race']['ParentRace']['title'] . ' - ' . $emailvars['Race']['title'] . ' has been approved');
-			
+
 		} else {
 			$Email->subject('Your registration for ' . $emailvars['Race']['title'] . ' has been approved');
 		}
@@ -131,8 +131,8 @@ class AppController extends Controller {
 		);
 		$Email->template('race_registration_updated_approved', 'default');
 		$Email->emailFormat('both');
-		$Email->send();		
-		
+		$Email->send();
+
 	}
 
     public function forceSecure() {
@@ -140,7 +140,7 @@ class AppController extends Controller {
 	        $this->redirect( 'https://'.env('SERVER_NAME').env('REQUEST_URI') );
 		}
     }
-	
+
 	public function send_email($user,$contents) {
 		$Email = new CakeEmail('default');
 		$Email->to($user['User']['email']);
@@ -153,7 +153,7 @@ class AppController extends Controller {
 		);
 		$Email->template('mass_email','default');
 		$Email->emailFormat('both');
-		$Email->send();		
+		$Email->send();
 	}
 
 	public function send_membership_email($user,$membershipFee) {
@@ -169,7 +169,7 @@ class AppController extends Controller {
 		);
 		$Email->template('join', 'default');
 		$Email->emailFormat('both');
-		$Email->send();		
+		$Email->send();
 	}
 
 	public function send_donation_email($emailvars) {
@@ -183,6 +183,6 @@ class AppController extends Controller {
 		);
 		$Email->template('send_donation_email', 'default');
 		$Email->emailFormat('both');
-		$Email->send();				
+		$Email->send();
 	}
 }

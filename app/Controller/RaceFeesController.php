@@ -12,7 +12,7 @@ class RaceFeesController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
 		$this->RaceFee->recursive = 0;
 		$this->set('raceFees', $this->paginate());
 	}
@@ -113,16 +113,47 @@ class RaceFeesController extends AppController {
 	}
 
 	public function add_fee($race_id = null) {
+		$saveData = array();
 		if ($this->request->is('post')) {
+			$i = 0;
+			foreach ($this->request->data['RaceFee'] as $raceFee) {
+				if (strlen($raceFee['start_date']) > 2) {
+					$saveData[$i] = array(
+						'race_id' => $this->request->data['RaceFee']['race_id'],
+						'start_date' => $raceFee['start_date'],
+						'end_date' => $raceFee['end_date'],
+						'priority' => '1',
+						'price' => $raceFee['member_price'],
+						'membership_level_id' => '1'
+					);
+
+					$i++;
+
+					$saveData[$i] = array(
+						'race_id' => $this->request->data['RaceFee']['race_id'],
+						'start_date' => $raceFee['start_date'],
+						'end_date' => $raceFee['end_date'],
+						'priority' => '1',
+						'price' => $raceFee['nonmember_price'],
+						'membership_level_id' => '0'
+					);
+					$i++;
+				}
+			}
 			$this->RaceFee->create();
-			if ($this->RaceFee->save($this->request->data)) {
-				$this->Session->setFlash(__('The race fee has been saved'));
-				$this->redirect(array('action' => 'index'));
+			if ($this->RaceFee->saveMany($saveData)) {
+				$this->Session->setFlash(__('The race fees have been saved'));
+				$this->redirect(
+					array(
+						'action' => 'index',
+						'admin' => true
+					)
+				);
 			} else {
-				$this->Session->setFlash(__('The race fee could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The race fees could not be saved. Please, try again.'));
 			}
 		}
-		
+
 		if ($race_id) {
 			$race = $this->RaceFee->Race->find(
 				'first',
@@ -145,8 +176,7 @@ class RaceFeesController extends AppController {
 			$race = null;
 		}
 		$membershipLevels = $this->RaceFee->MembershipLevel->find('list');
-		$this->set('race',$race);
 
-		$this->set(compact('membershipLevels'));
+		$this->set(compact('race','membershipLevels','saveData'));
 	}
 }

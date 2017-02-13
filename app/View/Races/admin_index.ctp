@@ -61,6 +61,41 @@
 				); ?>
 				</td>
 			</tr>
+			
+			<?php if ($race['ChildRace']) { 
+				foreach ($race['ChildRace'] as $childRace) {
+				?>
+				
+				<tr>
+					<td>
+						&ndash; <?php echo $childRace['title']; ?>
+					</td>
+					<td></td>
+					<td>
+									<?php echo $this->Html->link(
+					'Edit',
+					array(
+						'admin' => false,
+						'action' => 'edit',
+						$childRace['id']
+					)
+				); ?> | 
+				<?php echo $this->Form->postLink(
+					'Delete',
+					array(
+						'admin' => false,
+						'action' => 'delete',
+						$childRace['id']
+					),
+					null,
+					'Are you sure you want to delete "' . $race['Race']['title'] . '"?'
+				); ?></td>
+				</tr>
+				
+			
+			<?php } 
+			}
+			?>
 			<?php endforeach; ?>
 		</tbody>
 		</table>

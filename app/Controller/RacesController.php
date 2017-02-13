@@ -48,6 +48,9 @@ class RacesController extends AppController {
 				'conditions' => array(
 					'Race.parent_id' => NULL
 				),
+				'contain' => array(
+					'ChildRace'
+				),
 				'order' => 'date DESC',
 				'recursive' => 0
 			)
@@ -217,7 +220,12 @@ class RacesController extends AppController {
 			$this->Race->create();
 			if ($this->Race->save($this->request->data)) {
 				$this->Session->setFlash(__('The race has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'action' => 'index',
+						'admin' => true
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The race could not be saved. Please, try again.'));
 			}
