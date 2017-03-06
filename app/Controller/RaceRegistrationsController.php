@@ -122,6 +122,9 @@ class RaceRegistrationsController extends AppController {
 					'AgeWaiver',
 					'CurrentMemberRaceFee',
 					'CurrentNonMemberRaceFee',
+					'RaceRegistration' => array(
+						'fields' => array('RaceRegistration.id','RaceRegistration.child_race_id')
+					),
 					'Distance',
 					'Discount' => array(
 						'DiscountAssignment' => array(
@@ -133,7 +136,7 @@ class RaceRegistrationsController extends AppController {
 					),
 					'ChildRace' => array(
 						'fields' => array(
-							'ChildRace.id','ChildRace.title','ChildRace.experience_id','ChildRace.date'),
+							'ChildRace.id','ChildRace.title','ChildRace.experience_id','ChildRace.date','ChildRace.max_swimmers'),
 						'Distance' => array(
 							'fields' => array('Distance.name','Distance.plural','Distance.abbreviation'),
 						),
@@ -142,11 +145,14 @@ class RaceRegistrationsController extends AppController {
 						),
 						'CurrentNonMemberRaceFee' => array(
 							'fields' => array('CurrentNonMemberRaceFee.price')
-						),						
+						),
+						'ChildRaceRegistration' => array(
+							'fields' => array('ChildRaceRegistration.id')
+						),
 						'order' => 'ChildRace.id ASC'
 					)
 				),
-				'fields' => array('Race.id', 'Race.title',' Race.experience_id', 'Race.date', 'Race.exclusive', 'Race.url_title', 'Race.max_swimmers', 'Race.minimum_age') 
+				'fields' => array('Race.id', 'Race.title',' Race.experience_id', 'Race.date', 'Race.exclusive', 'Race.url_title', 'Race.max_swimmers', 'Race.minimum_age','Race.max_swimmers') 
 			)
 		);
 		
