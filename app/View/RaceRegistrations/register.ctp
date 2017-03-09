@@ -67,15 +67,15 @@
 			if ($race['Race']['exclusive']) {
 				// allow multiple section sign up
 			} else {
-        $disabledArray = array();
+				$disabledArray = array();
 
-        for ($i = 0; $i < count($race['ChildRace']); $i++) {
-          if (count($race['ChildRace'][$i]['ChildRaceRegistration']) >= $race['ChildRace'][$i]['max_swimmers']) {
-            array_push($disabledArray, $race['ChildRace'][$i]['id']);
-          }
-        }
+				for ($i = 0; $i < count($race['ChildRace']); $i++) {
+					if (count($race['ChildRace'][$i]['ChildRaceRegistration']) >= $race['ChildRace'][$i]['max_swimmers']) {
+						array_push($disabledArray, $race['ChildRace'][$i]['id']);
+					}
+				}
 
-        echo $this->Form->input(
+				echo $this->Form->input(
 					'RaceRegistration.child_race_id',
 					array(
 						'type' => 'radio',
@@ -83,7 +83,7 @@
 						'before' => '<p>Section</p>',
 						'separator' => '<br />',
 						'escape' => false,
-            'disabled' => $disabledArray
+						'disabled' => $disabledArray
 					)
 				);
 			}

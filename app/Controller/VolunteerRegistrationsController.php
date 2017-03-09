@@ -134,13 +134,22 @@ class VolunteerRegistrationsController extends AppController {
 					'Race.id' => $race_id
 				),
 				'contain' => array(
+					'ChildRace' => array(
+						'fields' => array(
+							'ChildRace.id','ChildRace.title','ChildRace.date','ChildRace.max_volunteers'
+						),
+					)
 				),
 				'fields' => array(
 					'Race.id','Race.date','Race.title','Race.url_title'
 				)				
 			)
 		);
-		
+
+		foreach ($race['ChildRace'] as $child) {
+			$childRaces[$child['id']] = $child['title'];
+		}
+
 		if ($this->request->is('post')) {
 			$this->request->data['VolunteerRegistration']['user_id'] = $this->Auth->user('id');
 			$this->request->data['VolunteerRegistration']['race_id'] = $race_id;
@@ -194,6 +203,6 @@ class VolunteerRegistrationsController extends AppController {
 
 		$this->request->data['Address'] = $address['Address'];
 
-		$this->set(compact('race'));
+		$this->set(compact('race','childRaces'));
 	}
 }

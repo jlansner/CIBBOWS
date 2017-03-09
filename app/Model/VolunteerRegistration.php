@@ -99,6 +99,13 @@ class VolunteerRegistration extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'ChildRace' => array(
+			'className' => 'Race',
+			'foreignKey' => 'child_race_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'VolunteerTask' => array(
 			'className' => 'VolunteerTask',
 			'foreignKey' => 'volunteer_task_id',
