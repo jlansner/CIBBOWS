@@ -19,6 +19,11 @@
 		<thead>
 				<tr>
 					<th>Name</th>
+					<?php if (count($race['ChildRace']) > 0) { ?>
+						<th>Section</th>
+					<?php } ?>
+
+					<th>
 					<?php if ($admin) { ?>
 						<th>Email Address</th>
 					 	<th>Notes</th>
@@ -39,6 +44,15 @@
 					)
 				); ?>
 				</td>
+					<?php if (count($race['ChildRace']) > 0) { ?>
+						<td>
+						<?php 
+						if ($volunteerRegistration['child_race_id']) {
+							echo $volunteerRegistration['ChildRace']['title'] . ' - ' . $this->Time->format('F j, Y', $volunteerRegistration['ChildRace']['date']); 
+						}
+						?>
+						</td>
+					<?php } ?>
 					<?php if ($admin) { ?>
 						<td><?php echo $volunteerRegistration['User']['email']; ?></td>
 					 	<td><?php echo $volunteerRegistration['body']; ?></td>
