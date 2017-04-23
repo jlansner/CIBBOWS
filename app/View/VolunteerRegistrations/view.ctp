@@ -25,6 +25,7 @@
 					<?php if ($admin) { ?>
 						<th>Email Address</th>
 					<?php } ?>
+						<th>Volunteer Assignment</th>
 					 	<th>Notes</th>
 			</tr>
 		</thead>
@@ -54,6 +55,22 @@
 					<?php if ($admin) { ?>
 						<td><?php echo $volunteerRegistration['User']['email']; ?></td>
 					<?php } ?>
+						<td><?php
+						if (!empty($volunteerRegistration['VolunteerTask'])) {
+							echo $volunteerRegistration['VolunteerTask']['title']; 
+						}
+						if ($admin) {
+							echo '<br />' . $this->Html->link(
+								'Edit Assignment',
+								array(
+									'controller' => 'volunteer_registrations',
+									'action' => 'assign_task',
+									$volunteerRegistration['id']
+								)
+							);
+						}
+						?>
+						</td>
 					 	<td><?php echo $volunteerRegistration['body']; ?></td>
 			</tr>
 		<?php endforeach; ?>

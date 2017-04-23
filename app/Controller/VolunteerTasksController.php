@@ -42,7 +42,12 @@ class VolunteerTasksController extends AppController {
 			$this->VolunteerTask->create();
 			if ($this->VolunteerTask->save($this->request->data)) {
 				$this->Session->setFlash(__('The volunteer task has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(
+					array(
+						'controller' => 'volunteer_tasks',
+						'action' => 'index'
+					)
+				);
 			} else {
 				$this->Session->setFlash(__('The volunteer task could not be saved. Please, try again.'));
 			}

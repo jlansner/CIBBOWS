@@ -38,12 +38,13 @@ class VolunteerRegistrationsController extends AppController {
 	    	    ),
 	    	    'contain' => array(
 	    	    	'VolunteerRegistration' => array(
-	    	    		'fields' => array('VolunteerRegistration.user_id','VolunteerRegistration.first_name','VolunteerRegistration.last_name','VolunteerRegistration.approved','VolunteerRegistration.body','VolunteerRegistration.child_race_id'),
+	    	    		'fields' => array('VolunteerRegistration.id','VolunteerRegistration.user_id','VolunteerRegistration.first_name','VolunteerRegistration.last_name','VolunteerRegistration.approved','VolunteerRegistration.body','VolunteerRegistration.child_race_id'),
 						'order' => array('VolunteerRegistration.last_name', 'VolunteerRegistration.first_name'),
 						'User' => array(
 							'fields' => array('User.email','User.first_name','User.last_name')
 						),
-						'ChildRace'
+						'ChildRace',
+						'VolunteerTask',
 					),
 					'Series',
 					'ChildRace' => array(
@@ -209,4 +210,23 @@ class VolunteerRegistrationsController extends AppController {
 
 		$this->set(compact('race','childRaces'));
 	}
+
+	public function assign_task($id = null) {
+		if (!$this->VolunteerRegistration->exists($id)) {
+			throw new NotFoundException(__('Invalid volunteer registration'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->VolunteerRegistration->save($this->request->data)) {
+				$this->Session->setFlash(__('The volunteer registration has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The volunteer registration could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('VolunteerRegistration.' . $this->VolunteerRegistration->primaryKey => $id));
+			$this->request->data = $this->VolunteerRegistration->find('first', $options);
+		}
+		$volunteerTasks = $this->VolunteerRegistration->VolunteerTask->find('list');
+		$this->set(compact('volunteerTasks'));
+	} 
 }
