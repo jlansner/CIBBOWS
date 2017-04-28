@@ -13,13 +13,21 @@ class ClinicsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Clinic->recursive = 0;
-		$this->set('clinics', $this->paginate());
+		$clinics = $this->Clinic->find(
+			'all',
+			array(
+				'conditions' => array(
+					'YEAR(Clinic.date)' => date('Y')
+				)
+			)
+		);
+		$this->set(compact('clinics'));
 	}
 
 	public function admin_index() {
-		$this->Clinic->recursive = 0;
-		$this->set('clinics', $this->paginate());
+//		$this->Clinic->recursive = 0;
+		$clinics = $this->Clinic->find('all');
+		$this->set(compact('clinics'));
 	}
 
 /**
