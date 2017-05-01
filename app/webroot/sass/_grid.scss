@@ -2,7 +2,8 @@
   width: 100%;
   clear: both;
   position: relative;
-  
+  @include clearAfter();
+
   .row {
     margin: 0 -10px;
   }

@@ -18,10 +18,30 @@ class ClinicsController extends AppController {
 			array(
 				'conditions' => array(
 					'YEAR(Clinic.date)' => date('Y')
+				),
+				'order' => array(
+					'Clinic.date'
 				)
 			)
 		);
 		$this->set(compact('clinics'));
+	}
+
+	public function homepage_clinics() {
+		$clinics = $this->Clinic->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Clinic.date >=' => date('Y-m-d')
+				),
+				'limit' => 5,
+				'order' => array(
+					'Clinic.date'
+				)
+			)
+		);
+
+		return $clinics;
 	}
 
 	public function admin_index() {

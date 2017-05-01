@@ -6,13 +6,10 @@
 
 <div class="row homepage">
 	<div class="column column6">
-		<?php echo $this->element('homepage_news'); ?>
-		<br class="clear" />
+		<?php echo $this->element('homepage_races'); ?>
 	</div>
 
 	<div class="column column6">
-		<?php echo $this->element('homepage_calendar'); ?>
-		<br class="clear" />
+		<?php echo $this->element('homepage_clinics'); ?>
 	</div>
-	<br class="clear" />
 </div>

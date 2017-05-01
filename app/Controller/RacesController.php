@@ -38,7 +38,47 @@ class RacesController extends AppController {
 		}
 		$this->set(compact('races', 'series'));
 	}
-	
+
+	public function homepage_races() {
+		$series = $this->Race->Series->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Series.active'
+				),
+				'order' => array('Series.menu_rank'),
+				'recursive' => -1
+			)
+		);
+		
+		foreach ($series as $s) {
+			$race = $this->Race->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Race.series_id' => $s['Series']['id'],
+						'Race.parent_id' => null,
+						'OR' => array(
+							'AND' => array(
+								'Race.date >=' => date('Y-m-d'),
+								'Race.end_date IS NULL'
+							),
+							'Race.end_date >=' => date('Y-m-d')
+						)
+					),
+					'order' => array('Race.date DESC'),
+					'fields' => array('Race.date', 'Race.end_date', 'Race.url_title', 'Race.title')
+				)
+			);	
+			
+			if ($race) {
+				$races[] = $race;
+			}		
+		}
+		return $races;
+	}
+
+
 	public function admin_index() {
 
 		$races = $this->Race->find(

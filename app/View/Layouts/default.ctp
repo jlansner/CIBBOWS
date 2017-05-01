@@ -216,9 +216,7 @@
 
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		<br class="clear" />
 	</div>
-	<br class="clear" />
 	<div class="footer">
 		<div class="smIcons">
 			<a href="http://twitter.com/cibbows" target="_blank"><i class="fa fa-twitter-square"></i></a>
