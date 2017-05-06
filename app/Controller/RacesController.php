@@ -51,12 +51,11 @@ class RacesController extends AppController {
 			)
 		);
 		
-		foreach ($series as $s) {
-			$race = $this->Race->find(
-				'first',
+		// foreach ($series as $s) {
+			$races = $this->Race->find(
+				'all',
 				array(
 					'conditions' => array(
-						'Race.series_id' => $s['Series']['id'],
 						'Race.parent_id' => null,
 						'OR' => array(
 							'AND' => array(
@@ -66,15 +65,16 @@ class RacesController extends AppController {
 							'Race.end_date >=' => date('Y-m-d')
 						)
 					),
-					'order' => array('Race.date DESC'),
+					'order' => array('Race.date ASC'),
 					'fields' => array('Race.date', 'Race.end_date', 'Race.url_title', 'Race.title')
 				)
 			);	
 			
-			if ($race) {
-				$races[] = $race;
-			}		
-		}
+		//	if ($race) {
+		//		$races[] = $race;
+		//	}		
+		//}
+
 		return $races;
 	}
 

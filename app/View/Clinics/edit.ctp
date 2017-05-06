@@ -30,7 +30,16 @@
 				'empty' => 'Non-Member'
 			)
 		);
+		echo $this->Form->input('registration_required');
+
+		echo $this->Form->input(
+			'fee',
+			array(
+				'label' => 'Payment Required'
+			)
+		);
 		echo $this->Form->input('max_swimmers');
+		echo $this->Form->input('max_waitlist');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

@@ -340,7 +340,9 @@ class ContentsController extends AppController {
 	    	    			'Series.active' => 1,
 	    	    			'Series.in_menu' => 1,
 						),
-			    	    'order' => array('Series.menu_rank'),
+			    	    'order' => array(
+							'Series.title'
+						),
 			    	    'recursive' => -1
 					)
 				);
