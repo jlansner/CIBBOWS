@@ -101,3 +101,18 @@ if (count($membershipFee)) {
 </div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$('.stripe-button-el').attr('disabled','disabled');
+
+		$('body').on('change', '#MembershipWaiver', function() {
+			console.log($(this).is(':checked'));
+			if ($(this).is(':checked')) {
+				$('.stripe-button-el').removeAttr('disabled');
+			} else {
+				$('.stripe-button-el').attr('disabled','disabled');
+			}
+		});
+	});
+</script>
