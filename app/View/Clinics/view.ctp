@@ -5,8 +5,6 @@
 
 	<p>Date: <?php echo $this->Time->format('F j, Y',$clinic['Clinic']['date']); ?></p>
 
-	<?php if ($userMembershipLevel >= $clinic['Clinic']['membership_level_id']) { ?>
-
  <ul class="raceNav">
  	<li class="active">Overview</li>
  	<li>
@@ -23,11 +21,9 @@
 		); ?>
  	</li>
 </ul>
-<br class="clear" />
+
+	<?php if ($userMembershipLevel >= $clinic['Clinic']['membership_level_id']) { ?>
 <p>
-	<!--
-		<?php var_export($clinic); ?>
-	-->
 <?php
 	if ($clinic['Clinic']['registration_required']) {
 		if (strtotime('now') > strtotime($clinic['Clinic']['date'])) {
