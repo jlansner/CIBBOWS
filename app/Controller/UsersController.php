@@ -260,6 +260,9 @@ class UsersController extends AppController {
 	}
 
 	public function login() {
+		if ($this->Auth->redirect() == "/join") {
+			$this->Session->setFlash('You must be logged in before you can join CIBBOWS');
+		}
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
 				$this->setMembershipLevel();
