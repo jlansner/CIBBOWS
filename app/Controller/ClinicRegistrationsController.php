@@ -51,6 +51,9 @@ class ClinicRegistrationsController extends AppController {
 			    	    'Gender' => array(
 			    	    	'fields' => array('Gender.title')
 						),
+						'User' => array(
+							'fields' => array('User.email','User.first_name','User.last_name')
+						),
 						'order' => array('ClinicRegistration.last_name', 'ClinicRegistration.first_name')	
 						
 					)

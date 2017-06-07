@@ -30,6 +30,9 @@
 					<th>Age</th>
 					<th>Sex</th>
 					<th>Status</th>
+				<?php if ($admin) { ?>
+					<th>Email Address</th>
+				<?php } ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -53,6 +56,9 @@
 						<i class="fa fa-check edit" title="Approved"></i>
         		    <?php } ?>
 				</td>
+					<?php if ($admin) { ?>
+						<td><?php echo $clinicRegistration['User']['email']; ?></td>
+					<?php } ?>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
