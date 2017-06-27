@@ -40,7 +40,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 <p>
 <?php
 
-	if (strtotime('now') > strtotime($race['Race']['date'])) {
+	if (strtotime('now') > strtotime($race['Race']['end_date'])) {
 
 	} else if (trim($race['Race']['registration_link']) !== "") {
 		echo '<a href="' . $race['Race']['registration_link'] . '" target="_blank">Register as a swimmer</a>';
@@ -82,7 +82,7 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 <?php 
  if ($race['Race']['registration_link'] == "") {
 
-if (strtotime('now') > strtotime($race['Race']['date'])) {
+if (strtotime('now') > strtotime($race['Race']['end_date'])) {
 			} else if ($volReg) {
 				echo 'You are already registered as a volunteer.';
 			} else {
@@ -100,7 +100,7 @@ if (strtotime('now') > strtotime($race['Race']['date'])) {
 </p>
 
 	<?php 
-	if ((strtotime('now') > strtotime($race['Race']['date'])) && (trim($race['Race']['postrace_body']) !== "")) {
+	if ((strtotime('now') > strtotime($race['Race']['end_date'])) && (trim($race['Race']['postrace_body']) !== "")) {
 		echo $race['Race']['postrace_body'];
 	} else {
 		echo $race['Race']['body']; 

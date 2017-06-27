@@ -143,6 +143,9 @@ class VolunteerRegistrationsController extends AppController {
 						'fields' => array(
 							'ChildRace.id','ChildRace.title','ChildRace.date','ChildRace.max_volunteers'
 						),
+						'conditions' => array(
+							'ChildRace.date >= CURDATE()'
+						)
 					)
 				),
 				'fields' => array(
@@ -178,16 +181,16 @@ class VolunteerRegistrationsController extends AppController {
 			}
 		}
 
-		if (strtotime('now') > strtotime($race['Race']['date'])) {
-			$this->redirect(
-				array(
-					'controller' => 'races',
-					'action' => 'view',
-					'year' => substr($race['Race']['date'],0,4),
-					'url_title' => $race['Race']['url_title']
-				)
-			);	
-		}
+		// if (strtotime('now') > strtotime($race['Race']['date'])) {
+		// 	$this->redirect(
+		// 		array(
+		// 			'controller' => 'races',
+		// 			'action' => 'view',
+		// 			'year' => substr($race['Race']['date'],0,4),
+		// 			'url_title' => $race['Race']['url_title']
+		// 		)
+		// 	);	
+		// }
 
 		$address = $this->VolunteerRegistration->User->Address->find(
 			'first',

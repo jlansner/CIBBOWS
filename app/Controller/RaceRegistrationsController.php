@@ -137,6 +137,9 @@ class RaceRegistrationsController extends AppController {
 					'ChildRace' => array(
 						'fields' => array(
 							'ChildRace.id','ChildRace.title','ChildRace.experience_id','ChildRace.date','ChildRace.max_swimmers'),
+						'conditions' => array(
+							'ChildRace.date >= CURDATE()'
+						),
 						'Distance' => array(
 							'fields' => array('Distance.name','Distance.plural','Distance.abbreviation'),
 						),
@@ -156,17 +159,16 @@ class RaceRegistrationsController extends AppController {
 			)
 		);
 		
-		if (strtotime('now') > strtotime($race['Race']['date'])) {
-			$this->redirect(
-				array(
-					'controller' => 'races',
-					'action' => 'view',
-					'year' => substr($race['Race']['date'],0,4),
-					'url_title' => $race['Race']['url_title']
-				)
-			);
-			
-		}
+		// if (strtotime('now') > strtotime($race['Race']['end_date'])) {
+		// 	$this->redirect(
+		// 		array(
+		// 			'controller' => 'races',
+		// 			'action' => 'view',
+		// 			'year' => substr($race['Race']['date'],0,4),
+		// 			'url_title' => $race['Race']['url_title']
+		// 		)
+		// 	);
+		// }
 
 		$reg = $this->RaceRegistration->find(
 			'count',
@@ -184,11 +186,12 @@ class RaceRegistrationsController extends AppController {
 
 			$this->Session->setFlash('You are already registered for this race.');
 			$this->redirect(
-			array(
-				'controller' => 'race_registrations',
-				'action' => 'view',
-				'year' => substr($race['Race']['date'],0,4),
-				'url_title' => $race['Race']['url_title'])
+				array(
+					'controller' => 'race_registrations',
+					'action' => 'view',
+					'year' => substr($race['Race']['date'],0,4),
+					'url_title' => $race['Race']['url_title']
+				)
 			);
 		}
 		
