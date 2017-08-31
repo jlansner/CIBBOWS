@@ -47,7 +47,11 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 	} else if ($totalReg >= $race['Race']['max_swimmers']) {
 		echo 'Registration for this race is full.';
 	} else if ($reg) {
-		echo 'You are already registered as a swimmer for this race.';
+		if ($race['Race']['exclusive']) {
+
+		} else {
+			echo 'You are already registered as a swimmer for this race.';
+		}
 	} else {
 		if (($regOpen) || (($memRegOpen) && ($userMembershipLevel == 1))) {
 			if ($race['Race']['registration_link']) {

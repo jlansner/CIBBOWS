@@ -33,6 +33,10 @@ img {
 	text-align: right;
 }
 
+.center {
+  text-align: center;
+}
+
 .bulletless {
   list-style-type: none;
   padding: 0;
@@ -264,7 +268,7 @@ p.error em {
 }
 
 .footer {
-  padding-top: 20px;
+  padding: 20px $gridPadding 0 $gridPadding;
   font-size: 80%;
 }
 
@@ -317,8 +321,9 @@ textarea {
 }
 
 input[type=submit], .linkButton {
-  background-image: none;
-  background-color: $greyBlue;
+  -webkit-appearance: none;
+  display: inline-block;
+  background: $greyBlue;
   color: #fff;
   border: 0 none;
   @include border-radius(5px);

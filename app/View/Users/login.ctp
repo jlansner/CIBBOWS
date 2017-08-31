@@ -5,7 +5,7 @@
 </div>
 
 <div class="row">
-	<div class="column column8">
+	<div class="column column7">
 <?php
 
 echo $this->Form->create('User', array('action' => 'login'));
@@ -18,10 +18,10 @@ echo $this->Html->link('Forgot your password?', array('controller' => 'users', '
 </p>
 <?php echo $this->Form->end('Login'); ?>
 	</div>
-	<div class="column column1">
-		OR
+	<div class="column column1 center">
+		<p>OR</p>
 	</div>
-	<div class="column columm4">	
+	<div class="column column4">	
 <?php echo $this->Html->link(
 	'Create an account',
 	array(

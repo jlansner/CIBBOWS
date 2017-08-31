@@ -14,7 +14,7 @@ class ResultsController extends AppController {
 	);
 
 
-	public function index() {
+	public function admin_index() {
 		$this->Result->recursive = 0;
 		$this->set('results', $this->paginate());
 	}

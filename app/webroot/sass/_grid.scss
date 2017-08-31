@@ -1,3 +1,5 @@
+$gridPadding: 10px;
+
 .row {
   width: 100%;
   clear: both;
@@ -5,7 +7,7 @@
   @include clearAfter();
 
   .row {
-    margin: 0 -10px;
+    margin: 0 -$gridPadding;
   }
 }
 
@@ -16,7 +18,7 @@
 .leftNav {
   float: left;
   width: 20%;
-  padding: 0 10px;
+  padding: 0 $gridPadding;
   margin: 0;
   @include box-sizing(border-box);
 }
@@ -29,7 +31,7 @@
 
 .column {
   float: left;
-  padding: 0 10px;
+  padding: 0 $gridPadding;
   @include box-sizing(border-box);
 }
 
