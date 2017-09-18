@@ -154,6 +154,17 @@ class VolunteerRegistrationsController extends AppController {
 			)
 		);
 
+		$userReg = $this->VolunteerRegistration->find(
+			'all',
+			array(
+				'conditions' => array(
+					'VolunteerRegistration.race_id' => $race_id,
+					'VolunteerRegistration.user_id' => $this->Auth->user('id')
+				),
+				'recursive' => -1
+			)
+		);
+
 		foreach ($race['ChildRace'] as $child) {
 			$childRaces[$child['id']] = $child['title'];
 		}
@@ -211,7 +222,7 @@ class VolunteerRegistrationsController extends AppController {
 
 		$this->request->data['Address'] = $address['Address'];
 
-		$this->set(compact('race','childRaces'));
+		$this->set(compact('race','childRaces','userReg'));
 	}
 
 	public function assign_task($id = null) {

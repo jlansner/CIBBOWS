@@ -84,21 +84,35 @@ if ($userMembershipLevel >= $race['Race']['membership_level_id']) {
 
 <p>
 <?php 
- if ($race['Race']['registration_link'] == "") {
+if ($race['Race']['registration_link'] == "") {
 
-if (strtotime('now') > strtotime($race['Race']['end_date'])) {
-			} else if ($volReg) {
-				echo 'You are already registered as a volunteer.';
-			} else {
-				echo $this->Html->link(
-					'Register as a Volunteer',
-					array(
-						'controller' => 'volunteer_registrations',
-						'action' => 'register',
-						$race['Race']['id']
-					)
-				);
-			}
+	if (strtotime('now') > strtotime($race['Race']['end_date'])) {
+
+	} else if ($volReg) {
+		echo 'You are already registered as a volunteer.</p>
+		
+		<p>';
+
+		echo $this->Html->link(
+			'Register for additional tasks',
+			array(
+				'controller' => 'volunteer_registrations',
+				'action' => 'register',
+				$race['Race']['id']
+			)
+		);
+
+
+	} else {
+		echo $this->Html->link(
+			'Register as a Volunteer',
+			array(
+				'controller' => 'volunteer_registrations',
+				'action' => 'register',
+				$race['Race']['id']
+			)
+		);
+	}
 }
 	?>
 </p>

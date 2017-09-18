@@ -30,18 +30,20 @@
 <div class="row">
 	<div class="column column12">
 <?php
-		if (count($race['ChildRace']) > 0) {
-        	echo $this->Form->input(
-				'VolunteerRegistration.child_race_id',
-				array(
-					'type' => 'radio',
-					'legend' => false,
-					'before' => '<p>Section</p>',
-					'separator' => '<br />',
-					'escape' => false
-				)
-			);		
-		}
+
+	if (count($race['ChildRace']) > 0) {
+
+		echo $this->Form->input(
+			'VolunteerRegistration.child_race_id',
+			array(
+				'type' => 'radio',
+				'legend' => false,
+				'before' => '<p>Section</p>',
+				'separator' => '<br />',
+				'escape' => false,
+			)
+		);		
+	}
 ?>
 	</div>
 </div>
