@@ -327,7 +327,7 @@ class RaceRegistrationsController extends AppController {
 				}
 			
 			foreach ($race['Discount'] as $discount) {
-				if ($discount['title'] == $this->request->data['Discount']['title']) {
+				if (strtolower($discount['title']) == strtolower($this->request->data['Discount']['title'])) {
 					foreach ($discount['DiscountAssignment'] as $discountAssignment) {
 						if ($discountAssignment['user_id'] == $this->Auth->user('id')) {
 							if ($discount['discount_type_id'] == 1) {
