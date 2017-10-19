@@ -64,9 +64,9 @@
 		);
 
 		if (count($race['ChildRace']) > 0) {
-			if ($race['Race']['exclusive']) {
+			/*if ($race['Race']['exclusive']) {
 				// allow multiple section sign up
-			} else {
+			} else { */
 				$disabledArray = array();
 
 				for ($i = 0; $i < count($race['ChildRace']); $i++) {
@@ -86,7 +86,7 @@
 						'disabled' => $disabledArray
 					)
 				);
-			}
+			/* } */
 		} else {
 			echo $this->Form->hidden(
 				'RaceRegistration.child_race_id',

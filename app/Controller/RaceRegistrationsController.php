@@ -159,6 +159,9 @@ class RaceRegistrationsController extends AppController {
 			)
 		);
 		
+		if ($race['CurrentMemberRaceFee']['price'] == null) {
+			$race['CurrentMemberRaceFee']['price'] = $race['CurrentNonMemberRaceFee']['price'];
+		}
 		// if (strtotime('now') > strtotime($race['Race']['end_date'])) {
 		// 	$this->redirect(
 		// 		array(
