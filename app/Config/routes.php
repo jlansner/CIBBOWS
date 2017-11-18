@@ -45,6 +45,19 @@
 	);
 
 	Router::connect(
+		'/admin/memberships/:year',
+		array(
+			'controller' => 'memberships',
+			'action' => 'index',
+			'admin' => true
+		),
+		array(
+			'pass' => array('year'),
+			'year' => '[0-9]{4}',
+		)
+	);
+
+	Router::connect(
 		'/join',
 		array(
 			'controller' => 'memberships',

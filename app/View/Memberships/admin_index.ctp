@@ -1,6 +1,11 @@
 <div class="row">
 	<div class="column column12">
-	<h2>Memberships</h2>
+	<h1>
+		Memberships
+		<?php if ($year > 0) {
+			echo " &ndash; " . $year;
+		} ?>
+	</h1>
 	
 	<p>
 		<?php echo $this->Html->link(
@@ -12,6 +17,8 @@
 			)
 		); ?>
 	</p>
+
+	<p>Total number of members: <?php echo count($memberships); ?></p>
 	<table class="zebraTable">
 	<tr>
 			<th>Member</th>
@@ -47,15 +54,13 @@
 			'm/j/Y',
 			$membership['Membership']['end_date']
 		); ?></td>
-		<!--
-			<?php var_export($membership); ?>
-		-->
+
 		<?php  if ($admin) { ?>
-    <td>
+    <!-- <td> -->
 			
 			
 			<?php //echo $this->Form->postLink(__('Delete'), array('action' => 'delete', 'admin' => false, $membership['Membership']['id']), null, __('Are you sure you want to delete # %s?', $membership['Membership']['id'])); ?>
-		</td>
+		<!-- </td> -->
     <?php } ?>	
 		
 		</tr>

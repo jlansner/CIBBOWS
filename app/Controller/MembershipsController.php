@@ -20,8 +20,19 @@ class MembershipsController extends AppController {
  *
  * @return void
  */
-	public function admin_index() {
+	public function admin_index($year = null) {
 
+		if ($year) {
+			$conditionsArray = array(
+				'Membership.end_date' => $year . '-12-31'
+			);
+
+		} else {
+			$conditionsArray = array(
+				'Membership.start_date <= DATE(NOW())',
+				'Membership.end_date >= DATE(NOW())'
+			);
+		}
 		$memberships = $this->Membership->find(
 			'all',
 			array(
@@ -32,10 +43,7 @@ class MembershipsController extends AppController {
 					'Membership.end_date'
 				),
 				'group' => 'Membership.user_id',
-				'conditions' => array(
-					'Membership.start_date <= DATE(NOW())',
-					'Membership.end_date >= DATE(NOW())'
-				),
+				'conditions' => $conditionsArray,
 				'contain' => array(
 					'User' => array(
 						'fields' => array(
@@ -50,7 +58,7 @@ class MembershipsController extends AppController {
 				)
 			)
 		);
-		$this->set(compact('memberships'));
+		$this->set(compact('memberships','year'));
 	}
 
 /**
