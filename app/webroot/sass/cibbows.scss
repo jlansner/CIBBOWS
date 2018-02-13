@@ -510,6 +510,7 @@ input[type=submit], .linkButton {
 }
 
 .donationInputWrapper {
+  display: block;
   width: 100%;
   border: 1px solid #ccc;
   font-size: 11px;
@@ -517,6 +518,9 @@ input[type=submit], .linkButton {
 
   span {
     display: block;
+  }
+
+  .donationLabel {
     float: left;
     width: 10%;
     color: #666;

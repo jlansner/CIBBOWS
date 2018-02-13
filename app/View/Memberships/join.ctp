@@ -24,38 +24,44 @@ if (count($membershipFee)) {
 			echo '<p>' . $membershipFee['MembershipFee']['year'] . ' ' . $membershipFee['MembershipLevel']['title'] . ' - $' . $membershipFee['MembershipFee']['price'] . '</p>';
 		?>
 
-		<h2>Additional Donation (Optional)</h2>
+		
+		<h2 style="margin-top: 4em;">Additional Donation (Optional)</h2>
 
 		<p>CIBBOWS is a not-for-profit, all-volunteer organization. Please consider making an additional donation along with your membership fee to support our work.</p>
 
 <div class="row">
-	<div class="column column3">
+	<div class="column column4">
 		<div class="input number required">
-			<?php echo $this->Form->label('Donation.amount', 'Additional Donation Amount'); ?>
-			<div class="donationInputWrapper">
-				<span>$</span>
-				<div class="donationInput">
-					<?php echo $this->Form->number(
-						'Donation.amount',
-						array(
-							'step' => 'any'
-						)
-					); ?>
-				</div>
-			</div>
+			<p>
+				<?php echo $this->Form->label('Donation.amount', 'Additional Donation Amount'); ?>
+				<span class="donationInputWrapper">
+					<span class="donationLabel">$</span>
+					<span class="donationInput">
+						<?php echo $this->Form->number(
+							'Donation.amount',
+							array(
+								'step' => 'any',
+								'placeholder' => 'Optional additional donation'
+							)
+						); ?>
+					</span>
+				</span>
+			</p>
 		</div>
 	</div>
 	<div class="column column4">
+	<p>
     <?php echo $this->Form->label('Donation.body', 'Notes'); ?>
-    <div class="donationInputWrapper">
-      <div class="donationInput">
+    <span class="donationInputWrapper">
+      <span class="donationInput">
         <?php echo $this->Form->text(
 			'Donation.body',
 			array(
 			)		
 		); ?>
-      </div>
-    </div>		
+      </span>
+    </span>	
+	</p>	
 	</div>
 </div>
 
