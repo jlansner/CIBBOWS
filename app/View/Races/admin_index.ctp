@@ -1,6 +1,19 @@
 <div class="row">
 	<div class="column column12">
 		<h1>Races</h1>
+
+		<p>
+			<?php
+				echo $this->Html->link(
+					'Edit race fees',
+					array(
+						'controller' => 'race_fees',
+						'action' => 'index',
+						'admin' => true
+					)
+				);
+			?>
+		</p>
 		
 		<table class="zebraTable">
 			<thead>
@@ -40,6 +53,19 @@
 						$race['Race']['id']
 					)
 				); ?> | 
+
+					<?php
+					echo $this->Html->link(
+						'Add fees',
+						array(
+							'controller' => 'race_fees',
+							'action' => 'add_fee',
+							'admin' => false,
+							$race['Race']['id']
+						)
+					);
+					?>
+				|
 					
 					<?php echo $this->Html->link(
 					'Edit',
@@ -72,6 +98,19 @@
 					</td>
 					<td></td>
 					<td>
+
+						<?php
+					echo $this->Html->link(
+						'Add fees',
+						array(
+							'controller' => 'race_fees',
+							'action' => 'add_fee',
+							'admin' => false,
+							$childRace['id']
+						)
+					);
+					?>
+				|
 									<?php echo $this->Html->link(
 					'Edit',
 					array(

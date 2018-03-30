@@ -31,6 +31,20 @@
 		
 		<h2>Races</h2>
 
+	<p>
+		<?php
+
+			echo $this->Html->link(
+				'Edit Races',
+				array(
+					'controller' => 'races',
+					'action' => 'index',
+					'admin' => true
+				)
+			);
+		?>
+	</p>
+
     <p>
       <?php
 
@@ -123,8 +137,36 @@
 		);
 		?>
     </p>
-		
-		<h2>Users</h2>
+
+	<h2>Clinics</h2>
+	<p>
+		<?php
+
+			echo $this->Html->link(
+				'Edit Clinics',
+				array(
+					'controller' => 'clinics',
+					'action' => 'index',
+					'admin' => true
+				)
+			);
+		?>
+	</p>
+
+    <p>
+      <?php
+
+		echo $this->Html->link(
+			'Add New Clinc',
+			array(
+				'controller' => 'clinics',
+				'action' => 'add',
+				'admin' => false
+			)
+		);
+		?>
+    </p>		
+	<h2>Users</h2>
 		<p>
 			<?php 
 			echo $this->Html->link(
