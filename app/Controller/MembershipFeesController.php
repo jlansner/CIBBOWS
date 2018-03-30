@@ -17,6 +17,10 @@ class MembershipFeesController extends AppController {
 		$this->set('membershipFees', $this->paginate());
 	}
 
+	public function admin_index() {
+		$this->MembershipFee->recursive = 0;
+		$this->set('membershipFees', $this->paginate());
+	}
 /**
  * view method
  *

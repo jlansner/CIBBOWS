@@ -167,6 +167,20 @@
 		?>
     </p>		
 	<h2>Users</h2>
+
+		<p>
+			<?php
+				echo $this->Html->link(
+					'Users',
+					array(
+						'controller' => 'users',
+						'action' => 'index',
+						'admin' => true
+					)
+				)
+			?>
+		</p>
+
 		<p>
 			<?php 
 			echo $this->Html->link(
@@ -177,6 +191,19 @@
 					'admin' => true
 				)
 			);
+			?>
+		</p>
+
+		<p>
+			<?php
+				echo $this->Html->link(
+					'Membership fees',
+					array(
+						'controller' => 'membership_fees',
+						'action' => 'index',
+						'admin' => true
+					)
+				);
 			?>
 		</p>
 	</div>
